@@ -1,10 +1,8 @@
 <template>
     <header class="container-fluid header-container">
-        <header class="small-header row">
+        <header  class="small-header row">
             <div class="col-xs-10 header-logo-whitespace">
-                <div class="flexbox-logo">
-                    <img class="mesquita-logo" src="/img/logos/mesquita.svg" alt="mesquita-logo" />
-                </div>
+                <logo></logo>
             </div>
             <div class="col-xs-2 flexbox-hamburger hidden-lg hidden-md hidden-sm">
                 <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
@@ -13,9 +11,7 @@
     
         <header class="row big-header">
             <div class="col-sm-3 hidden-xs header-logo-whitespace">
-                <div class="flexbox-logo">
-                    <img class="mesquita-logo" src="/img/logos/mesquita_inverted.svg" alt="mesquita-logo" />
-                </div>
+                <logo></logo>
             </div>
             <ul class="col-xs-12 col-sm-9 flex-nav-container">
                 <li>
@@ -39,18 +35,22 @@
 </template>
 
 <script>
+import Logo from '@/components/Logo';
+
+
 export default {
     name: 'header-container',
-    data() {
-        return {
-            msg: 'Welcome to Your Vue.js App',
-        };
+    data(){
+        return {};
+    },
+    components: {
+        Logo,
     },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 .header-container {
     position: relative;
 }
@@ -66,18 +66,6 @@ export default {
 //HEADER-LOGO-WHITESPACE
 .header-logo-whitespace {
     height: inherit;
-}
-
-.flexbox-logo {
-    height: inherit;
-    width: 100%;
-    display: flex;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    .mesquita-logo {
-        content: url('/img/logos/mesquita.svg');
-    }
 }
 
 //END HEADER-LOGO-WHITESPACE
@@ -121,7 +109,7 @@ export default {
     }
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
     .small-header {
         display: none;
     }
@@ -135,30 +123,7 @@ export default {
         width: 100%;
         background-color: white;
         transition: background-color .4s;
-        &.affix {
-            background-color: #222;
-            .header-logo-whitespace {
-                .flexbox-logo {
-                    .mesquita-logo {
-                        content: url('/img/logos/mesquita_inverted.svg');
-                    }
-                }
-            }
-            .flex-nav-container {
-                li {
-                    a {
-                        text-decoration: none;
-                        color: white;
-                        &:hover {
-                            text-decoration: underline;
-                            color: #FBAA51;
-                        }
-                    }
-                }
-            }
-        }
     }
-
 
     .flex-nav-container {
         height: inherit;
