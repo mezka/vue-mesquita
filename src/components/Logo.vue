@@ -1,6 +1,6 @@
 <template>
     <div class="flexbox-logo">
-        <img class="mesquita-logo" :class="{ inverted: isInverted }" alt="mesquita-logo" />
+        <img class="logo" alt="mesquita-logo" />
     </div>
 </template>
 
@@ -11,24 +11,7 @@ export default {
     name: 'logo',
     data() {
         return {
-            isInverted: false,
         };
-    },
-    methods: {
-        tryChangeLogo() {
-            const distanceFromTop = 50;
-            if (window.scrollY >= distanceFromTop) {
-                this.isInverted = true;
-            } else {
-                this.isInverted = false;
-            }
-        },
-    },
-    created() {
-        window.addEventListener('scroll', this.tryChangeLogo);
-    },
-    destroyed() {
-        window.removeEventListener('scroll', this.tryChangeLogo);
     },
 };
 </script>
@@ -43,12 +26,16 @@ export default {
     align-items: center;
 }
 
-.mesquita-logo {
+.logo {
     content: url('../assets/logos/mesquita.svg');
 }
-@media(min-width: 768px){
-    .inverted {
-        content: url('../assets/logos/mesquita_inverted.svg');
+
+@media(min-width: 768px) {
+
+    &.inverted {
+        .logo {
+            content: url('../assets/logos/mesquita_inverted.svg');
+        }
     }
 }
 </style>
