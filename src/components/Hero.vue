@@ -22,7 +22,7 @@ export default {
 .hero-container {
     margin-top: 90px;
     height: 70vh;
-    background-image: url('../assets/ventana_blindada.jpg');
+    background-image: url('../assets/components/hero/intro-touched.jpg');
     background-size: cover;
     background-position: center center;
     display: flex;

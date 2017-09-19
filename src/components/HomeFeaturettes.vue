@@ -13,7 +13,7 @@
                     todas las compañías aseguradoras, ART y aprobaciones municipales de la Ciudad Autónoma de Buenos Aires.</p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-responsive center-block" src="../assets/featurettes/puerta_cortafuego.png" alt="Generic placeholder image">
+                <img class="featurette-image img-responsive center-block" src="../assets/components/home-featurettes/puerta_cortafuego.png" alt="Generic placeholder image">
             </div>
         </div>
 
@@ -27,7 +27,7 @@
                     de espesor, que constituyen una barrera de seguridad entre los terceros que visitan su local y sus empleados.</p>
             </div>
             <div class="col-md-5 col-md-pull-7">
-                <img class="featurette-image img-responsive center-block" src="../assets/featurettes/mostrador_blindado_antibala.jpg" alt="Generic placeholder image">
+                <img class="featurette-image img-responsive center-block" src="../assets/components/home-featurettes/mostrador_blindado_antibala.jpg" alt="Generic placeholder image">
             </div>
         </div>
 
@@ -39,7 +39,7 @@
                 <p class="lead">En Mesquita Hnos le ofrecemos el sistema más confiable de protección blindada</p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-responsive center-block" src="../assets/featurettes/puerta_blindada.jpg" alt="Generic placeholder image">
+                <img class="featurette-image img-responsive center-block" src="../assets/components/home-featurettes/puerta_blindada3.jpg" alt="Generic placeholder image">
             </div>
         </div>
 

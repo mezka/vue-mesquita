@@ -15,19 +15,19 @@
             </div>
                 <ul role="navigation" class="col-xs-12 col-sm-9 flex-nav-container" :class="{ 'active': active }">
                     <li>
-                        <a href="#">INICIO</a>
+                        <router-link to="/">INICIO</router-link>
                     </li>
                     <li>
-                        <a href="/puertas/puerta-blindada.html">PUERTAS BLINDADAS</a>
+                        <router-link to="/puertas-blindadas">PUERTAS BLINDADAS</router-link>
                     </li>
                     <li>
-                        <a href="#">PUERTAS CORTAFUEGO</a>
+                        <router-link to="/puertas-cortafuego">PUERTAS CORTAFUEGO</router-link>
                     </li>
                     <li>
-                        <a href="/sistema-antiasalto/sistema-antiasalto.html">SISTEMA ANTIASALTO</a>
+                        <router-link to="/sistema-antiasalto">SISTEMA ANTIASALTO</router-link>
                     </li>
                     <li>
-                        <a href="#">PRESUPUESTO</a>
+                        <router-link to="/presupuesto">PRESUPUESTO</router-link>
                     </li>
                 </ul>
         </header>
@@ -36,7 +36,6 @@
 
 <script>
 import Logo from '@/components/Logo';
-
 
 export default {
     name: 'header-container',
