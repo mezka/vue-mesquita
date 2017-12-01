@@ -17,7 +17,7 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .agile {
     &__dots {
         bottom: 0;
