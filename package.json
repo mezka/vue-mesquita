@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "bootstrap": "^3.3.7",
     "bootstrap-theme": "^5.0.0",
     "express": "^4.16.1",
