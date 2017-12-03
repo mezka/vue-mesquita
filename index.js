@@ -5,14 +5,18 @@ var mailgunPassword = require('./keys.js');
 
 var app = module.exports = express();
 
+var port = 59787;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded(
     { extended: true }
 ));
 
-var port = 59787;
+app.use(express.static(__dirname + '/dist'));
 
 app.post('/api/contact', function (req, res) {
+
+
     var transporter = nodemailer.createTransport({
         host: 'smtp.mailgun.org',
         port: 587,
@@ -28,7 +32,7 @@ app.post('/api/contact', function (req, res) {
         from: 'mesquita.emiliano@gmail.com',
         to: 'psychatog36@gmail.com',
         subject: 'Contacto desde www.mesquita.com.ar',
-        text: req.body.text,
+        text: mailText,
     };
 
 
