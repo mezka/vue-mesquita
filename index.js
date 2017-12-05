@@ -1,54 +1,43 @@
+//REQUIRING MODULES
+
 var express = require('express');
 var bodyParser = require('body-parser');
-var nodemailer = require('nodemailer');
-var mailgunPassword = require('./keys.js');
+var massive = require('massive');
+
+//INSTANCING EXPRESS, MAKING IT AVAILABLE FOR OUTSIDE MODULES
 
 var app = module.exports = express();
-
 var port = 59787;
+
+//ADDING BODY PARSER
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded(
     { extended: true }
 ));
 
+//SETTING UP MASSIVE INSTANCE WITH connectionString
+
+var connectionString = "postgres://mesquita:fujitsu@localhost:5432/mesquita";
+var massiveInstance = massive.connectSync({
+    connectionString: connectionString
+});
+
+//SET db PROPERTY TO BE ABLE TO GET IT FROM OUTSIDE MODULES
+
+app.set('db', massiveInstance);
+var db = app.get('db');
+
+//SERVE STATIC ASSETS
+
 app.use(express.static(__dirname + '/dist'));
 
-app.post('/api/contact', function (req, res) {
+//REQUIRING CONTROLLERS
 
+var dbController = require('./controllers/dbController.js');
+var nodemailerController = require('./controllers/nodemailerController.js');
 
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.mailgun.org',
-        port: 587,
-        auth: {
-            user: 'postmaster@sandboxf2530c8c879d4cd2b703815ca697b446.mailgun.org',
-            pass: mailgunPassword
-        }
-    });
-
-    var mailText = 'Nombre completo: ' + req.body.name + '\nTelefono: ' + req.body.phone + '\nE-mail: ' + req.body.email + '\nHorario para contactarlo: ' + req.body.timetocontact + '\nComentarios: ' + req.body.text;
-    
-    var mailOptions = {
-        from: 'mesquita.emiliano@gmail.com',
-        to: 'psychatog36@gmail.com',
-        subject: 'Contacto desde www.mesquita.com.ar',
-        text: mailText,
-    };
-
-
-
-
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
-            res.json({yo: 'error'});
-        }else{
-            console.log('Message sent: ' + info.response);
-            res.json({yo: info.response});
-        };
-    });
-});
+app.post('/api/contact', dbController.addContact, nodemailerController.sendContactEmail);
 
 app.listen(port, function(req, res){
     console.log('Listening on: ', port);
