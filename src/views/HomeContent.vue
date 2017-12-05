@@ -14,7 +14,7 @@ import HomeFeaturettes from '@/components/HomeFeaturettes';
 import LocationContainer from '@/components/LocationContainer';
 
 export default {
-    name: 'home',
+    name: 'home-content',
     data() {
         return {
         };

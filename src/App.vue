@@ -1,8 +1,6 @@
 <template>
     <div id="app">
-        <header-container class="header-margin"></header-container>
         <router-view></router-view>
-        <footer-container></footer-container>
     </div>
 </template>
 

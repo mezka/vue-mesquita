@@ -3,6 +3,7 @@ CREATE SCHEMA Public;
 
 CREATE TABLE Public.Contacts(
     contactId SERIAL PRIMARY KEY,
+    createdDate timestamptz NOT NULL DEFAULT now(),
     contactName VARCHAR(100) NOT NULL,
     contactPhone VARCHAR(40) NOT NULL,
     contactEmail VARCHAR(50) NOT NULL,

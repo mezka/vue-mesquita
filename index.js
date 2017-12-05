@@ -4,7 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var massive = require('massive');
 
-//INSTANCING EXPRESS, MAKING IT AVAILABLE FOR OUTSIDE MODULES
+//INSTANCIATING EXPRESS, MAKING IT AVAILABLE FOR OUTSIDE MODULES
 
 var app = module.exports = express();
 var port = 59787;
