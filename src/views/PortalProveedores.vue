@@ -1,11 +1,18 @@
 <template>
-  <p>caca</p>
+    <div class="portal-proveedores-wrapper">
+        <header-container-proveedores class="header-margin"></header-container-proveedores>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
+import HeaderContainerProveedores from '@/components/HeaderContainerProveedores';
+
 export default {
     name: 'portal-proveedores',
-    components: {},
+    components: {
+        'header-container-proveedores': HeaderContainerProveedores,
+    },
 };
 </script>
 

@@ -9,6 +9,7 @@ import PuertasCortafuego from '@/views/PuertasCortafuego';
 import SistemaAntiasalto from '@/views/SistemaAntiasalto';
 import Presupuesto from '@/views/Presupuesto';
 import PortalProveedores from '@/views/PortalProveedores';
+import ProveedoresHome from '@/views/ProveedoresHome';
 
 
 Vue.use(Router);
@@ -52,6 +53,13 @@ export default new Router({
             path: '/portal-proveedores',
             name: 'portal-proveedores',
             component: PortalProveedores,
+            children: [
+                {
+                    path: '',
+                    name: 'ProveedoresHome',
+                    component: ProveedoresHome,
+                },
+            ],
         },
     ],
 });

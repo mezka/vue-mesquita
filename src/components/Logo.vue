@@ -6,12 +6,10 @@
 
 
 <script>
-
 export default {
     name: 'logo',
     data() {
-        return {
-        };
+        return {};
     },
 };
 </script>
@@ -30,8 +28,7 @@ export default {
     content: url('../assets/logos/mesquita.svg');
 }
 
-@media(min-width: 768px) {
-
+@media (min-width: 768px) {
     &.inverted {
         .logo {
             content: url('../assets/logos/mesquita_inverted.svg');
