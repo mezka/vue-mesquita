@@ -44,34 +44,38 @@
 import axios from 'axios';
 
 export default {
-  name: 'presupuesto',
-  data() {
-    return {
-      name: '',
-      phone: '',
-      email: '',
-      timetocontact: '',
-      text: '',
-    };
-  },
-  methods: {
-    submitForm: function submitForm() {
-
-      console.log(`Sending:\n{\n\t"name": "${this.name}",\n\t"text": "${this.text}",\n\t"email":"${this.email}"\n\t"phone": "${this.phone}"\n\t"timetocontact": "${this.timetocontact}"\n}\n`);
-
-      axios
-        .post('/api/contact', {
-          name: this.name,
-          text: this.text,
-          email: this.email,
-          phone: this.phone,
-          timetocontact: this.timetocontact,
-        })
-        .then((response) => {
-          console.log(response.data);
-        });
+    name: 'presupuesto',
+    data() {
+        return {
+            name: '',
+            phone: '',
+            email: '',
+            timetocontact: '',
+            text: '',
+        };
     },
-  },
+    methods: {
+        submitForm: function submitForm() {
+            console.log(
+                `Sending:\n{\n\t"name": "${this.name}",\n\t"text": "${this
+                    .text}",\n\t"email":"${this
+                    .email}"\n\t"phone": "${// eslint-disable-next-line
+                this.phone}"\n\t"timetocontact": "${this.timetocontact}"\n}\n`
+            );
+
+            axios
+                .post('/api/contact', {
+                    name: this.name,
+                    text: this.text,
+                    email: this.email,
+                    phone: this.phone,
+                    timetocontact: this.timetocontact,
+                })
+                .then(response => {
+                    console.log(response.data);
+                });
+        },
+    },
 };
 </script>
 

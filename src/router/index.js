@@ -8,6 +8,7 @@ import PuertasBlindadas from '@/views/PuertasBlindadas';
 import PuertasCortafuego from '@/views/PuertasCortafuego';
 import SistemaAntiasalto from '@/views/SistemaAntiasalto';
 import Presupuesto from '@/views/Presupuesto';
+import PortalProveedores from '@/views/PortalProveedores';
 
 
 Vue.use(Router);
@@ -23,7 +24,7 @@ export default new Router({
                 {
                     path: '',
                     name: 'Home',
-                    component: HomeContent, 
+                    component: HomeContent,
                 },
                 {
                     path: 'puertas-blindadas',
@@ -46,6 +47,11 @@ export default new Router({
                     component: Presupuesto,
                 },
             ],
+        },
+        {
+            path: '/portal-proveedores',
+            name: 'portal-proveedores',
+            component: PortalProveedores,
         },
     ],
 });

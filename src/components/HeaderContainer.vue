@@ -27,6 +27,9 @@
                         <router-link to="/sistema-antiasalto">SISTEMA ANTIASALTO</router-link>
                     </li>
                     <li>
+                        <router-link to="/portal-proveedores">PORTAL PROVEEDORES</router-link>
+                    </li>
+                    <li>
                         <router-link to="/presupuesto">PRESUPUESTO</router-link>
                     </li>
                 </ul>
@@ -53,7 +56,10 @@ export default {
             const distanceFromTop = 90;
             if (window.scrollY >= distanceFromTop && this.inverted === false) {
                 this.inverted = true;
-            } else if (window.scrollY < distanceFromTop && this.inverted === true) {
+            } else if (
+                window.scrollY < distanceFromTop &&
+                this.inverted === true
+            ) {
                 this.inverted = false;
             }
         },
@@ -98,7 +104,6 @@ export default {
     align-items: center;
 }
 
-
 .big-header {
     height: 90px;
     background-color: white;
@@ -122,14 +127,13 @@ export default {
             color: #000;
             &:hover {
                 text-decoration: underline;
-                color: #FBAA51;
+                color: #fbaa51;
             }
         }
     }
 }
 
 @media (max-width: 768px) {
-
     .big-header {
         height: 0px;
         position: fixed;
@@ -157,7 +161,7 @@ export default {
         display: block;
         width: 100%;
         background-color: white;
-        transition: background-color .4s;
+        transition: background-color 0.4s;
 
         &.inverted {
             background-color: #222;
