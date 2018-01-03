@@ -23,7 +23,6 @@
                             <span class="asterisk">*</span> E-mail:</label>
                         <input v-model="email" class="inputText" type="email" id="email" name="email" required>
                     </p>
-
                     <p>
                         <label for="timetocontact">Horario para contactarlo:</label>
                         <input v-model="timetocontact" class="inputText" type="text" id="time" name="timetocontact">
