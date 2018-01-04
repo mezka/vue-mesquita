@@ -3,13 +3,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var massive = require('massive');
+var session = require('express-session');
 
 var nodemailerController = require('./controllers/nodemailerController.js');
+var authController = require('./controllers/authController.js');
+var keys = require('./keys.js');
 
 //INSTANCIATING EXPRESS, MAKING IT AVAILABLE FOR OUTSIDE MODULES
 
 var app = (module.exports = express());
-var port = 59787;
+var port = 8081;
 
 //ADDING BODY PARSER
 
@@ -36,15 +39,49 @@ var initController = require('./controllers/initController.js');
 initController.createTables();
 initController.createUsers();
 
+//GET PRE CONFIGURED PASSPORT INSTANCE
+
+var passport = require('./services/passport.js');
+
+//CONFIGURE AND ADD SESSION, INITIALIZE PASSPORT AND ADD IT, INITIALIZE PASSPORT SESSION AND ADD IT
+
+app.use(
+    session({
+        saveUninitialized: false,
+        resave: false,
+        secret: keys.sessionSecretKey,
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.post(
+    '/api/login',
+    passport.authenticate('local', {
+        successRedirect: '/api/login/success',
+        failureRedirect: '/api/login/failure',
+        failureFlash: false,
+    })
+);
+
 //SERVE STATIC ASSETS
 
 app.use(express.static(__dirname + '/dist'));
+
+app.get('/api/login/success', authController.sendAuthSuccesful);
+app.get('/api/login/failure', authController.sendAuthFailed);
+app.post('/api/logout', authController.authorize, authController.logout); //REQUIRES LOGIN
 
 app.post(
     '/api/contact',
     dbController.addContact,
     nodemailerController.sendContactEmail
 );
+
+//ENDPOINTS
+
+app.get('/api/user', dbController.getUserNameAndLastName);
 
 app.listen(port, function(req, res) {
     console.log('Listening on: ', port);

@@ -5,19 +5,18 @@
     <div class="form-container">
         <form class="login_form" v-on:submit.prevent="submitForm" action="">
                     <p>
-                        <label for="name">
+                        <label for="email">
                         E-mail:</label>
-                        <input v-model="email" class="inputText" type="text" id="name" name="name" required>
+                        <input v-model="email" class="inputText" type="text" id="email" name="email" required>
                     </p>
                     <p>
                         <label for="password">
                         Password:</label>
-                        <input v-model="password" class="inputText" type="text" id="name" name="name" required>
+                        <input v-model="password" class="inputText" type="text" id="password" name="password" required>
                     </p>
                     <input class="button" type="submit" name="submit">
                 </form>
     </div>
-
   </div>
 </template>
 
@@ -30,6 +29,8 @@ export default {
         return {
             email: '',
             password: '',
+            userfirstname: '',
+            userlastname: '',
         };
     },
     methods: {
@@ -40,7 +41,7 @@ export default {
             );
 
             axios
-                .post('/api/contact', {
+                .post('/api/login', {
                     email: this.email,
                     password: this.password,
                 })
@@ -49,6 +50,15 @@ export default {
                 });
         },
     },
+    // beforeMount() {
+    //     axios.get('/api/user').then(response => {
+    //         if (response.status === 200) {
+    //             console.log('/api/user');
+    //         } else {
+    //             console.log('/api/user failed to get.');
+    //         }
+    //     });
+    // },
 };
 </script>
 

@@ -23,25 +23,18 @@ var initController = {
             useraddress2: 'Berazategui, Buenos Aires',
         });
 
+        console.log('Created test user ...');
+
         bcrypt.genSaltSync(10);
 
         var newUserHash = bcrypt.hashSync('123456');
 
-        db.mesquita.passwords.insertSync(
-            {
-                userid: newUser.userid,
-                passwordhash: newUserHash,
-            },
-            function(error, result) {
-                if (result) {
-                    console.log('Added user password ...');
-                    return result;
-                } else {
-                    console.log(error);
-                    return error;
-                }
-            }
-        );
+        db.mesquita.passwords.insertSync({
+            userid: newUser.userid,
+            passwordhash: newUserHash,
+        });
+
+        console.log('Created test user password ...');
     },
 };
 
