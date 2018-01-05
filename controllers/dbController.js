@@ -29,8 +29,7 @@ var dbController = {
             if (error) {
                 res.status(500).send(error);
             } else {
-                req.result = result;
-                next();
+                res.status(200).send(result);
             }
         });
     },

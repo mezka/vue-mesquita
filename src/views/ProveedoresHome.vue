@@ -2,7 +2,11 @@
   <div class="proveedores-home-wrapper">
     <h2>Bienvenido al portal de proveedores</h2>
 
-    <div class="form-container">
+    <div class="welcome-container" v-if="userfirstname">
+        <p>Bienvenido, {{userfirstname + ' ' + userlastname}}</p>
+    </div>
+
+    <div class="form-container" v-else>
         <form class="login_form" v-on:submit.prevent="submitForm" action="">
                     <p>
                         <label for="email">
@@ -31,13 +35,17 @@ export default {
             password: '',
             userfirstname: '',
             userlastname: '',
+            showForm: true,
+            showWelcome: false,
         };
     },
     methods: {
         submitForm: function submitForm() {
             console.log(
-                `Sending:\n{\n\t"email": "${this.email}",\n\t"password":"${this
-                    .password}"\n}\n`
+                //eslint-disable-next-line
+                `Sending:\n{\n\t"email": "${this
+                    .email}",\n\t"password":"${//eslint-disable-next-line
+                this.password}"\n}\n`
             );
 
             axios
@@ -46,19 +54,21 @@ export default {
                     password: this.password,
                 })
                 .then(response => {
-                    console.log(response.data);
+                    if (!response.data.user) {
+                        console.log('alert failure');
+                    } else {
+                        axios.get('/api/user', response.data).then(result => {
+                            if (result.data) {
+                                console.log(result.data);
+
+                                this.userfirstname = result.data.userfirstname;
+                                this.userlastname = result.data.userlastname;
+                            }
+                        });
+                    }
                 });
         },
     },
-    // beforeMount() {
-    //     axios.get('/api/user').then(response => {
-    //         if (response.status === 200) {
-    //             console.log('/api/user');
-    //         } else {
-    //             console.log('/api/user failed to get.');
-    //         }
-    //     });
-    // },
 };
 </script>
 
