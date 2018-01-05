@@ -11,7 +11,6 @@ import Presupuesto from '@/views/Presupuesto';
 import PortalProveedores from '@/views/PortalProveedores';
 import ProveedoresHome from '@/views/ProveedoresHome';
 
-
 Vue.use(Router);
 Vue.use(VueAgile);
 
@@ -55,7 +54,7 @@ export default new Router({
             component: PortalProveedores,
             children: [
                 {
-                    path: '',
+                    path: '/home/:userid',
                     name: 'ProveedoresHome',
                     component: ProveedoresHome,
                 },

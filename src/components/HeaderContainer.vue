@@ -1,5 +1,7 @@
 <template>
-    <header class="container-fluid header-container">
+        <div class="header-wrapper">
+
+             <header class="container-fluid header-container">
         <header class="small-header row">
             <div class="col-xs-10 header-logo-whitespace">
                 <logo :class="{ 'inverted': inverted }"></logo>
@@ -27,7 +29,7 @@
                         <router-link to="/sistema-antiasalto">SISTEMA ANTIASALTO</router-link>
                     </li>
                     <li>
-                        <router-link to="/portal-proveedores">PORTAL PROVEEDORES</router-link>
+                        <button v-on:click="openLogin">PORTAL PROVEEDORES</button>
                     </li>
                     <li>
                         <router-link to="/presupuesto">PRESUPUESTO</router-link>
@@ -35,10 +37,24 @@
                 </ul>
         </header>
     </header>
+
+    <sweet-modal class="container-fluid" ref="loginModal">
+        <login-container v-on:openLoginFailure="openLoginFailure" v-on:closeLogin="closeLogin"></login-container>
+    </sweet-modal>
+    <sweet-modal ref="loginFailure">
+        <p>Login failure</p>
+    </sweet-modal>
+
+
+    </div>
+    
+   
 </template>
 
 <script>
 import Logo from '@/components/Logo';
+import LoginContainer from '@/components/LoginContainer';
+import { SweetModal } from 'sweet-modal-vue';
 
 export default {
     name: 'header-container',
@@ -50,6 +66,8 @@ export default {
     },
     components: {
         Logo,
+        SweetModal,
+        LoginContainer,
     },
     methods: {
         handleScroll() {
@@ -65,6 +83,15 @@ export default {
         },
         handleClick() {
             this.active = !this.active;
+        },
+        openLogin() {
+            this.$refs.loginModal.open();
+        },
+        closeLogin() {
+            this.$refs.loginModal.close();
+        },
+        openLoginFailure() {
+            this.$refs.loginFailure.open();
         },
     },
     created() {
