@@ -32,6 +32,9 @@
                         <button v-on:click="openLogin">PORTAL PROVEEDORES</button>
                     </li>
                     <li>
+                        <router-link to="/proveedores-home">PROVEEDORES HOME</router-link>
+                    </li>
+                    <li>
                         <router-link to="/presupuesto">PRESUPUESTO</router-link>
                     </li>
                 </ul>

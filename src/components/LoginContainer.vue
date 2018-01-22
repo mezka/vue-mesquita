@@ -47,7 +47,7 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.$emit('closeLogin');
-                    this.$router.push({ name: 'proveedores-home' });
+                    this.$router.push({ name: 'ProveedoresHome' });
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -61,5 +61,3 @@ export default {
 <style lang="scss" scoped>
 
 </style>
-
-
