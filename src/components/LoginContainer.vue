@@ -47,10 +47,11 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.$emit('closeLogin');
-                    this.$router.push('/');
+                    this.$router.push({ name: 'proveedores-home' });
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log(error.response.data);
+                    this.$emit('openLoginFailure', error.response.data);
                 });
         },
     },

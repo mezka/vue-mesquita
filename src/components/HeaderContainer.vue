@@ -41,8 +41,8 @@
     <sweet-modal class="container-fluid" ref="loginModal">
         <login-container v-on:openLoginFailure="openLoginFailure" v-on:closeLogin="closeLogin"></login-container>
     </sweet-modal>
-    <sweet-modal ref="loginFailure">
-        <p>Login failure</p>
+    <sweet-modal ref="loginFailure" icon="warning">
+        {{errorMsg}}
     </sweet-modal>
 
 
@@ -62,6 +62,7 @@ export default {
         return {
             inverted: false,
             active: false,
+            errorMsg: '',
         };
     },
     components: {
@@ -90,8 +91,10 @@ export default {
         closeLogin() {
             this.$refs.loginModal.close();
         },
-        openLoginFailure() {
+        openLoginFailure(payload) {
+            this.errorMsg = payload.error[0];
             this.$refs.loginFailure.open();
+            setTimeout(() => this.$refs.loginFailure.close(), 2500);
         },
     },
     created() {

@@ -22,9 +22,9 @@ passport.use(
                     return done(err);
                 }
 
-                if (!user) {
+                if (!user.length) {
                     return done(null, false, {
-                        message: 'Incorrect username.',
+                        message: 'No existe el usuario.',
                     });
                 }
 
@@ -39,7 +39,7 @@ passport.use(
                     return done(null, user);
                 } else {
                     return done(null, false, {
-                        message: 'Incorrect password.',
+                        message: 'Clave incorrecta.',
                     });
                 }
             });

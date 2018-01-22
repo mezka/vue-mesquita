@@ -18,7 +18,6 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'Index',
             component: Index,
             children: [
                 {
@@ -54,8 +53,8 @@ export default new Router({
             component: PortalProveedores,
             children: [
                 {
-                    path: '/home/:userid',
-                    name: 'ProveedoresHome',
+                    path: 'home',
+                    name: 'proveedores-home',
                     component: ProveedoresHome,
                 },
             ],
