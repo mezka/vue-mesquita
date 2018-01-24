@@ -19,6 +19,7 @@ export default new Router({
         {
             path: '/',
             component: Index,
+            props: { loginModal: false },
             children: [
                 {
                     path: '',
@@ -54,11 +55,13 @@ export default new Router({
                             .get('/api/user')
                             .then(response => {
                                 console.log(response.status);
-                                next(vm => vm.$emit('closeLogin'));
+                                next();
                             })
                             .catch(error => {
-                                this.$emit('openLogin');
-                                next(false);
+                                router.push({
+                                    name: from.name,
+                                    params: { loginModal: true },
+                                });
                             });
                     },
                 },
