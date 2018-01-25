@@ -14,12 +14,11 @@ import ProveedoresHome from '@/views/ProveedoresHome';
 Vue.use(Router);
 Vue.use(VueAgile);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
             component: Index,
-            props: { loginModal: false },
             children: [
                 {
                     path: '',
@@ -27,7 +26,7 @@ export default new Router({
                     component: HomeContent,
                 },
                 {
-                    path: 'puertas-blindadas',
+                    path: 'puertas-blindadas?',
                     name: 'PuertasBlindadas',
                     component: PuertasBlindadas,
                 },
@@ -58,9 +57,9 @@ export default new Router({
                                 next();
                             })
                             .catch(error => {
-                                router.push({
+                                next({
                                     name: from.name,
-                                    params: { loginModal: true },
+                                    query: { modal: true },
                                 });
                             });
                     },
@@ -69,3 +68,5 @@ export default new Router({
         },
     ],
 });
+
+export default router;

@@ -27,13 +27,7 @@ export default {
             errorMsg: '',
         };
     },
-    beforeRouteUpdate: (to, from, next) => {
-        if (this.loginModal) {
-            this.openLogin();
-        }
 
-        next();
-    },
     methods: {
         openLogin() {
             this.$refs.loginModal.open();
@@ -47,13 +41,20 @@ export default {
             setTimeout(() => this.$refs.loginFailure.close(), 2500);
         },
     },
+
+    watch: {
+        $route(to) {
+            if (to.query.modal) {
+                this.openLogin();
+            }
+        },
+    },
     components: {
         HeaderContainer,
         FooterContainer,
         SweetModal,
         LoginContainer,
     },
-    props: ['loginModal'],
 };
 </script>
 
