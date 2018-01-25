@@ -49,24 +49,32 @@ const router = new Router({
                     path: 'proveedores-home',
                     name: 'ProveedoresHome',
                     component: ProveedoresHome,
-                    beforeEnter: (to, from, next) => {
-                        axios
-                            .get('/api/user')
-                            .then(response => {
-                                console.log(response.status);
-                                next();
-                            })
-                            .catch(error => {
-                                next({
-                                    name: from.name,
-                                    query: { modal: true },
-                                });
-                            });
-                    },
+                    meta: { requiresAuth: true },
                 },
             ],
         },
     ],
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        axios
+            .get('/api/user')
+            .then(response => {
+                console.log(response.status);
+                next();
+            })
+            .catch(error => {
+                next({
+                    name: from.name,
+                    query: { modal: true },
+                });
+            });
+    } else {
+        next(); // make sure to always call next()!
+    }
 });
 
 export default router;

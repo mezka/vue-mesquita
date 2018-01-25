@@ -2,7 +2,7 @@
     <div>
         <header-container class="header-margin"></header-container>
         <router-view></router-view>
-        <sweet-modal class="container-fluid" ref="loginModal">
+        <sweet-modal v-on:close="modalClosed" class="container-fluid" ref="loginModal">
             <login-container v-on:openLoginFailure="openLoginFailure" v-on:closeLogin="closeLogin"></login-container>
         </sweet-modal>
 
@@ -29,11 +29,22 @@ export default {
     },
 
     methods: {
+        modalClosed() {
+            this.$router.replace({
+                name: this.$route.name,
+                query: { modal: false },
+            });
+        },
+
         openLogin() {
             this.$refs.loginModal.open();
         },
         closeLogin() {
             this.$refs.loginModal.close();
+            this.$router.replace({
+                name: this.$route.name,
+                query: { modal: false },
+            });
         },
         openLoginFailure(payload) {
             this.errorMsg = payload.error[0];
