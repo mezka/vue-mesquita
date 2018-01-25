@@ -29,7 +29,7 @@
                         <router-link to="/sistema-antiasalto">SISTEMA ANTIASALTO</router-link>
                     </li>
                     <li>
-                        <button v-on:click="openLogin">PORTAL PROVEEDORES</button>
+                        <router-link to="/proveedores-home">PROVEEDORES HOME</router-link>
                     </li>
                     <li>
                         <router-link to="/presupuesto">PRESUPUESTO</router-link>
@@ -38,12 +38,6 @@
         </header>
     </header>
 
-    <sweet-modal class="container-fluid" ref="loginModal">
-        <login-container v-on:openLoginFailure="openLoginFailure" v-on:closeLogin="closeLogin"></login-container>
-    </sweet-modal>
-    <sweet-modal ref="loginFailure" icon="warning">
-        {{errorMsg}}
-    </sweet-modal>
 
 
     </div>
@@ -53,8 +47,6 @@
 
 <script>
 import Logo from '@/components/Logo';
-import LoginContainer from '@/components/LoginContainer';
-import { SweetModal } from 'sweet-modal-vue';
 
 export default {
     name: 'header-container',
@@ -62,13 +54,10 @@ export default {
         return {
             inverted: false,
             active: false,
-            errorMsg: '',
         };
     },
     components: {
         Logo,
-        SweetModal,
-        LoginContainer,
     },
     methods: {
         handleScroll() {
@@ -84,17 +73,6 @@ export default {
         },
         handleClick() {
             this.active = !this.active;
-        },
-        openLogin() {
-            this.$refs.loginModal.open();
-        },
-        closeLogin() {
-            this.$refs.loginModal.close();
-        },
-        openLoginFailure(payload) {
-            this.errorMsg = payload.error[0];
-            this.$refs.loginFailure.open();
-            setTimeout(() => this.$refs.loginFailure.close(), 2500);
         },
     },
     created() {

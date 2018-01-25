@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import VueAgile from 'vue-agile';
+import axios from 'axios';
 
 import Index from '@/views/Index';
 import HomeContent from '@/views/HomeContent';
@@ -8,13 +9,12 @@ import PuertasBlindadas from '@/views/PuertasBlindadas';
 import PuertasCortafuego from '@/views/PuertasCortafuego';
 import SistemaAntiasalto from '@/views/SistemaAntiasalto';
 import Presupuesto from '@/views/Presupuesto';
-import PortalProveedores from '@/views/PortalProveedores';
 import ProveedoresHome from '@/views/ProveedoresHome';
 
 Vue.use(Router);
 Vue.use(VueAgile);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -26,7 +26,7 @@ export default new Router({
                     component: HomeContent,
                 },
                 {
-                    path: 'puertas-blindadas',
+                    path: 'puertas-blindadas?',
                     name: 'PuertasBlindadas',
                     component: PuertasBlindadas,
                 },
@@ -45,19 +45,28 @@ export default new Router({
                     name: 'Presupuesto',
                     component: Presupuesto,
                 },
-            ],
-        },
-        {
-            path: '/portal-proveedores',
-            name: 'portal-proveedores',
-            component: PortalProveedores,
-            children: [
                 {
-                    path: 'home',
-                    name: 'proveedores-home',
+                    path: 'proveedores-home',
+                    name: 'ProveedoresHome',
                     component: ProveedoresHome,
+                    beforeEnter: (to, from, next) => {
+                        axios
+                            .get('/api/user')
+                            .then(response => {
+                                console.log(response.status);
+                                next();
+                            })
+                            .catch(error => {
+                                next({
+                                    name: from.name,
+                                    query: { modal: true },
+                                });
+                            });
+                    },
                 },
             ],
         },
     ],
 });
+
+export default router;
