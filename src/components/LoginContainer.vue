@@ -4,12 +4,12 @@
             <p>
                 <label for="email">
                 E-mail:</label>
-                <input v-model="email" class="inputText" type="text" id="email" name="email" required>
+                <input v-model="email" class="input-text" type="text" id="email" name="email" required>
             </p>
             <p>
                 <label for="password">
                 Password:</label>
-                <input v-model="password" class="inputText" type="text" id="password" name="password" required>
+                <input v-model="password" class="input-text" type="password" id="password" name="password" required>
             </p>
             <input class="button" type="submit" name="submit">
         </form>

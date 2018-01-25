@@ -27,7 +27,19 @@ export default {
             errorMsg: '',
         };
     },
-
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if (to.query.modal) {
+                vm.openLogin();
+            }
+        });
+    },
+    beforeRouteUpdate(to, from, next) {
+        if (to.query.modal) {
+            this.openLogin();
+        }
+        next();
+    },
     methods: {
         modalClosed() {
             this.$router.replace({
@@ -50,14 +62,6 @@ export default {
             this.errorMsg = payload.error[0];
             this.$refs.loginFailure.open();
             setTimeout(() => this.$refs.loginFailure.close(), 2500);
-        },
-    },
-
-    watch: {
-        $route(to) {
-            if (to.query.modal) {
-                this.openLogin();
-            }
         },
     },
     components: {
