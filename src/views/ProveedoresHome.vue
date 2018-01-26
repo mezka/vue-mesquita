@@ -25,7 +25,6 @@ export default {
     beforeRouteEnter(to, from, next) {
         console.log('something');
         axios.get('/api/user').then((err, post) => {
-            console.log('hit');
             next(vm => vm.setData(err, post));
         });
     },
@@ -55,5 +54,3 @@ export default {
 <style lang="scss" scoped>
 
 </style>
-
-
