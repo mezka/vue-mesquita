@@ -1,9 +1,23 @@
 <template>
-    <select v-model="selected">
-        <option v-bind:key="product.productId" v-for="product in products" v-bind:value="product.productName">
-            {{ product.productName }}
-        </option>
-    </select>
+    
+
+    <div class="wrapper">
+        <div v-for="n in entries" :key="n">
+            <select v-model="selected[n]">
+                <option v-for="product in products" v-bind:value="product">
+                    {{ product.productName }}
+                </option>
+            </select>
+
+            <p>{{selected[n]}}</p>
+            <button v-on:click="addEntry">Add entry</button>    
+        
+        </div>
+            
+    <p>{{entries}}</p>
+    <p>{{selected}}</p>
+    </div>
+
 </template>
 
 <script>
@@ -11,7 +25,8 @@ export default {
     name: 'home-content',
     data() {
         return {
-            selected: null,
+            entries: 2,
+            selected: [],
             products: [
                 {
                     productId: 1,
@@ -29,6 +44,12 @@ export default {
                 },
             ],
         };
+    },
+    methods: {
+        addEntry() {
+            console.log(this.entries);
+            this.entries += 1;
+        },
     },
 };
 </script>

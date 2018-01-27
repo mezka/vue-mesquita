@@ -36,9 +36,10 @@ var dbController = require('./controllers/dbController.js');
 var initController = require('./controllers/initController.js');
 
 //INITIALIZE DATABASE
-
+initController.generateCsvFromOds();
 initController.createTables();
 initController.createUsers();
+initController.importCsvFiles();
 
 //GET PRE CONFIGURED PASSPORT INSTANCE
 

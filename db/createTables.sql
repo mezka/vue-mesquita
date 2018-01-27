@@ -25,3 +25,10 @@ CREATE TABLE Mesquita.Passwords(
   userId INTEGER REFERENCES Mesquita.Users(userId),
   passwordHash VARCHAR(60) UNIQUE
 );
+
+CREATE TABLE Mesquita.Products(
+  productId SERIAL PRIMARY KEY,
+  productName VARCHAR(50) NOT NULL,
+  productMeasurements VARCHAR(50),
+  productPrice DOUBLE PRECISION
+);
