@@ -33,6 +33,19 @@ var dbController = {
             }
         });
     },
+
+    getProductsByCategoryId: function(req, res) {
+        db.getProductsByCategoryId([req.params.categoryId], function(
+            error,
+            result
+        ) {
+            if (error) {
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(result);
+            }
+        });
+    },
 };
 
 module.exports = dbController;

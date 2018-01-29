@@ -34,6 +34,9 @@
                     <li>
                         <router-link to="/presupuesto">PRESUPUESTO</router-link>
                     </li>
+                    <li>
+                        <router-link to="/presupuestador">PRESUPUESTADOR</router-link>
+                    </li>
                 </ul>
         </header>
     </header>

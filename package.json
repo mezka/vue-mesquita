@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-theme": "^5.0.0",
     "connect-flash": "^0.1.1",
+    "cors": "^2.8.4",
     "express": "^4.16.1",
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",

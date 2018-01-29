@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var massive = require('massive');
 var session = require('express-session');
 var flash = require('connect-flash');
+var cors = require('cors');
 
 var nodemailerController = require('./controllers/nodemailerController.js');
 var authController = require('./controllers/authController.js');
@@ -60,6 +61,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(cors());
+
 app.post(
     '/api/login',
     passport.authenticate('local', {
@@ -90,6 +93,8 @@ app.get(
     authController.authorize,
     dbController.getUserNameAndLastName
 );
+
+app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 
 app.listen(port, function(req, res) {
     console.log('Listening on: ', port);

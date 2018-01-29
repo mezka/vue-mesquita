@@ -5,13 +5,11 @@
         <div v-for="n in entries" :key="n">
             <select v-model="selected[n]">
                 <option v-for="product in products" v-bind:value="product">
-                    {{ product.productName }}
+                    {{ product.productname }}
                 </option>
             </select>
 
             <p>{{selected[n]}}</p>
-            <button v-on:click="addEntry">Add entry</button>    
-        
         </div>
             
     <p>{{entries}}</p>
@@ -21,34 +19,46 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'home-content',
+
+    beforeRouteEnter(to, from, next) {
+        axios
+            .get('/api/products/1')
+            .then(response => {
+                next(vm => {
+                    vm.setProducts(response.data);
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+
     data() {
         return {
-            entries: 2,
             selected: [],
-            products: [
-                {
-                    productId: 1,
-                    productName: 'Puerta Cortafuego RF60',
-                    productMeasurements: '0900x2000mm PL, 1000x2050mm MT',
-                    productEquipsProductId: null,
-                },
-            ],
-            accessories: [
-                {
-                    productId: 2,
-                    productName: 'Barral Antipanico JAQUE Push',
-                    productMeasurements: null,
-                    productEquipsProductId: 1,
-                },
-            ],
+            products: [],
         };
     },
+
+    computed: {
+        entries() {
+            if (this.selected.length === 0) return 1;
+
+            return this.selected.length;
+        },
+    },
+
     methods: {
         addEntry() {
             console.log(this.entries);
             this.entries += 1;
+        },
+        setProducts(products) {
+            this.products = products;
         },
     },
 };

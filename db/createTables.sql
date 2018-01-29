@@ -26,9 +26,26 @@ CREATE TABLE Mesquita.Passwords(
   passwordHash VARCHAR(60) UNIQUE
 );
 
+CREATE TABLE Mesquita.Categories(
+  categoryId SERIAL PRIMARY KEY,
+  categoryName VARCHAR(60) NOT NULL
+);
+
 CREATE TABLE Mesquita.Products(
   productId SERIAL PRIMARY KEY,
   productName VARCHAR(50) NOT NULL,
-  productMeasurements VARCHAR(50),
   productPrice DOUBLE PRECISION
 );
+
+CREATE TABLE Mesquita.ProductAccesories(
+  productAccesoryId SERIAL PRIMARY KEY,
+  productId1 INTEGER REFERENCES Mesquita.Products(productId),
+  productId2 INTEGER REFERENCES Mesquita.Products(productId)
+);
+
+CREATE TABLE Mesquita.ProductCategories(
+  productCategoryId SERIAL PRIMARY KEY,
+  productId INTEGER REFERENCES Mesquita.Products(productId),
+  categoryId INTEGER REFERENCES Mesquita.Categories(categoryId)
+);
+
