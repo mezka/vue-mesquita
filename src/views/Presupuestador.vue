@@ -1,32 +1,41 @@
 <template>
     
 
-    <div class="wrapper">
-        <div v-for="n in entries" :key="n">
+    <section class="presupuestador-wrapper container">
+            <template v-for="i in selectedLength(selected)">
+                <div class="row">
+                    
+                    <div class="col-xs-5">
+                        <select class="form-control" v-model="selected[i]" :key="i">
+                            <option v-for="(product, index) in products" v-bind:value="product" :key="index">
+                                {{ product.productname }}
+                            </option>
+                        </select>
+                    </div>
 
-            <select v-model="selected[n]">
-                <option v-for="(product, index) in products" v-bind:value="product" :key="index">
-                    {{ product.productname }}
-                </option>
-            </select>
-
-            <div v-if="selected[n]">
-                <select v-model="selected[n].accessories">
-                    <option v-for="accesory in accesories" v-bind:value="accesory" :key="index">
-                        {{ accessory.productname }}
-                    </option>
-                </select>
-
-            </div>
-
-            
-
-            <p>{{selected[n]}}</p>
-        </div>
-            
-    <p>{{entries}}</p>
-    <p>{{selected}}</p>
-    </div>
+                    <div class="col-xs-1 col-xs-offset-6">
+                        <p>{{ selected[i]? '$' + selected[i].productprice : ''}}</p>
+                    </div>
+                </div>
+                <template v-if="selected[i]">
+                        <template v-for="j in selectedLength(selected[i]['productselectedaccesories'])">
+                            <div class="row">
+                                <div class = "col-xs-6 col-xs-offset-3">
+                                    <select class="form-control" v-model="selected[i]['productselectedaccesories'][j]" :key="j">
+                                        <option v-for="(productaccesory, index) in selected[i].productaccesories" v-bind:value="productaccesory" :key="index">
+                                            {{ productaccesory.productname }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-1 col-xs-offset-2">
+                                    <p>{{ selected[i]? '$' + selected[i].productprice : ''}}</p>
+                                </div>
+                            </div>
+                        </template>
+                </template>
+            </template>
+        <p>{{selected}}</p>
+    </section>
 
 </template>
 
@@ -56,21 +65,15 @@ export default {
         };
     },
 
-    computed: {
-        entries() {
-            if (this.selected.length === 0) return 1;
-
-            return this.selected.length;
-        },
-    },
-
     methods: {
-        addEntry() {
-            console.log(this.entries);
-            this.entries += 1;
-        },
         setProducts(products) {
             this.products = products;
+        },
+        selectedLength(array) {
+            if (array.length) {
+                return array.length;
+            }
+            return 2;
         },
     },
 };
