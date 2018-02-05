@@ -10,7 +10,7 @@ import PuertasCortafuego from '@/views/PuertasCortafuego';
 import SistemaAntiasalto from '@/views/SistemaAntiasalto';
 import Presupuesto from '@/views/Presupuesto';
 import ProveedoresHome from '@/views/ProveedoresHome';
-import Presupuestador from '@/views/Presupuestador';
+import Presupuestador2 from '@/views/Presupuestador2';
 
 Vue.use(Router);
 Vue.use(VueAgile);
@@ -48,8 +48,8 @@ const router = new Router({
                 },
                 {
                     path: 'presupuestador',
-                    name: 'Presupuestador',
-                    component: Presupuestador,
+                    name: 'Presupuestador2',
+                    component: Presupuestador2,
                 },
                 {
                     path: 'proveedores-home',

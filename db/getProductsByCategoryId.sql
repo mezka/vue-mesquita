@@ -1,4 +1,4 @@
-SELECT ProductCategories.productId,Categories.categoryName AS productCategory, Products.productName, array_to_json(ARRAY[]::varchar[])::JSONB AS productSelectedAccessories, json_agg(json_build_object('productid', p2.productId, 'productname', p2.productName, 'productprice', p2.productPrice)) AS productAccessories, Products.productPrice FROM Mesquita.ProductCategories AS ProductCategories
+SELECT ProductCategories.productId,Categories.categoryName AS productCategory, Products.productName, json_agg(json_build_object('productid', p2.productId, 'productname', p2.productName, 'productprice', p2.productPrice, 'productquantity', 1)) AS productAccessories, Products.productPrice FROM Mesquita.ProductCategories AS ProductCategories
 INNER JOIN Mesquita.Products AS Products ON Products.productId = ProductCategories.productId
 INNER JOIN Mesquita.Categories AS Categories ON ProductCategories.categoryId = Categories.categoryId
 INNER JOIN Mesquita.ProductAccesories AS ProductAccesories ON ProductAccesories.productId1 = Products.productId

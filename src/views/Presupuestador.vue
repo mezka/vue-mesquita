@@ -1,25 +1,34 @@
 <template>
     <div>
-          <p>Cart</p>
-  <div v-for="item in shoppingCart" class="cart">
-    <span v-if="item.selectedProdId > -1">
-          {{ prodData[item.selectedProdId].productname }} - {{ prodData[item.selectedProdId].productprice }} $
-    </span>
-    <ul class="selected-a">
-      <li class="li-a" v-for="a in item.productselectedaccessories" v-if="a.productid > -1">
-        {{ a.productname }} - {{ a.productprice }} $
-      </li>
-    </ul>
-  </div>
+        <p>Cart</p>
+        
+        <div v-for="item in shoppingCart" class="cart">
+            <span v-if="item.selectedProdId > -1">
+                {{ prodData[item.selectedProdId].productname }} - ${{ prodData[item.selectedProdId].productprice }}
+            </span>
+            <ul class="selected-a">
+                <li class="li-a" v-for="a in item.productselectedaccessories" v-if="a.productid > -1">
+                    {{ a.productname }} - ${{ a.productprice }}
+                </li>
+            </ul>
+
+            <p>Precio: {{item? bundlePrice(item) : ''}}</p>
+        </div>
+
+  {{shoppingCart}}
+  <p>{{prodData}}</p>
+  
 
   <hr>
   <div>
     <div class="cart-item" :key="item.id" v-for="(item, cartIdx) in shoppingCart">
       <div class="product">
         Product
-        <select v-model="item.selectedProdId">
-          <option :key="prodIdx" v-for="(prod, prodIdx) in prodData" :value="prodIdx"> {{ prod.productname }} - {{ prod.productprice }} $</option>
+        <select v-model="shoppingCart[cartIdx]">
+          <option :key="prodIdx" v-for="(prod, prodIdx) in prodData" :value="prod"> {{ prod.productname }} - {{ prod.productprice }} $</option>
         </select>
+
+        <quantity-input v-model="item.productquantity"/>
 
         <button type="button" class="btn btn-danger" @click="removeProd(cartIdx)">
           -
@@ -37,6 +46,8 @@
           <select v-model="shoppingCart[cartIdx].productselectedaccessories[idx]">
             <option :key="aIdx" v-for="(a, aIdx) in prodData[item.selectedProdId].productaccessories" :value="a"> {{ a.productname }} - {{ a.productprice }} $</option>
           </select>
+
+          <quantity-input v-model="shoppingCart[cartIdx].productselectedaccessories[idx].productquantity"/>
           <button type="button" class="btn btn-danger" @click="removeAccessory(cartIdx, idx)">
             -
           </button>
@@ -54,9 +65,10 @@
 
 <script>
 import axios from 'axios';
+import QuantityInput from '@/components/QuantityInput';
 
 export default {
-    name: 'home-content',
+    name: 'presupuestador',
 
     beforeRouteEnter(to, from, next) {
         axios
@@ -73,7 +85,6 @@ export default {
 
     data() {
         return {
-            idGenerator: 0,
             prodData: [],
             shoppingCart: [],
         };
@@ -89,9 +100,10 @@ export default {
         addProduct() {
             this.shoppingCart.push({
                 // eslint-disable-next-line
-                id: this.idGenerator++,
-                selectedProdId: -1,
+                productid: null,
+                selectedProdId: 0,
                 productselectedaccessories: [],
+                productquantity: 1,
             });
         },
 
@@ -100,6 +112,7 @@ export default {
                 productid: -1,
                 productname: '',
                 productprice: -1,
+                productquantity: 1,
             });
         },
 
@@ -119,6 +132,23 @@ export default {
             console.log(products);
             this.prodData = products;
         },
+
+        bundlePrice(item) {
+            const parentItemProductObj = this.prodData.find(
+                // eslint-disable-next-line
+                element => item.selectedProdId === element.productid
+            );
+
+            console.log(
+                parentItemProductObj ? parentItemProductObj.productprice : 19
+            );
+
+            return 10;
+        },
+    },
+
+    components: {
+        QuantityInput,
     },
 };
 </script>
