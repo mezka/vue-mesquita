@@ -1,6 +1,6 @@
 <template>
-  <select @input="productChange($event.target.value)">
-      <option :value="{}"></option>
+  <select @change="productChange($event.target.value)">
+      <option :value="-1"></option>
       <option v-for="(product, productIndex) in products" :value="productIndex">
           {{product.productname}} - ${{product.productprice}}
       </option>
@@ -11,10 +11,16 @@
 <script>
 export default {
     name: 'product-select',
-    props: ['value', 'products', 'cart', 'cartIndex'],
+    props: ['products', 'cart', 'cartIndex'],
 
     methods: {
         productChange(productIndex) {
+            if (productIndex === '-1') {
+                console.log('true');
+                this.$emit('removeProduct', this.cartIndex);
+                return;
+            }
+
             if (Object.keys(this.cart[this.cartIndex]).length !== 0) {
                 this.$set(
                     this.cart,
@@ -51,6 +57,8 @@ export default {
                     [] // eslint-disable-line
                 );
             }
+
+            this.$emit('input', productIndex);
         },
     },
 };

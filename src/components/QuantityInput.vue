@@ -11,7 +11,7 @@ export default {
 
     methods: {
         formatQuantity(quantity) {
-            const formattedQuantity = quantity < 0 ? 0 : quantity;
+            const formattedQuantity = quantity < 1 ? 1 : quantity;
 
             if (quantity !== formattedQuantity) {
                 this.$refs.input.value = formattedQuantity;
