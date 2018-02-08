@@ -1,5 +1,8 @@
-var app = require('../index.js');
+var index = require('../index.js');
+
+var app = index.app;
 var db = app.get('db');
+
 
 var dbController = {
     addContact: function (req, res, next) {
@@ -48,8 +51,11 @@ var dbController = {
     },
 
     addPresupuesto: function (req, res) {
+
         console.log(req.body);
-        res.status(200).send('hit');
+
+
+        res.status(200).send('compiled');
     }
 };
 

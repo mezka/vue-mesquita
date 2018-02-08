@@ -1,4 +1,5 @@
-var app = require('../index.js');
+var index = require('../index.js');
+var app = index.app;
 var db = app.get('db');
 var bcrypt = require('bcryptjs');
 var fs = require('fs');
@@ -10,7 +11,7 @@ var odsPath = 'schema.ods';
 
 var initController = {
     createTables: function createTables() {
-        db.createTables(function(error, result) {
+        db.createTables(function (error, result) {
             if (result) {
                 console.log('Created tables ...');
             } else {
@@ -49,10 +50,10 @@ var initController = {
         for (var i = 1; i < workbook.SheetNames.length; i++) {
             console.log(
                 'Generated ' +
-                    workbook.SheetNames[i] +
-                    '.csv from: ' +
-                    odsPath +
-                    '\n'
+                workbook.SheetNames[i] +
+                '.csv from: ' +
+                odsPath +
+                '\n'
             );
 
             var currentFileName = path.normalize(
@@ -67,7 +68,7 @@ var initController = {
     },
 
     importCsvFiles: function importCsvFiles() {
-        return db.importCsvFiles(function(error, result) {
+        return db.importCsvFiles(function (error, result) {
             if (result) {
                 console.log('Imported CSV files into database ...\n');
                 // process.exit(0);

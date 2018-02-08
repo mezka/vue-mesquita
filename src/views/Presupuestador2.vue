@@ -12,7 +12,7 @@
                         <strong>{{ cartItem.productname }}</strong>
                     </div>
                     <div>
-                        Precio unitario: ${{ Number(cartItem.productprice).toFixed(2) }} - Cantidad: {{cartItem.productquantity}}
+                        Cantidad: {{cartItem.productquantity}} - ${{ Number(cartItem.productprice).toFixed(2) }} c/u
                     </div>
 
                     <ul class="selected-cart">
@@ -20,8 +20,8 @@
                             {{ cartAcc.productname }} - ${{ Number(cartAcc.productprice).toFixed(2) }}
                         </li>
                     </ul>
-                    <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Parcial unitario: $' + Number(bundlePrice(cartItem) / cartItem.productquantity).toFixed(2) : ''}}</p>
-                    <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Total por este item: $' + Number(bundlePrice(cartItem)).toFixed(2) : ''}}</p>
+                    <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Precio unitario c/ accesorios: $' + Number(bundlePrice(cartItem) / cartItem.productquantity).toFixed(2) : ''}}</p>
+                    <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Parcial: $' + Number(bundlePrice(cartItem)).toFixed(2) : ''}}</p>
                 </div>
                 
                 <div class="total-container-wrapper">
@@ -76,7 +76,7 @@
             </div>
         
             <p class="product-add-box">
-                A&ntilde;adir producto: <button type="button" class="btn btn-success" @click="addProduct">+</button>
+                A&ntilde;adir producto: <button type="button" class="btn btn-square btn-success" @click="addProduct">+</button>
             </p>
         
         

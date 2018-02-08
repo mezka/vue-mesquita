@@ -6,15 +6,30 @@ var massive = require('massive');
 var session = require('express-session');
 var flash = require('connect-flash');
 var cors = require('cors');
+var nunjucks = require('nunjucks');
 
 var nodemailerController = require('./controllers/nodemailerController.js');
 var authController = require('./controllers/authController.js');
+var templateController = require('./controllers/templateController.js');
 var keys = require('./keys.js');
 
 //INSTANCIATING EXPRESS, MAKING IT AVAILABLE FOR OUTSIDE MODULES
 
-var app = (module.exports = express());
+var app = express();
 var port = 8081;
+
+nunjucks.configure('views', {
+    autoescape: true,
+    express: app
+});
+
+
+
+module.exports = {
+    app: app,
+    nunjucks: nunjucks,
+};
+
 
 //ADDING BODY PARSER
 
@@ -97,7 +112,7 @@ app.get(
 
 app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 
-app.post('/api/presupuesto', dbController.addPresupuesto);
+app.post('/api/presupuesto', templateController.generatePresupuesto);
 
 app.listen(port, function (req, res) {
     console.log('Listening on: ', port);
