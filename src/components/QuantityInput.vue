@@ -1,6 +1,6 @@
 <template>
   <span>
-      <input type="number" ref="input" v-bind:value="value" v-on:input="formatQuantity($event.target.value)">
+      <input class="quantity-input" type="number" ref="input" v-bind:value="value" v-on:input="formatQuantity($event.target.value)">
   </span>
 </template>
 
@@ -24,5 +24,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.quantity-input {
+    width: 36px;
+}
 </style>

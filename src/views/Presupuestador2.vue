@@ -2,63 +2,82 @@
     
     <div class="wrapper">
 
-        {{cart}}
+        {{cart}}        
 
-        <p>Presupuesto</p>
-        
-        <div v-if="Object.keys(cartItem).length !== 0" v-for="cartItem in cart" class="cart">
-            <span >
-                {{ cartItem.productname }} - ${{ cartItem.productprice }}
-            </span>
-            <ul class="selected-a">
-                <li class="li-a" v-for="cartAcc in cartItem.productselectedaccessories" v-if="Object.keys(cartAcc).length !== 0">
-                    {{ cartAcc.productname }} - ${{ cartAcc.productprice }}
-                </li>
-            </ul>
+        <h2>Presupuesto</h2>
 
-            <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Subtotal: $' + bundlePrice(cartItem) : ''}}</p>
-        </div>
+            <div class="cart-box">
+                <div v-if="Object.keys(cartItem).length !== 0" v-for="cartItem in cart">
+                    <div >
+                        <strong>{{ cartItem.productname }}</strong>
+                    </div>
+                    <div>
+                        Precio unitario: ${{ Number(cartItem.productprice).toFixed(2) }} - Cantidad: {{cartItem.productquantity}}
+                    </div>
 
-        <div v-for="(cartItem, cartIdx) in cart" :key="cartIdx">
-
-            <hr>
-            
-            <div class="product">
-                <product-select v-on:removeProduct="removeProduct" :products="products" :cart="cart" :cartIndex="cartIdx"></product-select>
-
-                <span v-if="Object.keys(cartItem).length !== 0">Cantidad: <quantity-input  v-model="cartItem.productquantity"/></span>
-                
-
-
-                <button type="button" class="btn btn-danger" @click="removeProduct(cartIdx)">
-                    -
-                </button>
-            </div>
-
-
-            <div class="prod-accessory" v-if="Object.keys(cartItem).length !== 0">
-                A&ntilde;adir accesorio:
-                <button type="button" class="btn btn-success" @click="addAccessory(cartIdx)">+</button>
-            </div>
-            <div v-if="Object.keys(cartItem).length !== 0">
-                <div class="accessory-list" v-for="(cartAccessoryItem, cartAccessoryIndex) in cart[cartIdx].productselectedaccessories">
-                    <accessory-select v-on:removeAccessory="removeAccessory" :cart="cart" :cartIndex="cartIdx" :cartAccessoryIndex="cartAccessoryIndex"/>
-
-                    <span v-if="Object.keys(cartAccessoryItem).length !== 0">
-                        Cantidad: <quantity-input v-model="cartAccessoryItem.productquantity"/>
-                    </span>
-                    <button type="button" class="btn btn-danger" @click="removeAccessory(cartIdx, cartAccessoryIndex)">
-                        -
-                    </button>        
+                    <ul class="selected-cart">
+                        <li class="li-a" v-for="cartAcc in cartItem.productselectedaccessories" v-if="Object.keys(cartAcc).length !== 0">
+                            {{ cartAcc.productname }} - ${{ Number(cartAcc.productprice).toFixed(2) }}
+                        </li>
+                    </ul>
+                    <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Parcial unitario: $' + Number(bundlePrice(cartItem) / cartItem.productquantity).toFixed(2) : ''}}</p>
+                    <p>{{!cartItem? '' : Object.keys(cartItem).length !== 0? 'Total por este item: $' + Number(bundlePrice(cartItem)).toFixed(2) : ''}}</p>
                 </div>
                 
-            </div> 
+                <div class="total-container-wrapper">
+                    <div class="total-container">
+                        <p>Subtotal General: ${{Number(cartPrice(cart)).toFixed(2)}}</p>
+                        <p>I.V.A: ${{Number(cartPrice(cart) * 0.21).toFixed(2)}}</p>
+                        <p>Total: ${{Number(cartPrice(cart) * 1.21).toFixed(2)}}</p>
+                    </div>
+                </div>
 
-        </div>
+
+                <button class="btn btn-primary" @click="submitPresupuesto">Guardar presupuesto</button>
+            </div>
         
-        <p>
-            A&ntilde;adir producto: <button type="button" class="btn btn-success" @click="addProduct">+</button>
-        </p>
+        
+            <div class="product-box" v-for="(cartItem, cartIdx) in cart" :key="cartIdx">
+            
+               
+                    <div class="item-box">
+                        <product-select v-on:removeProduct="removeProduct" :products="products" :cart="cart" :cartIndex="cartIdx"></product-select>
+
+
+                        <div class="quantity-box">
+                            <span v-if="Object.keys(cartItem).length !== 0"><label>Cantidad: </label><quantity-input class="quantity-input" v-model="cartItem.productquantity"/></span>
+                            <button type="button" class="btn btn-square btn-danger" @click="removeProduct(cartIdx)">
+                                -
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="prod-accessory" v-if="Object.keys(cartItem).length !== 0">
+                        A&ntilde;adir accesorio:
+                        <button type="button" class="btn btn-square btn-success" @click="addAccessory(cartIdx)">+</button>
+                    </div>
+
+                    <div v-if="Object.keys(cartItem).length !== 0">
+                        <div class="item-box" v-for="(cartAccessoryItem, cartAccessoryIndex) in cart[cartIdx].productselectedaccessories">
+                            <accessory-select v-on:removeAccessory="removeAccessory" :cart="cart" :cartIndex="cartIdx" :cartAccessoryIndex="cartAccessoryIndex"/>
+
+                            <div class="quantity-box">
+                                <div v-if="Object.keys(cartAccessoryItem).length !== 0"><label>Cantidad: </label><quantity-input class="quantity-input" v-model="cartAccessoryItem.productquantity"/></div>
+                                <button type="button" class="btn btn-square btn-danger" @click="removeAccessory(cartIdx, cartAccessoryIndex)">
+                                    -
+                                </button>
+                            </div>
+
+                        </div>
+                    </div> 
+                
+
+            </div>
+        
+            <p class="product-add-box">
+                A&ntilde;adir producto: <button type="button" class="btn btn-success" @click="addProduct">+</button>
+            </p>
         
         
     </div>
@@ -87,6 +106,7 @@ export default {
                 console.log(error);
             });
     },
+
     data() {
         return {
             cart: [],
@@ -172,6 +192,26 @@ export default {
                 cartItem.productquantity * accessoriesPrice // eslint-disable-line
             );
         },
+        cartPrice(cart) {
+            let cartPrice = 0;
+
+            for (let i = 0; i < cart.length; i += 1) {
+                if (Object.keys(cart[i]).length !== 0) {
+                    cartPrice += this.bundlePrice(cart[i]);
+                }
+            }
+
+            return cartPrice;
+        },
+
+        submitPresupuesto() {
+            axios
+                .post('/api/presupuesto', this.cart)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => console.log(error));
+        },
     },
 
     components: {
@@ -183,47 +223,64 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.body {
-    font-family: Tahoma;
-    font-size: 11px;
+select,
+input {
+    height: 22px;
 }
 
-.cart {
+.total-container {
+    display: inline-block;
     border: 1px solid grey;
-    margin: 20px;
     padding: 5px;
+    margin: 0px 0px 10px 0px;
 }
 
-.cart-item {
+.cart-box {
+    border: 1px solid grey;
+    margin: 20px 10px 0px 20px;
+    padding: 10px;
+}
+
+.product-box {
     display: flex;
     flex-direction: column;
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid lightgrey;
-    align-self: center;
+    justify-content: space-between;
+    padding: 10px 10px 10px 20px;
+    border-bottom: 1px solid grey;
 }
 
-.product,
-.accessory-list {
+.product-add-box {
+    padding: 0px 10px 0px 10px;
+    margin-top: 10px;
+}
+
+.item-box {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    min-height: 30px;
+
+    margin: 5px 0px 0px 0px;
 }
 
-select {
-    margin: 5px;
-    font-size: 11px;
-}
-
-.prod-accessory {
+.quantity-box {
     display: flex;
-    margin: 5px;
+    justify-content: flex-end;
 }
 
-ul.selected-a {
+@media all and (max-width: 1920px) and (min-width: 600px) {
+    .item-box {
+        max-width: 700px;
+    }
+}
+
+ul.selected-cart {
     font-size: 10px;
 }
 
-button.btn {
+button.btn-square {
     width: 30px;
     height: 30px;
     padding: 5px;

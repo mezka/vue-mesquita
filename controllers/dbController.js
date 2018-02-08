@@ -2,7 +2,7 @@ var app = require('../index.js');
 var db = app.get('db');
 
 var dbController = {
-    addContact: function(req, res, next) {
+    addContact: function (req, res, next) {
         db.contacts.insert(
             {
                 contactname: req.body.name,
@@ -11,7 +11,7 @@ var dbController = {
                 contacttimetocontact: req.body.timetocontact,
                 contacttext: req.body.text,
             },
-            function(error, result) {
+            function (error, result) {
                 if (error) {
                     res.status(500).send(error);
                 } else {
@@ -21,8 +21,8 @@ var dbController = {
             }
         );
     },
-    getUserNameAndLastName: function(req, res, next) {
-        db.mesquita.users.find(req.session.passport.user, function(
+    getUserNameAndLastName: function (req, res, next) {
+        db.mesquita.users.find(req.session.passport.user, function (
             error,
             result
         ) {
@@ -34,8 +34,8 @@ var dbController = {
         });
     },
 
-    getProductsByCategoryId: function(req, res) {
-        db.getProductsByCategoryId([req.params.categoryId], function(
+    getProductsByCategoryId: function (req, res) {
+        db.getProductsByCategoryId([req.params.categoryId], function (
             error,
             result
         ) {
@@ -46,6 +46,11 @@ var dbController = {
             }
         });
     },
+
+    addPresupuesto: function (req, res) {
+        console.log(req.body);
+        res.status(200).send('hit');
+    }
 };
 
 module.exports = dbController;

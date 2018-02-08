@@ -86,6 +86,7 @@ app.post(
     nodemailerController.sendContactEmail
 );
 
+
 //ENDPOINTS
 
 app.get(
@@ -96,6 +97,8 @@ app.get(
 
 app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 
-app.listen(port, function(req, res) {
+app.post('/api/presupuesto', dbController.addPresupuesto);
+
+app.listen(port, function (req, res) {
     console.log('Listening on: ', port);
 });

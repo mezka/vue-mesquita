@@ -7,8 +7,8 @@ CREATE TABLE Mesquita.Contacts(
     contactName VARCHAR(100) NOT NULL,
     contactPhone VARCHAR(40) NOT NULL,
     contactEmail VARCHAR(50) NOT NULL,
-    contactTimeToContact VARCHAR(40) NOT NULL,
-    contactText VARCHAR(500) NOT NULL
+    contactTimeToContact VARCHAR(40),
+    contactText VARCHAR(500)
 );
 
 CREATE TABLE Mesquita.Users(
