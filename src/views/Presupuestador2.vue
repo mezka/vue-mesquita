@@ -79,6 +79,7 @@
                 A&ntilde;adir producto: <button type="button" class="btn btn-square btn-success" @click="addProduct">+</button>
             </p>
         
+        <div v-html="out"></div>
         
     </div>
         
@@ -112,6 +113,7 @@ export default {
             cart: [],
             products: [],
             index: 0,
+            out: '',
         };
     },
 
@@ -208,7 +210,7 @@ export default {
             axios
                 .post('/api/presupuesto', this.cart)
                 .then(response => {
-                    console.log(response.data);
+                    this.out = response.data;
                 })
                 .catch(error => console.log(error));
         },

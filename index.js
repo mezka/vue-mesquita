@@ -18,7 +18,7 @@ var keys = require('./keys.js');
 var app = express();
 var port = 8081;
 
-nunjucks.configure('views', {
+nunjucks.configure('templates', {
     autoescape: true,
     express: app
 });

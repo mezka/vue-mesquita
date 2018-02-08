@@ -4,7 +4,8 @@ var nunjucks = index.nunjucks;
 
 var templateController = {
     generatePresupuesto: function generatePresupuesto(req, res) {
-        res.render('index.html', { username: 'mezka' });
+        console.log(req.body);
+        res.render('template.html', { products: req.body });
     }
 }
 

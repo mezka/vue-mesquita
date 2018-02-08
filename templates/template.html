@@ -1,0 +1,25 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+        </tr>
+
+        {% for product in products %}
+        <tr>
+            <td>{{product.productname}}</td>
+            <td>{{product.productquantity}}</td>
+            <td>{{product.productprice}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
