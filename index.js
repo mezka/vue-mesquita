@@ -34,7 +34,9 @@ module.exports = {
 //ADDING BODY PARSER
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 //SETTING UP MASSIVE INSTANCE WITH connectionString
 

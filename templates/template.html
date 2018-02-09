@@ -1,17 +1,278 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Presupuesto</title>
+    <style>
+        p {
+            margin: 0;
+        }
+
+        .header-row-1 {
+
+            height: 120px;
+
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mesquita-logo {
+            height: inherit;
+            width: auto;
+        }
+
+        .letter-box {
+
+            height: 100%;
+
+            box-sizing: border-box;
+
+            width: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border: 3px solid black;
+        }
+
+        .letter {
+            font-size: 20px;
+        }
+
+        .presupuesto-data-box {
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            box-sizing: border-box;
+
+            height: inherit;
+            border: 3px solid black;
+            padding: 10px;
+        }
+
+        .header-row-2 {
+            height: 150px;
+
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            border-bottom: 3px solid black;
+        }
+
+        .cross-box {
+            width: 10%;
+            height: inherit;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+
+        .square {
+            box-sizing: border-box;
+        }
+
+        .square-1 {
+            height: 30%;
+            width: 50%;
+
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        .square-2 {
+            height: 30%;
+            width: 50%;
+
+            border-bottom: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .square-3 {
+            height: 70%;
+            width: 50%;
+
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+
+        .square-4 {
+            height: 70%;
+            width: 50%;
+
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .header-row-3 {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
+        .graybox-large {
+
+            display: flex;
+            justify-content: space-between;
+
+            margin: 3px 0 0 0;
+
+            width: 100%;
+            background-color: #d7d7d7;
+            border: 1px solid black;
+        }
+
+        .graybox-large-separator,
+        .graybox-large-separator-column,
+        .clientbox,
+        .data-graybox-large-separator {
+            width: 50%;
+            display: flex;
+        }
+
+        .data-graybox-large {
+            width: 100%;
+            display: flex;
+        }
+
+        .graybox-half {
+            margin: 0 0 0 50%;
+            width: 50%;
+            height: 20px;
+            background-color: #d7d7d7;
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .data-graybox-half {
+            width: 50%;
+            margin: 0 0 0 50%;
+
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .big-border-bottom {
+            border-bottom: 3px solid black;
+        }
+
+        .data-graybox-large-separator-long,
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .data-box-container {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 3px solid black;
+        }
+
+        .data-box {
+            border: 1px solid black;
+            width: 20%;
+        }
+
+    </style>
 
 </head>
 
 <body>
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-        </tr>
 
+    <header class="header-flexbox">
+        <div class="header-row-1">
+            <img class="mesquita-logo" src="mesquita.svg">
+            <div class="letter-box">
+                <p class="letter">"X"</p>
+            </div>
+            <div class="presupuesto-data-box">
+                <p>COTIZACI&Oacute;N N&deg;: 001 - {{}}</p>
+                <p>Fecha: {{}}</p>
+            </div>
+        </div>
+        <div class="header-row-2">
+            <div class="address-box">
+                <p>Alsina 2501 - (1090) Capital Federal</p>
+                <p>Tel: 4954-2224 / 4115-0800</p>
+                <p>Tel: 4951-9812 - Servicio tecnico 24hs</p>
+                <p>IVA: Responsable Inscripto</p>
+            </div>
+            <div class="cross-box">
+                <div class="square square-1"></div>
+                <div class="square square-2"></div>
+                <div class="square square-3"></div>
+                <div class="square square-4"></div>
+            </div>
+            <div class="empresa-data-box">
+                <p>CUIT N&deg;: 3070987582-1</p>
+                <p>Ing. Brutos: 901-4224746-5</p>
+                <p>Inicio Act.: 01/11/2006</p>
+                <p>Mail: ventas@mesquita.com.ar</p>
+            </div>
+        </div>
+        <div class="header-row-3">
+            <div class="graybox-large">
+                <p>Cliente:</p>
+                <div class="graybox-large-separator">
+                    <div class="graybox-large-separator-column">
+                        <p>Cuenta N&deg;:</p>
+                    </div>
+                    <div class="graybox-large-separator-column">
+                        <p>Vendedor:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="data-graybox-large">
+                <div class="clientbox">{{client.name}}</div>
+                <div class="data-graybox-large-separator">
+                    <div class="data-graybox-large-separator-column">{{client.accnumber}}</div>
+                    <div class="data-graybox-large-separator-column">{{presupuesto.seller}}</div>
+                </div>
+            </div>
+            <div class="graybox-half">
+                <div class="graybox-half-column">
+                    <p>C. de venta</p>
+                </div>
+                <div class="graybox-half-column">
+                    <p>Orden de compra</p>
+                </div>
+            </div>
+            <div class="data-graybox-half">
+                <p>{{presupuesto.paymethod}}</p>
+                <p>{{presupuesto.oc}}</p>
+            </div>
+
+            <div class="graybox-large">
+                <p>IVA:</p>
+                <p>CUIT N&deg;:</p>
+                <p>Remitos:</p>
+            </div>
+            <div class="data-graybox-large big-border-bottom">
+                <p>{{client.categoriaFiscal}}</p>
+                <p>{{client.cuit}}</p>
+            </div>
+            <div class="graybox-large">
+                <p>Cantidad</p>
+                <p>Descripcion</p>
+                <p>Descuento</p>
+                <p>Precio</p>
+                <p>Importe</p>
+            </div>
+
+        </div>
+    </header>
+
+
+    <table>
         {% for product in products %}
         <tr>
             <td>{{product.productname}}</td>
@@ -20,6 +281,42 @@
         </tr>
         {% endfor %}
     </table>
+
+    <div class="data-graybox-large">
+        <p>Son pesos: {{product.stringquantity}}</p>
+    </div>
+    <div class="graybox-large">
+        <p>Subtotal</p>
+        <p>Descuento</p>
+        <p>Tasa</p>
+        <p>Neto Gravado</p>
+        <p>IVA</p>
+        <p>TOTAL</p>
+    </div>
+    <div class="data-box-container">
+        <div class="data-box">{{presupuesto.presupuestoprice}}</div>
+        <div class="data-box">{{presupuesto.presupuestodiscount}}</div>
+        <div class="data-box">{{presupuesto.presupuestoimpuesto}}</div>
+        <div class="data-box">{{presupuesto.impuestoprice}}</div>
+        <div class="data-box">{{presupuesto.total}}</div>
+    </div>
+
+    <footer class="footer-container">
+        <div class="banco-box">
+            <p>Medio de pago: EQUIPAMIENTOS DE SEGURIDAD S.A.</p>
+            <p>CBU: 1910249655024900127746</p>
+            <p>N&deg; de Cta. Cte. : Banco Credicoop SUC: 249, Plaza Miserere</p>
+        </div>
+        <div class="pago-box">
+            <p>Forma de pago: 50% ACOPIO (CONTADO: Efectivo, transferencia, cheque al d&iacute;a acreditado) - SALDO.</p>
+            <p>Nuestras puertas cortafuego se encuentran homologadas por el INTI. Identificadas cada una con su respectivo n&uacute;mero
+                de serie.</p>
+            <p>Para entregar la mercader&iacute;a la misma deber&aacute; encontrarse acreditada. Las puertas no incluyen instalaci&oacute;n.
+                Validez de la oferta: 10 d&iacute;as.</p>
+            <p>Tiempo de entrega: {{presupuesto.tiempoentrega}} a part&iacute;r de acreditaci&oacute;n del acopio</p>
+        </div>
+    </footer>
+
 </body>
 
 </html>
