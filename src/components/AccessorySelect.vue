@@ -77,6 +77,14 @@ export default {
                     ].productquantity // eslint-disable-line
                 );
             }
+
+            this.$set(
+                this.cartItem.productselectedaccessories[
+                    this.cartAccessoryIndex
+                ],
+                'productdiscount',
+                0 // eslint-disable-line
+            );
         },
     },
 };

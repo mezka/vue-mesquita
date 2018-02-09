@@ -10,57 +10,58 @@
 
 <script>
 export default {
-    name: 'product-select',
-    props: ['products', 'cart', 'cartIndex'],
+  name: "product-select",
+  props: ["products", "cart", "cartIndex"],
 
-    methods: {
-        productChange(productIndex) {
-            if (productIndex === '-1') {
-                console.log('true');
-                this.$emit('removeProduct', this.cartIndex);
-                return;
-            }
+  methods: {
+    productChange(productIndex) {
+      if (productIndex === "-1") {
+        console.log("true");
+        this.$emit("removeProduct", this.cartIndex);
+        return;
+      }
 
-            if (Object.keys(this.cart[this.cartIndex]).length !== 0) {
-                this.$set(
-                    this.cart,
-                    this.cartIndex,
-                    Object.assign(
-                        {
-                            productquantity: this.cart[this.cartIndex]
-                                .productquantity,
-                        },
-                        this.products[productIndex] // eslint-disable-line
-                    ) // eslint-disable-line
-                );
+      if (Object.keys(this.cart[this.cartIndex]).length !== 0) {
+        this.$set(
+          this.cart,
+          this.cartIndex,
+          Object.assign(
+            {
+              productquantity: this.cart[this.cartIndex].productquantity
+            },
+            this.products[productIndex] // eslint-disable-line
+          ) // eslint-disable-line
+        );
 
-                this.$set(
-                    this.cart[this.cartIndex],
-                    'productselectedaccessories',
-                    [] // eslint-disable-line
-                );
-            } else {
-                this.$set(
-                    this.cart,
-                    this.cartIndex,
-                    Object.assign(
-                        {
-                            productquantity: 1,
-                        },
-                        this.products[productIndex] // eslint-disable-line
-                    ) // eslint-disable-line
-                );
+        this.$set(
+          this.cart[this.cartIndex],
+          "productselectedaccessories",
+          [] // eslint-disable-line
+        );
+      } else {
+        this.$set(
+          this.cart,
+          this.cartIndex,
+          Object.assign(
+            {
+              productquantity: 1
+            },
+            this.products[productIndex] // eslint-disable-line
+          ) // eslint-disable-line
+        );
 
-                this.$set(
-                    this.cart[this.cartIndex],
-                    'productselectedaccessories',
-                    [] // eslint-disable-line
-                );
-            }
+        this.$set(
+          this.cart[this.cartIndex],
+          "productselectedaccessories",
+          [] // eslint-disable-line
+        );
 
-            this.$emit('input', productIndex);
-        },
-    },
+        this.$set(this.cart[this.cartIndex], "productdiscount", 0);
+      }
+
+      this.$emit("input", productIndex);
+    }
+  }
 };
 </script>
 
