@@ -192,8 +192,8 @@
                 <p class="letter">"X"</p>
             </div>
             <div class="presupuesto-data-box">
-                <p>COTIZACI&Oacute;N N&deg;: W - {{presupuesto.presupuestoid}}</p>
-                <p>Fecha: {{date}}</p>
+                <p>COTIZACI&Oacute;N N&deg;: W - 001</p>
+                <p>Fecha: 15/1/2018</p>
             </div>
         </div>
         <div class="header-row-2">
@@ -225,17 +225,17 @@
                 <th>Vendedor:</th>
             </tr>
             <tr>
-                <td class="account-cell">{{client.name}}</td>
-                <td class="account-cell">{{client.accnumber}}</td>
-                <td class="account-cell">{{presupuesto.presupuestoseller}}</td>
+                <td class="account-cell">Gidral</td>
+                <td class="account-cell">0</td>
+                <td class="account-cell">Emilano</td>
             </tr>
             <tr class="graybox-header-table">
                 <th >C. de venta:</th>
                 <th class="table-header">Ord&eacute;n de compra:</th> 
             </tr>
             <tr>
-                <td>{{presupuesto.presupuestopaymethod}}</td>
-                <td>{{presupuesto.presupuestooc}}</td>
+                <td>Efectivo</td>
+                <td>001</td>
             </tr>
             <tr class="graybox-header-table">
                 <th>IVA:</th>
@@ -243,9 +243,9 @@
                 <th>Remitos:</th>
             </tr>
             <tr>
-                <td>{{client.categoriafiscal}}</td>
-                <td>{{client.cuit}}</td>
-                <td>{{presupuesto.presupuestooc}}</td>
+                <td>Responsable Inscripto</td>
+                <td>30709875821</td>
+                <td>001</td>
             </tr>
         </table>
     </header>
@@ -259,29 +259,20 @@
             <th class="presupuesto-cell productprice-cell">Precio</th>
             <th class="presupuesto-cell productestimate-cell">Importe</th>
         </tr>
-        {% for product in products %}
+        
         <tr>
-            <td class="presupuesto-cell productquantity-cell">{{product.productquantity}}</td>
-            <td class="presupuesto-cell productname-cell">{{product.productname}}</td>
-            <td class="presupuesto-cell productdiscount-cell">{{product.productdiscount + '%'}}</td>
-            <td class="presupuesto-cell productprice-cell">${{product.productprice}}</td>
-            <td class="presupuesto-cell productestimate-cell">${{(product.productprice - product.productprice * (product.productdiscount / 100)) * product.productquantity | round(2)}}</td>
+            <td class="presupuesto-cell productquantity-cell">1</td>
+            <td class="presupuesto-cell productname-cell">PUERTA RF30 0900X2000MM PL, 1000X2050 MT</td>
+            <td class="presupuesto-cell productdiscount-cell">0%</td>
+            <td class="presupuesto-cell productprice-cell">$6603</td>
+            <td class="presupuesto-cell productestimate-cell">$6603</td>
         </tr>
-        {% for productselectedaccessory in product.productselectedaccessories %}
-        <tr>
-            <td class="presupuesto-cell productquantity-cell">{{productselectedaccessory.productquantity}}</td>
-            <td class="presupuesto-cell productname-cell">{{productselectedaccessory.productname}}</td>
-            <td class="presupuesto-cell productdiscount-cell">{{productselectedaccessory.productdiscount + '%'}}</td>
-            <td class="presupuesto-cell productprice-cell">${{productselectedaccessory.productprice}}</td>
-            <td class="presupuesto-cell productestimate-cell">${{(productselectedaccessory.productprice - productselectedaccessory.productprice * (productselectedaccessory.productdiscount) / 100) * product.productquantity | round(2)}}</td>
-        </tr>
-            
-        {% endfor %}
-        {% endfor %}
+        
+        
     </table>
     
     <div class="data-graybox-large">
-        <p>Son pesos: {{presupuesto.presupuestostringtotal}}</p>
+        <p>Son pesos: </p>
     </div>
 
     <table class="amount-table">
@@ -294,12 +285,12 @@
             <th>TOTAL</th>
         </tr>
         <tr>
-            <td class="amount-cell">{{presupuesto.presupuestosubtotal}}</td>
-            <td class="amount-cell">{{presupuesto.presupuestodiscount}}</td>
-            <td class="amount-cell">{{presupuesto.presupuestoimpuesto}}</td>
-            <td class="amount-cell">{{presupuesto.presupuestoimpuestoprice}}</td>
-            <td class="amount-cell">{{presupuesto.presupuestoimpuestoprice}}</td>
-            <td class="amount-cell">{{presupuesto.presupuestototal}}</td>
+            <td class="amount-cell">6603.00</td>
+            <td class="amount-cell">0</td>
+            <td class="amount-cell">21%</td>
+            <td class="amount-cell">1386.63</td>
+            <td class="amount-cell">1386.63</td>
+            <td class="amount-cell">7989.63</td>
         </tr>
     </table>
 
@@ -315,7 +306,7 @@
                 de serie.</p>
             <p>Para entregar la mercader&iacute;a la misma deber&aacute; encontrarse acreditada. Las puertas no incluyen instalaci&oacute;n.
                 Validez de la oferta: 10 d&iacute;as.</p>
-            <p>Tiempo de entrega: {{presupuesto.tiempoentrega}} a part&iacute;r de acreditaci&oacute;n del acopio</p>
+            <p>Tiempo de entrega:  a part&iacute;r de acreditaci&oacute;n del acopio</p>
         </div>
     </footer>
 
