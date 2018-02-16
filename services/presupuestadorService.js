@@ -127,6 +127,7 @@ var numeroALetras = (function () {
 
     return function NumeroALetras(num, currency) {
         currency = currency || {};
+
         let data = {
             numero: num,
             enteros: Math.floor(num),

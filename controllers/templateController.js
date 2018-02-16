@@ -1,8 +1,8 @@
 var index = require('../index.js');
 var nunjucks = index.nunjucks;
 var presupuestadorService = require('../services/presupuestadorService.js');
+var wkhtmltopdf = require('wkhtmltopdf');
 var fs = require('fs');
-
 
 var templateController = {
     generatePresupuesto: function generatePresupuesto(req, res) {
@@ -33,9 +33,6 @@ var templateController = {
             presupuestototal: presupuestadorService.calculatePresupuestoPrice(formattedCart, 1.21),
         };
 
-
-
-
         console.log(req.body);
 
         res.render('template.html', {
@@ -44,13 +41,10 @@ var templateController = {
             date: dateString,
             presupuesto: presupuesto,
         }, function cb(error, result) {
-            fs.writeFile('./out.html', result, { flag: 'w' }, function (err, data) {
-                if (err) throw err;
 
-                console.log('done');
-            });
+            wkhtmltopdf(result).pipe(fs.createWriteStream('out.pdf'));
+
         });
-
     }
 }
 
