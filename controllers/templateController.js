@@ -42,8 +42,9 @@ var templateController = {
             presupuesto: presupuesto,
         }, function cb(error, result) {
 
-            wkhtmltopdf(result).pipe(fs.createWriteStream('out.pdf'));
+            wkhtmltopdf(result, { pageSize: 'A4' }).pipe(fs.createWriteStream('out.pdf'));
 
+            res.status(200).send(result);
         });
     }
 }
