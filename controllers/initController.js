@@ -44,6 +44,42 @@ var initController = {
         console.log('Created test user password ...');
     },
 
+    createCategoriasFiscales: function createCategoriasFiscales() {
+        var newCategoriaFiscal = db.mesquita.categoriasfiscales.insertSync({
+            categoriafiscalname: 'RESPONSABLE INSCRIPTO',
+            categoriafiscalimpuesto: 0.21,
+        });
+
+        console.log('Created test categoria fiscal ...');
+    },
+
+    createClients: function createClients() {
+        var newClient = db.mesquita.clients.insertSync({
+            clientname: 'GIDRAL COMUNICACIONES S.R.L',
+            categoriafiscalid: 1,
+            clientcuit: '30711195676',
+            clientphone: '49617854',
+            clientfiscaladdress: 'AV MITRE 33, AVELLANEDA, BUENOS AIRES',
+            clientaddress: 'AV MITRE 33, AVELLANEDA, BUENOS AIRES',
+        });
+
+        var newContact = db.mesquita.contacts.insertSync({
+            contactname: 'JUAN PEREZ',
+            contactphone: '1540965874',
+            contactemail: 'juanperez@gmail.com',
+            contacttimetocontact: null,
+            contacttext: null,
+        });
+
+        var newClientContact = db.mesquita.clientcontacts.insert({
+            clientid: newClient.clientid,
+            contactid: newContact.contactid,
+        });
+
+        console.log('Created test client ...');
+    },
+
+
     generateCsvFromOds: function generateCsvFromOds() {
         var workbook = XLSX.readFile(odsPath);
 

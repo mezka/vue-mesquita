@@ -179,7 +179,12 @@ var amountCalculator = {
         for (let i = 0; i < cartArr.length; i++) {
 
             let price = cartArr[i].productprice * cartArr[i].productquantity;
-            let productdiscount = !cartArr[i].productdiscount ? 0 : cartArr[i].productdiscount / 100;
+
+            if (!cartArr[i].productdiscount) {
+                cartArr[i].productdiscount = 0;
+            }
+
+            let productdiscount = cartArr[i].productdiscount / 100;
 
             sum += (price - price * productdiscount) * impuesto;
 

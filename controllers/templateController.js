@@ -31,6 +31,12 @@ var templateController = {
             presupuestoimpuesto: '21%',
             presupuestoimpuestoprice: presupuestadorService.calculatePresupuestoPrice(formattedCart, 0.21),
             presupuestototal: presupuestadorService.calculatePresupuestoPrice(formattedCart, 1.21),
+            presupuestostringtotal: presupuestadorService.numeroALetras(presupuestadorService.calculatePresupuestoPrice(formattedCart, 1.21), {
+                plural: 'PESOS',
+                singular: 'PESO',
+                centPlural: 'CENTAVOS',
+                centSingular: 'CENTAVO'
+            }),
         };
 
         console.log(req.body);

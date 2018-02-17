@@ -151,6 +151,14 @@
         width: 100%;
         }
 
+        .products-table{
+            height: 730px;
+        }
+
+        .presupuesto-row {
+            height: 20px;
+        }
+
         .productquantity-cell {
         width: 5%;
         }
@@ -252,32 +260,45 @@
 
 
     <table class="products-table">
-        <tr class="graybox-header-table">
-            <th class="presupuesto-cell productquantity-cell">Cantidad</th>
-            <th class="presupuesto-cell productname-cell">Descripcion</th>
-            <th class="presupuesto-cell productdiscount-cell">Descuento</th>
-            <th class="presupuesto-cell productprice-cell">Precio</th>
-            <th class="presupuesto-cell productestimate-cell">Importe</th>
+        <tr class="graybox-header-table presupuesto-row">
+            <th class="presupuesto-cell productquantity-cell"><p class="presupuesto-cell-content">Cantidad</p></th>
+            <th class="presupuesto-cell productname-cell"><p class="presupuesto-cell-content">Descripcion</p></th>
+            <th class="presupuesto-cell productdiscount-cell"><p class="presupuesto-cell-content">Descuento</p></th>
+            <th class="presupuesto-cell productprice-cell"><p class="presupuesto-cell-content">Precio</p></th>
+            <th class="presupuesto-cell productestimate-cell"><p class="presupuesto-cell-content">Importe</p></th>
         </tr>
         {% for product in products %}
-        <tr>
-            <td class="presupuesto-cell productquantity-cell">{{product.productquantity}}</td>
-            <td class="presupuesto-cell productname-cell">{{product.productname}}</td>
-            <td class="presupuesto-cell productdiscount-cell">{{product.productdiscount + '%'}}</td>
-            <td class="presupuesto-cell productprice-cell">${{product.productprice}}</td>
-            <td class="presupuesto-cell productestimate-cell">${{(product.productprice - (product.productprice * product.productdiscount / 100 if product.productdiscount else 0)) * product.productquantity | round(2)}}</td>
+        <tr class="presupuesto-row">
+            <td class="presupuesto-cell productquantity-cell"><p>{{product.productquantity}}</p></td>
+            <td class="presupuesto-cell productname-cell"><p>{{product.productname}}</p></td>
+            <td class="presupuesto-cell productdiscount-cell"><p>{{product.productdiscount + '%'}}</p></td>
+            <td class="presupuesto-cell productprice-cell"><p>${{product.productprice}}</p></td>
+            <td class="presupuesto-cell productestimate-cell"><p>${{product.productprice - (product.productprice * product.productdiscount / 100) * product.productquantity | round(2)}}</p></td>
         </tr>
         {% for productselectedaccessory in product.productselectedaccessories %}
-        <tr>
+        <tr class="presupuesto-row">
             <td class="presupuesto-cell productquantity-cell">{{productselectedaccessory.productquantity}}</td>
             <td class="presupuesto-cell productname-cell">{{productselectedaccessory.productname}}</td>
             <td class="presupuesto-cell productdiscount-cell">{{productselectedaccessory.productdiscount + '%'}}</td>
             <td class="presupuesto-cell productprice-cell">${{productselectedaccessory.productprice}}</td>
-            <td class="presupuesto-cell productestimate-cell">${{(productselectedaccessory.productprice - (productselectedaccessory.productprice * product.productdiscount / 100 if product.productdiscount else 0)) * product.productquantity | round(2)}}</td>
+            <td class="presupuesto-cell productestimate-cell">${{productselectedaccessory.productprice - (productselectedaccessory.productprice * product.productdiscount / 100) * product.productquantity | round(2)}}</td>
+        </tr>            
+        {% endfor %}
+        {% endfor %}
+        <tr class="presupuesto-row">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-            
-        {% endfor %}
-        {% endfor %}
+        <tr id="filler-row">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
     </table>
     
     <div class="data-graybox-large">

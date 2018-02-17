@@ -2,13 +2,13 @@ DROP SCHEMA IF EXISTS Mesquita CASCADE;
 CREATE SCHEMA Mesquita;
 
 CREATE TABLE Mesquita.Contacts(
-    contactId SERIAL PRIMARY KEY,
-    createdDate timestamptz NOT NULL DEFAULT now(),
-    contactName VARCHAR(100) NOT NULL,
-    contactPhone VARCHAR(40) NOT NULL,
-    contactEmail VARCHAR(50) NOT NULL,
-    contactTimeToContact VARCHAR(40),
-    contactText VARCHAR(500)
+  contactId SERIAL PRIMARY KEY,
+  createdDate timestamptz NOT NULL DEFAULT now(),
+  contactName VARCHAR(100) NOT NULL,
+  contactPhone VARCHAR(40) NOT NULL,
+  contactEmail VARCHAR(50) NOT NULL,
+  contactTimeToContact VARCHAR(40),
+  contactText VARCHAR(500)
 );
 
 CREATE TABLE Mesquita.Users(
@@ -49,3 +49,42 @@ CREATE TABLE Mesquita.ProductCategories(
   categoryId INTEGER REFERENCES Mesquita.Categories(categoryId)
 );
 
+CREATE TABLE Mesquita.CategoriasFiscales(
+  categoriaFiscalId SERIAL PRIMARY KEY,
+  categoriaFiscalName VARCHAR(50),
+  categoriaFiscalImpuesto FLOAT NOT NULL
+);
+
+CREATE TABLE Mesquita.Clients(
+  clientId SERIAL PRIMARY KEY,
+  clientName VARCHAR(50) NOT NULL,
+  categoriaFiscalId INTEGER REFERENCES Mesquita.CategoriasFiscales(categoriaFiscalId),
+  clientCuit VARCHAR (50),
+  clientPhone VARCHAR(50),
+  clientFiscalAddress VARCHAR(50),
+  clientAddress VARCHAR(50)
+);
+
+CREATE TABLE Mesquita.Presupuestos(
+  presupuestoId SERIAL PRIMARY KEY,
+  presupuestoUserId INTEGER REFERENCES Mesquita.Users(userId),
+  presupuestoClientId INTEGER REFERENCES Mesquita.Clients(clientId),
+  presupuestoOc VARCHAR (50),
+  presupuestoPaymethod VARCHAR(50),
+  presupuestoAddress VARCHAR(50),
+  presupuestoObra VARCHAR(50)
+);
+
+CREATE TABLE Mesquita.PresupuestoProducts(
+  presupuestoProductId SERIAL PRIMARY KEY,
+  presupuestoId INTEGER REFERENCES Mesquita.Presupuestos(presupuestoId),
+  productId INTEGER REFERENCES Mesquita.Products(productId),
+  presupuestoProductDiscount FLOAT,
+  presupuestoProductQuantity INTEGER NOT NULL
+);
+
+CREATE TABLE Mesquita.ClientContacts(
+  clientContactId SERIAL PRIMARY KEY,
+  clientId INTEGER REFERENCES Mesquita.Clients(clientId),
+  contactId INTEGER REFERENCES Mesquita.Contacts(contactId)
+);

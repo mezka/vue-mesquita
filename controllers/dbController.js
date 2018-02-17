@@ -49,6 +49,16 @@ var dbController = {
             }
         });
     },
+    getClientsAndClientContacts: function (req, res) {
+        db.getClientsAndClientContacts([], function (error, result) {
+
+            if (error) {
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(result);
+            }
+        });
+    },
 
     addPresupuesto: function (req, res) {
 

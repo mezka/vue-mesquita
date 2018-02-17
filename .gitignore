@@ -5,6 +5,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 keys.js
+out.pdf
+out.html
 
 # Editor directories and files
 .idea
