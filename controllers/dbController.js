@@ -66,6 +66,36 @@ var dbController = {
 
 
         res.status(200).send('compiled');
+    },
+
+    addClientAndClientContact: function (req, res) {
+
+        var clientObj = req.body;
+
+        console.log(clientObj);
+
+        db.addClientAndClientContact([clientObj.clientcontactname, clientObj.clientcontactemail, clientObj.clientcontactphone, clientObj.clientname, clientObj.clientaddress, clientObj.clientphone, clientObj.clientcuit, clientObj.clientcategoriafiscalid, clientObj.clientfiscaladdress], function (error, result) {
+            if (error) {
+                console.log(error);
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(result);
+            }
+        });
+    },
+
+    deleteClient: function (req, res) {
+
+        console.log(req.body);
+
+        db.deleteClient([req.body.clientid], function (error, result) {
+            if (error) {
+                console.log(error);
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(result);
+            }
+        });
     }
 };
 

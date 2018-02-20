@@ -1,7 +1,7 @@
 <template>
-    <div class="wrapper">
+    <div class="container">
 
-        <client-form></client-form>
+        <client-manager></client-manager>
 
         <h2>Presupuesto</h2>
 
@@ -56,10 +56,8 @@
                     </div>
 
 
-                    <div class="prod-accessory" v-if="!isEmptyObject(cartItem)">
-                        A&ntilde;adir accesorio:
-                        <button type="button" class="btn btn-square btn-success" @click="addAccessory(cartIdx)">+</button>
-                    </div>
+                    <button v-if="!isEmptyObject(cartItem)" type="button" class="btn btn-rectangle btn-success" @click="addAccessory(cartIdx)"> A&ntilde;adir accesorio:</button>
+                    
 
                     <div v-if="!isEmptyObject(cartItem)">
                         <div class="item-box" v-for="(cartAccessoryItem, cartAccessoryIndex) in cart[cartIdx].productselectedaccessories">
@@ -78,10 +76,10 @@
                 
 
             </div>
-        
-            <p class="product-add-box">
-                A&ntilde;adir producto: <button type="button" class="btn btn-square btn-success" @click="addProduct">+</button>
-            </p>
+            <div class="end-box">
+              <button type="button" class="btn btn-rectangle btn-success" @click="addProduct">A&ntilde;adir producto:</button>
+            </div>
+            
         
         <div v-html="out"></div>
         
@@ -96,22 +94,31 @@ import AccessorySelect from "@/components/AccessorySelect";
 import ProductSelect from "@/components/ProductSelect";
 import QuantityInput from "@/components/QuantityInput";
 import DiscountInput from "@/components/DiscountInput";
-import ClientForm from '@/components/ClientForm';
+import ClientManager from '@/components/ClientManager';
 
 export default {
   name: "presupuestador",
 
   beforeRouteEnter(to, from, next) {
+
+    let products = null;
+
     axios
       .get("/api/products/1")
       .then(response => {
+        products = response.data;
+
         next(vm => {
-          vm.setProducts(response.data);
-        });
+            vm.setData({
+              products: products,
+            });
+          });
       })
       .catch(error => {
-        console.log(error);
+        console.log('products-error: ', error);
       });
+
+      
   },
 
   data() {
@@ -124,8 +131,9 @@ export default {
   },
 
   methods: {
-    setProducts(products) {
-      this.products = products;
+    setData(dataObj) {
+      console.log(dataObj);
+      this.$set(this, 'products', dataObj.products);
     },
     addProduct() {
       if (
@@ -245,7 +253,7 @@ export default {
     QuantityInput,
     AccessorySelect,
     DiscountInput,
-    ClientForm,
+    ClientManager,
   }
 };
 
@@ -279,9 +287,10 @@ input {
   border-bottom: 1px solid grey;
 }
 
-.product-add-box {
-  padding: 0px 10px 0px 10px;
+.btn-rectangle {
   margin-top: 10px;
+  width: 130px;
+  text-align: center;
 }
 
 .item-box {
@@ -298,6 +307,10 @@ input {
 .quantity-box {
   display: flex;
   justify-content: flex-end;
+}
+
+.end-box {
+  margin: 0px 0px 0px 20px;
 }
 
 @media all and (max-width: 1920px) and (min-width: 768px) {

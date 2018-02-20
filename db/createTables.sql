@@ -85,6 +85,6 @@ CREATE TABLE Mesquita.PresupuestoProducts(
 
 CREATE TABLE Mesquita.ClientContacts(
   clientContactId SERIAL PRIMARY KEY,
-  clientId INTEGER REFERENCES Mesquita.Clients(clientId),
-  contactId INTEGER REFERENCES Mesquita.Contacts(contactId)
+  clientId INTEGER REFERENCES Mesquita.Clients(clientId) ON DELETE CASCADE,
+  contactId INTEGER REFERENCES Mesquita.Contacts(contactId) ON DELETE CASCADE
 );
