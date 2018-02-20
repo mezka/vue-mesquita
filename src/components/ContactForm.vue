@@ -64,6 +64,7 @@ export default {
 
             axios
                 .post('/api/contact', {
+                    clientid: this.clientid,
                     name: this.name,
                     text: this.text,
                     email: this.email,
@@ -72,9 +73,12 @@ export default {
                 })
                 .then(response => {
                     console.log(response.data);
+                    this.$emit('addedContact');
                 });
         },
     },
+
+    props: ['clientid'],
 };
 </script>
 

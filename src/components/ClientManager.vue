@@ -13,20 +13,31 @@
         <div class="select-box">
             <contact-select class="select" v-on:contactChange="contactChange" :clientcontacts="selectedClient.clientcontacts"></contact-select>
             <div class="btn-wrapper">
-                <button class="btn btn-square btn-danger">X</button>
-                <button class="btn btn-rectangle btn-success">Nuevo Contacto</button>
+                <button class="btn btn-square btn-danger" v-on:click="openContactDeleteModal">X</button>
+                <button class="btn btn-rectangle btn-success" v-on:click="openContactModal">Nuevo Contacto</button>
             </div>
         </div>
 
         <sweet-modal ref="clientModal">
-            <client-contact-form v-on:addedClient="changeClientContact"></client-contact-form>
+            <client-contact-form v-on:addedClient="changeSelectedClientAndContact"></client-contact-form>
         </sweet-modal>
-        <sweet-modal ref="contactModal"></sweet-modal>
+        <sweet-modal ref="contactModal">
+            <contact-form v-on:addedContact="changeSelectedContact" :clientid="getSelectedClientId"></contact-form>
+        </sweet-modal>
 
 
         <sweet-modal ref="clientDeleteModal" icon="warning" title="Confirme la eliminacion del cliente">
             <button class="btn btn-warning" slot="button" v-on:click="deleteClient">Eliminar Cliente</button>
         </sweet-modal>
+
+        <sweet-modal ref="contactDeleteModal" icon="warning" title="Confirme la eliminacion del contacto">
+            <button class="btn btn-warning" slot="button" v-on:click="deleteContact">Eliminar Contacto</button>
+        </sweet-modal>
+
+        <sweet-modal ref="noneSelectedAlert" icon="error" title="Cometiste un error">
+	        Selecciona un registro
+        </sweet-modal>
+
     </div>
 </template>
 <script>
@@ -34,6 +45,7 @@
 import axios from 'axios'
 import ClientSelect from '@/components/ClientSelect';
 import ContactSelect from '@/components/ContactSelect';
+import ContactForm from '@/components/ContactForm';
 import ClientContactForm from '@/components/ClientContactForm';
 import { SweetModal } from 'sweet-modal-vue';
 
@@ -50,6 +62,7 @@ export default {
         ContactSelect,
         SweetModal,
         ClientContactForm,
+        ContactForm,
     },
     methods:{
 
@@ -60,8 +73,13 @@ export default {
                 console.log(error);
             });
         },
+        
+        changeSelectedContact(clientid, contactid){
+            this.getClients();
+            this.$refs.contactModal.close();
+        },
 
-        changeClientContact(clientid, contactid){
+        changeSelectedClientAndContact(clientid, contactid){
             this.getClients();
             this.$refs.clientModal.close();
         },
@@ -76,8 +94,25 @@ export default {
             this.$refs.clientModal.open();
         },
         openClientDeleteModal(){
-            this.$refs.clientDeleteModal.open();
+            if(!this.isEmptyObject(this.selectedClient)){
+                this.$refs.clientDeleteModal.open();
+            }else{
+                this.$refs.noneSelectedAlert.open();
+            }
         },
+
+        openContactModal(){
+            this.$refs.contactModal.open();
+        },
+
+        openContactDeleteModal(){
+            if(!this.isEmptyObject(this.selectedClient) && !this.isEmptyObject(this.selectedClient.selectedContact)){
+                this.$refs.contactDeleteModal.open();
+            }else{
+                this.$refs.noneSelectedAlert.open();
+            }
+        },
+
         deleteClient(){
             axios.post('/api/clients/delete', {clientid: this.selectedClient.clientid})
             .then(result => {
@@ -89,6 +124,27 @@ export default {
             .catch(error => {
                 console.log(error);
             });
+        },
+
+        deleteContact(){
+            axios.post('/api/contacts/delete', {contactid: this.selectedClient.selectedContact.contactid})
+            .then(result => {
+                this.$set(this.selectedClient, 'selectedContact', {});
+                this.$refs.contactDeleteModal.close();
+                this.getClients();
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+
+        isEmptyObject(obj) {
+            return Object.keys(obj).length === 0;
+        },
+    },
+
+    computed: {
+        getSelectedClientId(){
+            return !this.isEmptyObject(this.selectedClient)?this.selectedClient.clientid:null;
         }
     },
 

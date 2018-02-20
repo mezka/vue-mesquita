@@ -118,8 +118,9 @@ app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 app.get('/api/clients', dbController.getClientsAndClientContacts);
 
 app.post('/api/presupuesto', templateController.generatePresupuesto);
-app.post('/api/clients/add', dbController.addClientAndClientContact);
+app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);
 app.post('/api/clients/delete', dbController.deleteClient);
+app.post('/api/contacts/delete', dbController.deleteContact);
 
 
 app.listen(port, function (req, res) {

@@ -6,6 +6,30 @@ var db = app.get('db');
 
 var dbController = {
     addContact: function (req, res, next) {
+
+
+        if (req.body.clientid) {
+            db.addContactAndClientContact(
+                [
+                    req.body.clientid,
+                    req.body.name,
+                    req.body.email,
+                    req.body.phone,
+                    req.body.timetocontact,
+                    req.body.text,
+                ],
+                function (error, result) {
+                    if (error) {
+                        console.log(error);
+                        res.status(500).send(error);
+                    } else {
+                        req.result = result;
+                        next();
+                    }
+                }
+            );
+        }
+
         db.contacts.insert(
             {
                 contactname: req.body.name,
@@ -23,6 +47,7 @@ var dbController = {
                 }
             }
         );
+
     },
     getUserNameAndLastName: function (req, res, next) {
         db.mesquita.users.find(req.session.passport.user, function (
@@ -68,7 +93,7 @@ var dbController = {
         res.status(200).send('compiled');
     },
 
-    addClientAndClientContact: function (req, res) {
+    addClientAndContactAndClientContact: function (req, res) {
 
         var clientObj = req.body;
 
@@ -89,6 +114,17 @@ var dbController = {
         console.log(req.body);
 
         db.deleteClient([req.body.clientid], function (error, result) {
+            if (error) {
+                console.log(error);
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(result);
+            }
+        });
+    },
+
+    deleteContact: function (req, res) {
+        db.deleteContact([req.body.contactid], function (error, result) {
             if (error) {
                 console.log(error);
                 res.status(500).send(error);

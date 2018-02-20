@@ -71,10 +71,24 @@ var initController = {
             contacttext: null,
         });
 
+        var newContact2 = db.mesquita.contacts.insertSync({
+            contactname: 'JUAN RULFO',
+            contactphone: '14556516',
+            contactemail: 'juanrulfo@gmail.com',
+            contacttimetocontact: null,
+            contacttext: null,
+        });
+
         var newClientContact = db.mesquita.clientcontacts.insert({
             clientid: newClient.clientid,
             contactid: newContact.contactid,
         });
+
+        var newClientContact2 = db.mesquita.clientcontacts.insert({
+            clientid: newClient.clientid,
+            contactid: newContact2.contactid,
+        });
+
 
         console.log('Created test client ...');
     },

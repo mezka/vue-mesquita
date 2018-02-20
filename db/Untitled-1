@@ -1,0 +1,4 @@
+SELECT Clients.clientId, Clients.clientName, Clients.clientCuit, Clients.clientPhone, (CASE WHEN Contacts.contactId IS NOT NULL THEN json_agg(json_build_object('contactid', Contacts.contactId, 'contactname', Contacts.contactname, 'contactphone', Contacts.contactphone, 'contactemail', Contacts.contactemail)) ELSE json_build_array() END) AS clientContacts, Clients.clientFiscalAddress, Clients.clientAddress FROM Mesquita.Clients AS Clients
+LEFT JOIN Mesquita.ClientContacts AS ClientContacts ON Clients.clientId= ClientContacts.clientId
+LEFT JOIN Mesquita.Contacts AS Contacts ON Contacts.contactId = ClientContacts.contactId
+GROUP BY Clients.clientId, Clients.clientName, Clients.clientCuit, Clients.clientPhone, Contacts.contactId, Clients.clientFiscalAddress, Clients.clientAddress;
