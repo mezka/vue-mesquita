@@ -7,7 +7,8 @@ function hashPasswordAndCompareToStoredHash(password, storedPasswordHash) {
     return bcrypt.compareSync(password, storedPasswordHash);
 }
 
-var app = require('../index');
+var index = require('../index');
+var app = index.app;
 var db = app.get('db');
 
 passport.use(
@@ -16,8 +17,8 @@ passport.use(
             usernameField: 'email',
             passwordField: 'password',
         },
-        function(email, password, done) {
-            db.getUserAuthData([email], function(err, user) {
+        function (email, password, done) {
+            db.getUserAuthData([email], function (err, user) {
                 if (err) {
                     return done(err);
                 }
@@ -47,12 +48,12 @@ passport.use(
     )
 );
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user.userid);
 });
 
-passport.deserializeUser(function(userId, done) {
-    db.getUserId([userId], function(err, result) {
+passport.deserializeUser(function (userId, done) {
+    db.getUserId([userId], function (err, result) {
         var user = result[0];
         done(err, user);
     });

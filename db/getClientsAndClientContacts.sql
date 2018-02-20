@@ -1,0 +1,4 @@
+SELECT Clients.clientId, Clients.clientName, Clients.clientCuit, Clients.clientPhone, json_agg(json_build_object('contactid', Contacts.contactId, 'contactname', Contacts.contactname, 'contactphone', Contacts.contactphone, 'contactemail', Contacts.contactemail)) AS clientContacts, Clients.clientFiscalAddress, Clients.clientAddress FROM Mesquita.Clients AS Clients
+INNER JOIN Mesquita.ClientContacts AS ClientContacts ON Clients.clientId= ClientContacts.clientId
+INNER JOIN Mesquita.Contacts AS Contacts ON Contacts.contactId = ClientContacts.contactId
+GROUP BY Clients.clientId, Clients.clientName, Clients.clientCuit, Clients.clientPhone, Clients.clientFiscalAddress, Clients.clientAddress;

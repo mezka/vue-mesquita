@@ -5,20 +5,38 @@ var bodyParser = require('body-parser');
 var massive = require('massive');
 var session = require('express-session');
 var flash = require('connect-flash');
+var cors = require('cors');
+var nunjucks = require('nunjucks');
 
 var nodemailerController = require('./controllers/nodemailerController.js');
 var authController = require('./controllers/authController.js');
+var templateController = require('./controllers/templateController.js');
 var keys = require('./keys.js');
 
 //INSTANCIATING EXPRESS, MAKING IT AVAILABLE FOR OUTSIDE MODULES
 
-var app = (module.exports = express());
+var app = express();
 var port = 8081;
+
+nunjucks.configure('templates', {
+    autoescape: true,
+    express: app
+});
+
+
+
+module.exports = {
+    app: app,
+    nunjucks: nunjucks,
+};
+
 
 //ADDING BODY PARSER
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 //SETTING UP MASSIVE INSTANCE WITH connectionString
 
@@ -36,9 +54,12 @@ var dbController = require('./controllers/dbController.js');
 var initController = require('./controllers/initController.js');
 
 //INITIALIZE DATABASE
-
+initController.generateCsvFromOds();
 initController.createTables();
 initController.createUsers();
+initController.createCategoriasFiscales();
+initController.createClients();
+initController.importCsvFiles();
 
 //GET PRE CONFIGURED PASSPORT INSTANCE
 
@@ -58,6 +79,8 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors());
 
 app.post(
     '/api/login',
@@ -82,6 +105,7 @@ app.post(
     nodemailerController.sendContactEmail
 );
 
+
 //ENDPOINTS
 
 app.get(
@@ -90,6 +114,15 @@ app.get(
     dbController.getUserNameAndLastName
 );
 
-app.listen(port, function(req, res) {
+app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
+app.get('/api/clients', dbController.getClientsAndClientContacts);
+
+app.post('/api/presupuesto', templateController.generatePresupuesto);
+app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);
+app.post('/api/clients/delete', dbController.deleteClient);
+app.post('/api/contacts/delete', dbController.deleteContact);
+
+
+app.listen(port, function (req, res) {
     console.log('Listening on: ', port);
 });

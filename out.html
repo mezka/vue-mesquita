@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Presupuesto</title>
+
+    <style>
+        p {
+        margin: 0;
+        }
+
+        .header-row-1 {
+        height: 120px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        }
+
+        .mesquita-logo {
+        height: inherit;
+        width: auto;
+        }
+
+        .letter-box {
+        height: 100%;
+        box-sizing: border-box;
+        width: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid black;
+        }
+
+        .letter {
+        font-size: 20px;
+        }
+
+        .presupuesto-data-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        height: inherit;
+        border: 3px solid black;
+        padding: 10px;
+        }
+
+        .header-row-2 {
+        height: 150px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-bottom: 3px solid black;
+        }
+
+        .cross-box {
+        width: 10%;
+        height: inherit;
+        display: flex;
+        flex-wrap: wrap;
+        }
+
+        .square {
+        box-sizing: border-box;
+        }
+
+        .square-1 {
+        height: 30%;
+        width: 50%;
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        }
+
+        .square-2 {
+        height: 30%;
+        width: 50%;
+        border-bottom: 1px solid black;
+        border-left: 1px solid black;
+        }
+
+        .square-3 {
+        height: 70%;
+        width: 50%;
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        }
+
+        .square-4 {
+        height: 70%;
+        width: 50%;
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+        }
+
+        .header-row-3 {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        }
+
+        .graybox-large {
+        display: flex;
+        justify-content: space-between;
+        margin: 3px 0 0 0;
+        width: 100%;
+        background-color: #d7d7d7;
+        border: 1px solid black;
+        }
+
+        .data-graybox-large {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .footer-container {
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .data-box-container {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 3px solid black;
+        }
+
+        .data-box {
+        border: 1px solid black;
+        width: 20%;
+        }
+
+        /* TABLE HEADER STYLING */
+
+        .graybox-header-table {
+        margin: 3px 0 0 0;
+        background-color: #d7d7d7;
+        border: 1px solid black;
+        }
+
+        /* TABLE CELL STYLING */
+
+        .presupuesto-cell {
+        text-align: right;
+        }
+
+        .products-table,.account-table, .amount-table, .graybox-header-table,tr {
+        width: 100%;
+        }
+
+        .productquantity-cell {
+        width: 5%;
+        }
+
+        .productprice-cell,.productestimate-cell,.productdiscount-cell {
+        width: 10%;
+        }
+
+        .productname-cell {
+        width: 65%;
+        }
+
+        .account-cell {
+        box-sizing: border-box;
+        padding-left: 80px;
+        }
+
+        .venta-data-flexbox {
+        background-color: #d7d7d7;
+        border: 1px solid black;
+        }
+
+        .table-header {
+        border-right: 1px solid black;
+        }
+        
+        .amount-cell{
+        border: 2px solid black;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header class="header-flexbox">
+        <div class="header-row-1">
+            <img class="mesquita-logo" src="https://svgshare.com/i/5XN.svg">
+            <div class="letter-box">
+                <p class="letter">"X"</p>
+            </div>
+            <div class="presupuesto-data-box">
+                <p>COTIZACI&Oacute;N N&deg;: W - 001</p>
+                <p>Fecha: 15/1/2018</p>
+            </div>
+        </div>
+        <div class="header-row-2">
+            <div class="address-box">
+                <p>Alsina 2501 - (1090) Capital Federal</p>
+                <p>Tel: 4954-2224 / 4115-0800</p>
+                <p>Tel: 4951-9812 - Servicio tecnico 24hs</p>
+                <p>IVA: Responsable Inscripto</p>
+            </div>
+            <div class="cross-box">
+                <div class="square square-1"></div>
+                <div class="square square-2"></div>
+                <div class="square square-3"></div>
+                <div class="square square-4"></div>
+            </div>
+            <div class="empresa-data-box">
+                <p>CUIT N&deg;: 3070987582-1</p>
+                <p>Ing. Brutos: 901-4224746-5</p>
+                <p>Inicio Act.: 01/11/2006</p>
+                <p>Mail: ventas@mesquita.com.ar</p>
+            </div>
+        </div>
+
+    
+        <table class="account-table">
+            <tr class="graybox-header-table">
+                <th>Cliente:</th>
+                <th>Cuenta N&deg;:</th>
+                <th>Vendedor:</th>
+            </tr>
+            <tr>
+                <td class="account-cell">Gidral</td>
+                <td class="account-cell">0</td>
+                <td class="account-cell">Emilano</td>
+            </tr>
+            <tr class="graybox-header-table">
+                <th >C. de venta:</th>
+                <th class="table-header">Ord&eacute;n de compra:</th> 
+            </tr>
+            <tr>
+                <td>Efectivo</td>
+                <td>001</td>
+            </tr>
+            <tr class="graybox-header-table">
+                <th>IVA:</th>
+                <th>CUIT N&deg;:</th>
+                <th>Remitos:</th>
+            </tr>
+            <tr>
+                <td>Responsable Inscripto</td>
+                <td>30709875821</td>
+                <td>001</td>
+            </tr>
+        </table>
+    </header>
+
+
+    <table class="products-table">
+        <tr class="graybox-header-table">
+            <th class="presupuesto-cell productquantity-cell">Cantidad</th>
+            <th class="presupuesto-cell productname-cell">Descripcion</th>
+            <th class="presupuesto-cell productdiscount-cell">Descuento</th>
+            <th class="presupuesto-cell productprice-cell">Precio</th>
+            <th class="presupuesto-cell productestimate-cell">Importe</th>
+        </tr>
+        
+        <tr>
+            <td class="presupuesto-cell productquantity-cell">1</td>
+            <td class="presupuesto-cell productname-cell">PUERTA RF30 0900X2000MM PL, 1000X2050 MT</td>
+            <td class="presupuesto-cell productdiscount-cell">0%</td>
+            <td class="presupuesto-cell productprice-cell">$6603</td>
+            <td class="presupuesto-cell productestimate-cell">$6603</td>
+        </tr>
+        
+        
+    </table>
+    
+    <div class="data-graybox-large">
+        <p>Son pesos: </p>
+    </div>
+
+    <table class="amount-table">
+        <tr class="graybox-header-table">
+            <th>Subtotal</th>
+            <th>Descuento</th>
+            <th>Tasa</th>
+            <th>Neto Gravado</th>
+            <th>IVA</th>
+            <th>TOTAL</th>
+        </tr>
+        <tr>
+            <td class="amount-cell">6603.00</td>
+            <td class="amount-cell">0</td>
+            <td class="amount-cell">21%</td>
+            <td class="amount-cell">1386.63</td>
+            <td class="amount-cell">1386.63</td>
+            <td class="amount-cell">7989.63</td>
+        </tr>
+    </table>
+
+    <footer class="footer-container">
+        <div class="banco-box">
+            <p>Medio de pago: EQUIPAMIENTOS DE SEGURIDAD S.A.</p>
+            <p>CBU: 1910249655024900127746</p>
+            <p>N&deg; de Cta. Cte. : Banco Credicoop SUC: 249, Plaza Miserere</p>
+        </div>
+        <div class="pago-box">
+            <p>Forma de pago: 50% ACOPIO (CONTADO: Efectivo, transferencia, cheque al d&iacute;a acreditado) - SALDO.</p>
+            <p>Nuestras puertas cortafuego se encuentran homologadas por el INTI. Identificadas cada una con su respectivo n&uacute;mero
+                de serie.</p>
+            <p>Para entregar la mercader&iacute;a la misma deber&aacute; encontrarse acreditada. Las puertas no incluyen instalaci&oacute;n.
+                Validez de la oferta: 10 d&iacute;as.</p>
+            <p>Tiempo de entrega:  a part&iacute;r de acreditaci&oacute;n del acopio</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

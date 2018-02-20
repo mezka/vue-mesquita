@@ -2,3 +2,4 @@ build/*.js
 config/*.js
 index.js
 controllers/*.js
+services/*.js

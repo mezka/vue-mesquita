@@ -15,7 +15,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/build/dev-server.js"
+            "program": "${workspaceFolder}/index.js"
         }
     ]
 }
