@@ -77,8 +77,9 @@ export default {
                 });
         },
     },
-
-    props: ['clientid'],
+    props: {
+        clientId: Number,
+    },
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
 
-        <client-manager></client-manager>
+        <client-manager v-on:selectedClientChanged="changeSelectedClient"></client-manager>
 
         <h2>Presupuesto</h2>
 
@@ -83,6 +83,9 @@
         
         <div v-html="out"></div>
         
+        <sweet-modal ref="noneSelectedAlert" icon="error" title="Cometiste un error">
+	        <p>{{modalMessage}}</p>
+        </sweet-modal>
     </div>
         
 
@@ -95,6 +98,7 @@ import ProductSelect from "@/components/ProductSelect";
 import QuantityInput from "@/components/QuantityInput";
 import DiscountInput from "@/components/DiscountInput";
 import ClientManager from '@/components/ClientManager';
+import { SweetModal } from 'sweet-modal-vue';
 
 export default {
   name: "presupuestador",
@@ -123,10 +127,12 @@ export default {
 
   data() {
     return {
+      selectedClient: {},
       cart: [],
       products: [],
       index: 0,
-      out: ""
+      out: "",
+      modalMessage: '',
     };
   },
 
@@ -234,6 +240,11 @@ export default {
     },
 
     submitPresupuesto() {
+
+      if(!this.isInputValid()){
+        return;
+      }
+
       axios
         .post("/api/presupuesto", this.cart)
         .then(response => {
@@ -246,6 +257,28 @@ export default {
       return Object.keys(obj).length === 0;
     },
 
+    changeSelectedClient(selectedClientObj){
+      this.$set(this, 'selectedClient', Object.assign({}, selectedClientObj));
+    },
+
+    isInputValid(){
+
+      if(this.isEmptyObject(this.selectedClient)){
+        this.modalMessage = 'No seleccionaste un cliente';
+        this.$refs.noneSelectedAlert.open();
+        return false;
+      }else if(!this.selectedClient.selectedContact || this.isEmptyObject(this.selectedClient.selectedContact)){
+        this.modalMessage = 'No seleccionaste un contacto para el cliente';
+        this.$refs.noneSelectedAlert.open();
+        return false;
+      }else if(this.cart.length === 0){
+        this.modalMessage = 'No seleccionaste items para el presupuesto';
+        this.$refs.noneSelectedAlert.open();
+        return false;
+      }
+
+      return true;
+  }
   },
 
   components: {
@@ -254,6 +287,7 @@ export default {
     AccessorySelect,
     DiscountInput,
     ClientManager,
+    SweetModal,
   }
 };
 

@@ -86,9 +86,11 @@ export default {
 
         clientChange(clientIndex){
             this.$set(this, 'selectedClient', Object.assign({}, this.clients[clientIndex]));
+            this.$emit('selectedClientChanged', this.selectedClient);
         },
         contactChange(contactIndex){
             this.$set(this.selectedClient, 'selectedContact', Object.assign({}, this.selectedClient.clientcontacts[contactIndex]));
+            this.$emit('selectedClientChanged', this.selectedClient);
         },
         openClientModal(){
             this.$refs.clientModal.open();
@@ -144,7 +146,7 @@ export default {
 
     computed: {
         getSelectedClientId(){
-            return !this.isEmptyObject(this.selectedClient)?this.selectedClient.clientid:null;
+            return !this.isEmptyObject(this.selectedClient)?Number(this.selectedClient.clientid):null;
         }
     },
 
