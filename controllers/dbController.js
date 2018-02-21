@@ -62,6 +62,17 @@ var dbController = {
         });
     },
 
+    getUser: function (req, res, next) {
+        db.mesquita.users.find(req.session.passport.user, function (error, result) {
+            if (error) {
+                throw error
+            } else {
+                req.user = result;
+                next();
+            }
+        });
+    },
+
     getProductsByCategoryId: function (req, res) {
         db.getProductsByCategoryId([req.params.categoryId], function (
             error,

@@ -4,26 +4,25 @@ var presupuestadorService = require('../services/presupuestadorService.js');
 var wkhtmltopdf = require('wkhtmltopdf');
 var fs = require('fs');
 
+
 var templateController = {
     generatePresupuesto: function generatePresupuesto(req, res) {
 
         let date = new Date();
         let dateString = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
 
-        let formattedCart = presupuestadorService.formatCart(req.body);
-
-        console.log(formattedCart);
+        let formattedCart = presupuestadorService.formatCart(req.body.cart);
 
         let client = {
-            name: 'Gidral',
-            accnumber: 0,
+            name: req.body.client.clientname,
+            accnumber: req.body.client.clientid,
             categoriafiscal: 'Responsable Inscripto',
-            cuit: '30709875821'
+            cuit: req.body.client.clientcuit
         };
 
         let presupuesto = {
             presupuestoid: '001',
-            presupuestoseller: 'Emilano',
+            presupuestoseller: req.user.userfirstname + ' ' + req.user.userlastname,
             presupuestopaymethod: 'Efectivo',
             presupuestooc: '001',
             presupuestosubtotal: presupuestadorService.calculatePresupuestoPrice(formattedCart, 1),
@@ -38,8 +37,6 @@ var templateController = {
                 centSingular: 'CENTAVO'
             }),
         };
-
-        console.log(req.body);
 
         res.render('template.html', {
             products: formattedCart,

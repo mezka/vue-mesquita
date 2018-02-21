@@ -37,7 +37,6 @@
         <sweet-modal ref="noneSelectedAlert" icon="error" title="Cometiste un error">
 	        Selecciona un registro
         </sweet-modal>
-
     </div>
 </template>
 <script>

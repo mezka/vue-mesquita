@@ -246,7 +246,10 @@ export default {
       }
 
       axios
-        .post("/api/presupuesto", this.cart)
+        .post("/api/presupuesto", 
+        { cart: this.cart,
+          client: this.selectedClient,
+        })
         .then(response => {
           this.out = response.data;
         })
@@ -262,7 +265,6 @@ export default {
     },
 
     isInputValid(){
-
       if(this.isEmptyObject(this.selectedClient)){
         this.modalMessage = 'No seleccionaste un cliente';
         this.$refs.noneSelectedAlert.open();

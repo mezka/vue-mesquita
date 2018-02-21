@@ -50,6 +50,7 @@ const router = new Router({
                     path: 'presupuestador',
                     name: 'Presupuestador',
                     component: Presupuestador,
+                    meta: { requiresAuth: true },
                 },
                 {
                     path: 'proveedores-home',
