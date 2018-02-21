@@ -30,7 +30,7 @@
                         <p>Descuento total: - ${{Number(calculateCartDiscount(cart).toFixed(2))}}</p>
                         <p>Subtotal final: ${{Number(calculateCartPrice(cart, calculateCartDiscount(cart))).toFixed(2)}}</p>
                         <p>I.V.A: ${{Number(calculateCartPrice(cart) * 0.21).toFixed(2)}}</p>
-                        <p><strong>Total: ${{Number(calculateCartPrice(cart) * 1.21).toFixed(2)}}</strong></p>
+                        <p><strong>Total: ${{Number(calculatePresupuestoPrice(cart, 1.21)).toFixed(2)}}</strong></p>
                     </div>
                 </div>
 
@@ -99,6 +99,7 @@ import QuantityInput from "@/components/QuantityInput";
 import DiscountInput from "@/components/DiscountInput";
 import ClientManager from '@/components/ClientManager';
 import { SweetModal } from 'sweet-modal-vue';
+
 
 export default {
   name: "presupuestador",
@@ -237,6 +238,44 @@ export default {
       }
 
       return cartPrice - discountAmount;
+    },
+
+    calculatePresupuestoPrice: function calculatePresupuestoPrice(cartArr, impuesto) {
+
+        // INENTENDIBLE
+        // OBRA MAESTRA DEL TERROR
+
+        let sum = 0;
+
+        for (let i = 0; i < cartArr.length && !this.isEmptyObject(cartArr[i]); i++) {
+
+            let price = cartArr[i].productprice * cartArr[i].productquantity;
+
+            if (!cartArr[i].productdiscount) {
+                cartArr[i].productdiscount = 0;
+            }
+
+            let productdiscount = cartArr[i].productdiscount / 100;
+
+            sum += (price - price * productdiscount) * impuesto;
+
+            if (cartArr[i].productselectedaccessories) {
+
+                for (let j = 0; j < cartArr[i].productselectedaccessories.length && !this.isEmptyObject(cartArr[i].productselectedaccessories[j]); j += 1) {
+
+                    if (!cartArr[i].productselectedaccessories[j].productdiscount) {
+                        cartArr[i].productselectedaccessories[j].productdiscount = 0;
+                    }
+
+                    let price = cartArr[i].productselectedaccessories[j].productprice * cartArr[i].productselectedaccessories[j].productquantity;
+                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount;
+
+                    sum += (price - price * productdiscount) * impuesto;
+                }
+            }
+        }
+
+        return sum;
     },
 
     submitPresupuesto() {

@@ -188,7 +188,7 @@ var amountCalculator = {
 
             sum += (price - price * productdiscount) * impuesto;
 
-            if (cartArr[i].productselectedaccessories.length !== 0) {
+            if (cartArr[i].productselectedaccessories) {
 
                 for (let j = 0; j < cartArr[i].productselectedaccessories.length; j += 1) {
 
@@ -197,7 +197,7 @@ var amountCalculator = {
                     }
 
                     let price = cartArr[i].productselectedaccessories[j].productprice * cartArr[i].productselectedaccessories[j].productquantity;
-                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount;
+                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount / 100;
 
                     sum += (price - price * productdiscount) * impuesto;
                 }
@@ -219,14 +219,14 @@ var amountCalculator = {
             let productdiscount = cartArr[i].productdiscount / 100;
 
             sum += (price * productdiscount);
-            if (cartArr[i].productselectedaccessories.length !== 0) {
-                for (let j = 0; j < cartArr[i].productselectedaccessories; j += 1) {
+            if (cartArr[i].productselectedaccessories) {
+                for (let j = 0; j < cartArr[i].productselectedaccessories.length; j += 1) {
                     if (!cartArr[i].productselectedaccessories[j].productdiscount) {
                         cartArr[i].productselectedaccessories[j].productdiscount = 0;
                     }
 
                     let price = cartArr[i].productselectedaccessories[j].productprice * cartArr[i].productselectedaccessories[j].productquantity;
-                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount;
+                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount / 100;
 
                     sum += (price * productdiscount)
                 }
