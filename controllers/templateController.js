@@ -16,7 +16,7 @@ var templateController = {
         let client = {
             name: req.body.client.clientname,
             accnumber: req.body.client.clientid,
-            categoriafiscal: 'Responsable Inscripto',
+            categoriafiscal: req.body.client.categoriafiscalname,
             cuit: req.body.client.clientcuit
         };
 
@@ -26,11 +26,11 @@ var templateController = {
             presupuestopaymethod: 'Efectivo',
             presupuestooc: '001',
             presupuestosubtotal: presupuestadorService.calculatePresupuestoPrice(formattedCart, 1),
-            presupuestodiscount: '0',
-            presupuestoimpuesto: '21%',
-            presupuestoimpuestoprice: presupuestadorService.calculatePresupuestoPrice(formattedCart, 0.21),
-            presupuestototal: presupuestadorService.calculatePresupuestoPrice(formattedCart, 1.21),
-            presupuestostringtotal: presupuestadorService.numeroALetras(presupuestadorService.calculatePresupuestoPrice(formattedCart, 1.21), {
+            presupuestodiscount: presupuestadorService.calculateTotalDiscount(formattedCart),
+            presupuestoimpuesto: (req.body.client.categoriafiscalimpuesto * 100).toFixed(2) + '%',
+            presupuestoimpuestoprice: presupuestadorService.calculatePresupuestoPrice(formattedCart, req.body.client.categoriafiscalimpuesto),
+            presupuestototal: presupuestadorService.calculatePresupuestoPrice(formattedCart, 1 + req.body.client.categoriafiscalimpuesto),
+            presupuestostringtotal: presupuestadorService.numeroALetras(presupuestadorService.calculatePresupuestoPrice(formattedCart, 1 + req.body.client.categoriafiscalimpuesto), {
                 plural: 'PESOS',
                 singular: 'PESO',
                 centPlural: 'CENTAVOS',

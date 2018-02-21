@@ -190,7 +190,7 @@ var amountCalculator = {
 
             if (cartArr[i].productselectedaccessories.length !== 0) {
 
-                for (let j = 0; j < cartArr[i].productselectedaccessories; j++) {
+                for (let j = 0; j < cartArr[i].productselectedaccessories.length; j += 1) {
 
                     if (!cartArr[i].productselectedaccessories[j].productdiscount) {
                         cartArr[i].productselectedaccessories[j].productdiscount = 0;
@@ -200,6 +200,35 @@ var amountCalculator = {
                     let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount;
 
                     sum += (price - price * productdiscount) * impuesto;
+                }
+            }
+        }
+
+        return sum.toFixed(2);
+    },
+
+    calculateTotalDiscount: function calculateTotalDiscount(cartArr) {
+        let sum = 0;
+
+        for (let i = 0; i < cartArr.length; i++) {
+            if (!cartArr[i].productdiscount) {
+                cartArr[i].productdiscount = 0;
+            }
+
+            let price = cartArr[i].productprice * cartArr[i].productquantity;
+            let productdiscount = cartArr[i].productdiscount / 100;
+
+            sum += (price * productdiscount);
+            if (cartArr[i].productselectedaccessories.length !== 0) {
+                for (let j = 0; j < cartArr[i].productselectedaccessories; j += 1) {
+                    if (!cartArr[i].productselectedaccessories[j].productdiscount) {
+                        cartArr[i].productselectedaccessories[j].productdiscount = 0;
+                    }
+
+                    let price = cartArr[i].productselectedaccessories[j].productprice * cartArr[i].productselectedaccessories[j].productquantity;
+                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount;
+
+                    sum += (price * productdiscount)
                 }
             }
         }
@@ -217,6 +246,7 @@ module.exports = {
     numeroALetras: numeroALetras,
     formatCart: cartFormatter.formatCart,
     calculatePresupuestoPrice: amountCalculator.calculatePresupuestoPrice,
+    calculateTotalDiscount: amountCalculator.calculateTotalDiscount,
 };
 
 // Modo de uso: 500,34 USD

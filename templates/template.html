@@ -273,7 +273,7 @@
             <td class="presupuesto-cell productname-cell"><p>{{product.productname}}</p></td>
             <td class="presupuesto-cell productdiscount-cell"><p>{{product.productdiscount + '%'}}</p></td>
             <td class="presupuesto-cell productprice-cell"><p>${{product.productprice}}</p></td>
-            <td class="presupuesto-cell productestimate-cell"><p>${{product.productprice - (product.productprice * product.productdiscount / 100) * product.productquantity | round(2)}}</p></td>
+            <td class="presupuesto-cell productestimate-cell"><p>${{(product.productprice - (product.productprice * product.productdiscount / 100)) * product.productquantity | round(2)}}</p></td>
         </tr>
         {% for productselectedaccessory in product.productselectedaccessories %}
         <tr class="presupuesto-row">
@@ -281,7 +281,7 @@
             <td class="presupuesto-cell productname-cell">{{productselectedaccessory.productname}}</td>
             <td class="presupuesto-cell productdiscount-cell">{{productselectedaccessory.productdiscount + '%'}}</td>
             <td class="presupuesto-cell productprice-cell">${{productselectedaccessory.productprice}}</td>
-            <td class="presupuesto-cell productestimate-cell">${{productselectedaccessory.productprice - (productselectedaccessory.productprice * product.productdiscount / 100) * product.productquantity | round(2)}}</td>
+            <td class="presupuesto-cell productestimate-cell">${{(productselectedaccessory.productprice - (productselectedaccessory.productprice * productselectedaccessory.productdiscount / 100)) * productselectedaccessory.productquantity | round (2)}}</td>
         </tr>            
         {% endfor %}
         {% endfor %}
