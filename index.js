@@ -115,6 +115,7 @@ app.get(
 app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 app.get('/api/clients', dbController.getClientsAndClientContacts);
 app.get('/api/categoriasfiscales', dbController.getCategoriasFiscales);
+app.get('/api/formasdepago', dbController.getFormasDePago);
 
 app.post('/api/presupuesto', dbController.getUser, templateController.generatePresupuesto);
 app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);

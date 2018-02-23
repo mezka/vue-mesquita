@@ -3,7 +3,11 @@
         <p>
             <label for="presupuestopaymethod">
                 <span class="asterisk">*</span> Forma de pago:</label>
-            <input v-model="presupuesto.presupuestopaymethod" class="inputText" type="text" id="presupuestopaymethod" name="presupuestopaymethod" required>
+            <select v-model="presupuesto.presupuestopaymethod">
+                <option v-for="formadepago in formasdepago" :value="formadepago.formadepagoid">
+                    {{formadepago.formadepagoname}}
+                </option>
+            </select>
         </p>
         <p>
             <label for="presupuestooc">Orden de compra:</label>
@@ -19,6 +23,17 @@ import axios from 'axios';
 
 export default {
     name: 'presupuestador-form',
+
+    beforeMount(){
+        axios.get('/api/formasdepago')
+        .then(response => {
+            console.log(response.data);
+            this.formasdepago = response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    },
     
     data(){
         return{
@@ -26,6 +41,7 @@ export default {
                 presupuestopaymethod: '',
                 presupuestooc: '',
             },
+            formasdepago: [],
         }
     },
     watch: {
