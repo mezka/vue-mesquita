@@ -88,3 +88,9 @@ CREATE TABLE Mesquita.ClientContacts(
   clientId INTEGER REFERENCES Mesquita.Clients(clientId) ON DELETE CASCADE,
   contactId INTEGER REFERENCES Mesquita.Contacts(contactId) ON DELETE CASCADE
 );
+
+CREATE TABLE Mesquita.FormasDePago(
+  formaDePagoId SERIAL PRIMARY KEY,
+  formaDePagoName VARCHAR(70),
+  formaDePagoText VARCHAR(300)
+);

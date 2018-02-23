@@ -2,6 +2,7 @@
     <div class="container">
 
         <client-manager v-on:selectedClientChanged="changeSelectedClient"></client-manager>
+        <presupuestador-form v-on:presupuestoChanged="changePresupuesto"></presupuestador-form>
 
         <h2>Presupuesto</h2>
 
@@ -33,7 +34,6 @@
                         <p><strong>Total: ${{Number(calculatePresupuestoPrice(cart, 1.21)).toFixed(2)}}</strong></p>
                     </div>
                 </div>
-
 
                 <button class="btn btn-primary" @click="submitPresupuesto">Guardar presupuesto</button>
             </div>
@@ -98,6 +98,7 @@ import ProductSelect from "@/components/ProductSelect";
 import QuantityInput from "@/components/QuantityInput";
 import DiscountInput from "@/components/DiscountInput";
 import ClientManager from '@/components/ClientManager';
+import PresupuestadorForm from '@/components/PresupuestadorForm';
 import { SweetModal } from 'sweet-modal-vue';
 
 
@@ -121,9 +122,7 @@ export default {
       })
       .catch(error => {
         console.log('products-error: ', error);
-      });
-
-      
+      });   
   },
 
   data() {
@@ -134,6 +133,7 @@ export default {
       index: 0,
       out: "",
       modalMessage: '',
+      presupuesto: {},
     };
   },
 
@@ -278,6 +278,10 @@ export default {
         return sum;
     },
 
+    changePresupuesto(presupuestoObj){
+      this.presupuesto = presupuestoObj;
+    },
+
     submitPresupuesto() {
 
       if(!this.isInputValid()){
@@ -319,7 +323,7 @@ export default {
       }
 
       return true;
-  }
+    },
   },
 
   components: {
@@ -329,6 +333,7 @@ export default {
     DiscountInput,
     ClientManager,
     SweetModal,
+    PresupuestadorForm,
   }
 };
 

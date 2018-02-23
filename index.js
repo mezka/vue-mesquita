@@ -57,8 +57,6 @@ var initController = require('./controllers/initController.js');
 initController.generateCsvFromOds();
 initController.createTables();
 initController.createUsers();
-initController.createCategoriasFiscales();
-initController.createClients();
 initController.importCsvFiles();
 
 //GET PRE CONFIGURED PASSPORT INSTANCE
@@ -116,6 +114,7 @@ app.get(
 
 app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 app.get('/api/clients', dbController.getClientsAndClientContacts);
+app.get('/api/categoriasfiscales', dbController.getCategoriasFiscales);
 
 app.post('/api/presupuesto', dbController.getUser, templateController.generatePresupuesto);
 app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);

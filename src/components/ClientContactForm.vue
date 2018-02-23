@@ -25,7 +25,12 @@
                         <span class="asterisk">*</span>
                         Categor&iacute;a Fiscal:
                     </label>
-                    <input v-model="clientObj.clientcategoriafiscalid" type="text">
+
+                    <select v-model="clientObj.clientcategoriafiscalid">
+                        <option v-for="(categoriafiscal, index) in categoriasfiscales" :value="categoriafiscal.categoriafiscalid">
+                            {{categoriafiscal.categoriafiscalname}}
+                        </option>
+                    </select>
                 </p>
 
                 <p>
@@ -74,6 +79,15 @@ import axios from 'axios';
 
 export default {
   name: 'client-contact-form',
+
+  beforeMount(){
+        axios.get('/api/categoriasfiscales').then(response => {
+            console.log(response.data);
+            this.categoriasfiscales = response.data;
+        }).catch(error => {
+            console.log(error);
+        });
+    },
   data(){
       return {
             clientObj: {
@@ -88,6 +102,7 @@ export default {
                 clientcontactemail: '',
                 clientcontactphone: '',
             },
+            categoriasfiscales: [],
             result: '',
       }
   },

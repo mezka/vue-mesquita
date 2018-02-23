@@ -34,8 +34,6 @@
     </form>
 </div>
 
-
-
 </template>
 
 <script>
@@ -78,7 +76,7 @@ export default {
         },
     },
     props: {
-        clientId: Number,
+        clientid: Number,
     },
 };
 </script>

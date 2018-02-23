@@ -44,56 +44,6 @@ var initController = {
         console.log('Created test user password ...');
     },
 
-    createCategoriasFiscales: function createCategoriasFiscales() {
-        var newCategoriaFiscal = db.mesquita.categoriasfiscales.insertSync({
-            categoriafiscalname: 'RESPONSABLE INSCRIPTO',
-            categoriafiscalimpuesto: 0.21,
-        });
-
-        console.log('Created test categoria fiscal ...');
-    },
-
-    createClients: function createClients() {
-        var newClient = db.mesquita.clients.insertSync({
-            clientname: 'GIDRAL COMUNICACIONES S.R.L',
-            categoriafiscalid: 1,
-            clientcuit: '30711195676',
-            clientphone: '49617854',
-            clientfiscaladdress: 'AV MITRE 33, AVELLANEDA, BUENOS AIRES',
-            clientaddress: 'AV MITRE 33, AVELLANEDA, BUENOS AIRES',
-        });
-
-        var newContact = db.mesquita.contacts.insertSync({
-            contactname: 'JUAN PEREZ',
-            contactphone: '1540965874',
-            contactemail: 'juanperez@gmail.com',
-            contacttimetocontact: null,
-            contacttext: null,
-        });
-
-        var newContact2 = db.mesquita.contacts.insertSync({
-            contactname: 'JUAN RULFO',
-            contactphone: '14556516',
-            contactemail: 'juanrulfo@gmail.com',
-            contacttimetocontact: null,
-            contacttext: null,
-        });
-
-        var newClientContact = db.mesquita.clientcontacts.insert({
-            clientid: newClient.clientid,
-            contactid: newContact.contactid,
-        });
-
-        var newClientContact2 = db.mesquita.clientcontacts.insert({
-            clientid: newClient.clientid,
-            contactid: newContact2.contactid,
-        });
-
-
-        console.log('Created test client ...');
-    },
-
-
     generateCsvFromOds: function generateCsvFromOds() {
         var workbook = XLSX.readFile(odsPath);
 
@@ -121,14 +71,12 @@ var initController = {
         return db.importCsvFiles(function (error, result) {
             if (result) {
                 console.log('Imported CSV files into database ...\n');
-                // process.exit(0);
             } else {
                 console.log(
                     'Error importing CSV files into database: ',
                     error,
                     '\n'
                 );
-                // process.exit(0);
             }
         });
     },

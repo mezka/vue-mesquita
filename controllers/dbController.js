@@ -143,6 +143,16 @@ var dbController = {
                 res.status(200).send(result);
             }
         });
+    },
+
+    getCategoriasFiscales: function (req, res) {
+        db.getCategoriasFiscales(function (error, result) {
+            if (error) {
+                res.status(500).send(error);
+            } else {
+                res.status(200).send(result);
+            }
+        });
     }
 };
 
