@@ -47,7 +47,7 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.$emit('closeLogin');
-                    this.$router.push({ name: 'ProveedoresHome' });
+                    this.$router.push({ name: this.$route.query.next });
                 })
                 .catch(error => {
                     console.log(error.response.data);

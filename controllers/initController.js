@@ -10,10 +10,11 @@ var dest = '/../db/csv/';
 var odsPath = 'schema.ods';
 
 var initController = {
-    createTables: function createTables() {
+    createTables() {
         db.createTables(function (error, result) {
             if (result) {
                 console.log('Created tables ...');
+                initController.importCsvFiles();
             } else {
                 console.log(error);
                 return error;
@@ -21,30 +22,21 @@ var initController = {
         });
     },
 
-    createUsers: function createUsers() {
-        var newUser = db.mesquita.users.insertSync({
-            useremail: 'emiliano_mesquita@hotmail.com',
-            userfirstname: 'Emiliano',
-            userlastname: 'Mesquita',
-            useraddress1: 'Av. Vergara 4775',
-            useraddress2: 'Berazategui, Buenos Aires',
-        });
-
-        console.log('Created test user ...');
+    createTestUserPassword() {
 
         bcrypt.genSaltSync(10);
 
         var newUserHash = bcrypt.hashSync('123456');
 
         db.mesquita.passwords.insertSync({
-            userid: newUser.userid,
+            userid: 1,
             passwordhash: newUserHash,
         });
 
         console.log('Created test user password ...');
     },
 
-    generateCsvFromOds: function generateCsvFromOds() {
+    generateCsvFromOds() {
         var workbook = XLSX.readFile(odsPath);
 
         for (var i = 1; i < workbook.SheetNames.length; i++) {
@@ -67,10 +59,11 @@ var initController = {
         }
     },
 
-    importCsvFiles: function importCsvFiles() {
+    importCsvFiles() {
         return db.importCsvFiles(function (error, result) {
             if (result) {
                 console.log('Imported CSV files into database ...\n');
+                initController.createTestUserPassword();
             } else {
                 console.log(
                     'Error importing CSV files into database: ',

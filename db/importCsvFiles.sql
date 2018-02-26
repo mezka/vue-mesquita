@@ -24,3 +24,6 @@ FROM '/home/mezka/vue-mesquita/db/csv/Contacts.csv' DELIMITER ',' CSV HEADER;
 
 COPY Mesquita.ClientContacts(clientContactId, clientId, contactId)
 FROM '/home/mezka/vue-mesquita/db/csv/ClientContacts.csv' DELIMITER ',' CSV HEADER;
+
+COPY Mesquita.Users(userId, userEmail, userFirstName, userLastName, userAddress1, userAddress2)
+FROM '/home/mezka/vue-mesquita/db/csv/Users.csv' DELIMITER ',' CSV HEADER;

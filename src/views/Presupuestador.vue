@@ -4,6 +4,8 @@
         <client-manager v-on:selectedClientChanged="changeSelectedClient"></client-manager>
         <presupuestador-form v-on:presupuestoChanged="changePresupuesto"></presupuestador-form>
 
+        {{cart}}
+
         <h2>Presupuesto</h2>
 
             <div class="cart-box">
@@ -292,6 +294,7 @@ export default {
         .post("/api/presupuesto", 
         { cart: this.cart,
           client: this.selectedClient,
+          presupuesto: this.presupuesto,
         })
         .then(response => {
           this.out = response.data;

@@ -44,7 +44,7 @@ export default {
         modalClosed() {
             this.$router.replace({
                 name: this.$route.name,
-                query: { modal: false },
+                query: { modal: false,  next: this.$route.query.next },
             });
         },
 
@@ -55,7 +55,7 @@ export default {
             this.$refs.loginModal.close();
             this.$router.replace({
                 name: this.$route.name,
-                query: { modal: false },
+                query: { modal: false,  next: this.$route.query.next },
             });
         },
         openLoginFailure(payload) {
@@ -75,6 +75,6 @@ export default {
 
 <style>
 .header-margin {
-    margin-bottom: 90px;
+  margin-bottom: 90px;
 }
 </style>

@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
             .catch(error => {
                 next({
                     name: from.name,
-                    query: { modal: true },
+                    query: { modal: true, next: to.name },
                 });
             });
     } else {

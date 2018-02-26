@@ -52,7 +52,7 @@ CREATE TABLE Mesquita.ProductCategories(
 CREATE TABLE Mesquita.CategoriasFiscales(
   categoriaFiscalId SERIAL PRIMARY KEY,
   categoriaFiscalName VARCHAR(50),
-  categoriaFiscalImpuesto FLOAT NOT NULL
+  categoriaFiscalImpuesto DOUBLE PRECISION NOT NULL
 );
 
 CREATE TABLE Mesquita.Clients(
@@ -65,23 +65,12 @@ CREATE TABLE Mesquita.Clients(
   clientAddress VARCHAR(50)
 );
 
-CREATE TABLE Mesquita.Presupuestos(
-  presupuestoId SERIAL PRIMARY KEY,
-  presupuestoUserId INTEGER REFERENCES Mesquita.Users(userId),
-  presupuestoClientId INTEGER REFERENCES Mesquita.Clients(clientId),
-  presupuestoOc VARCHAR (50),
-  presupuestoPaymethod VARCHAR(50),
-  presupuestoAddress VARCHAR(50),
-  presupuestoObra VARCHAR(50)
+CREATE TABLE Mesquita.FormasDePago(
+  formaDePagoId SERIAL PRIMARY KEY,
+  formaDePagoName VARCHAR(70),
+  formaDePagoText VARCHAR(300)
 );
 
-CREATE TABLE Mesquita.PresupuestoProducts(
-  presupuestoProductId SERIAL PRIMARY KEY,
-  presupuestoId INTEGER REFERENCES Mesquita.Presupuestos(presupuestoId),
-  productId INTEGER REFERENCES Mesquita.Products(productId),
-  presupuestoProductDiscount FLOAT,
-  presupuestoProductQuantity INTEGER NOT NULL
-);
 
 CREATE TABLE Mesquita.ClientContacts(
   clientContactId SERIAL PRIMARY KEY,
@@ -89,8 +78,32 @@ CREATE TABLE Mesquita.ClientContacts(
   contactId INTEGER REFERENCES Mesquita.Contacts(contactId) ON DELETE CASCADE
 );
 
-CREATE TABLE Mesquita.FormasDePago(
-  formaDePagoId SERIAL PRIMARY KEY,
-  formaDePagoName VARCHAR(70),
-  formaDePagoText VARCHAR(300)
+CREATE TABLE Mesquita.Presupuestos(
+  presupuestoId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES Mesquita.Users(userId),
+  clientId INTEGER REFERENCES Mesquita.Clients(clientId),
+  formaDePagoId INTEGER REFERENCES Mesquita.FormasDePago(formaDePagoId),
+  presupuestoDiscountAmount DOUBLE PRECISION,
+  presupuestoSubTotal DOUBLE PRECISION,
+  presupuestoTotal VARCHAR (200),
+  presupuestoTotalString VARCHAR (200),
+  presupuestoAddress VARCHAR(50),
+  presupuestoObra VARCHAR(50),
+  presupuestoOc VARCHAR (50)
+);
+
+CREATE TABLE Mesquita.PresupuestoProducts(
+  presupuestoProductId SERIAL PRIMARY KEY,
+  presupuestoId INTEGER REFERENCES Mesquita.Presupuestos(presupuestoId),
+  productId INTEGER REFERENCES Mesquita.Products(productId),
+  presupuestoProductQuantity INTEGER NOT NULL,
+  presupuestoProductDiscount DOUBLE PRECISION
+);
+
+CREATE TABLE Mesquita.PresupuestoProductAccessories(
+  presupuestoProductAccessoryId SERIAL PRIMARY KEY,
+  presupuestoProductId INTEGER REFERENCES Mesquita.PresupuestoProducts(presupuestoProductId),
+  productId INTEGER REFERENCES Mesquita.Products(productId),
+  presupuestoProductAccessoryQuantity INTEGER NOT NULL,
+  presupuestoProductAccessoryDiscount DOUBLE PRECISION
 );

@@ -1,4 +1,6 @@
 var index = require('../index.js');
+var presupuestadorService = require('../services/presupuestadorService.js');
+
 
 var app = index.app;
 var db = app.get('db');
@@ -98,15 +100,56 @@ var dbController = {
 
     addPresupuesto: function (req, res) {
 
-        console.log(req.body);
+        let cart = presupuestadorService.formatCart(req.body.cart);
+        let presupuesto = req.body.presupuesto;
+        let client = req.body.client;
+
+        let presupuestoSubtotal = presupuestadorService.calculatePresupuestoPrice(req.body.cart);
+        let presupuestoDiscountAmount = presupuestadorService.calculateTotalDiscount(req.body.cart);
+        let presupuestoTotal = presupuestoSubtotal * 1.21;
 
 
-        res.status(200).send('compiled');
+        let presupuestoResult = db.mesquita.presupuestos.insertSync({
+            userid: req.user.userid,
+            clientid: client.clientid,
+            formadepagoid: presupuesto.presupuestopaymethod,
+            presupuestodiscountamount: presupuestoDiscountAmount,
+            presupuestosubtotal: presupuestoSubtotal,
+            presupuestotal: presupuestoTotal,
+            presupuestototalstring: presupuestadorService.numeroALetras(presupuestoTotal, {
+                plural: 'pesos',
+                singular: 'peso',
+                centPlural: 'centavos',
+                centSingular: 'centavo'
+            })
+        });
+
+        cart.forEach(function (cartObj) {
+
+            let presupuestoProductResult = db.mesquita.presupuestoproducts.insertSync({
+                presupuestoid: presupuestoResult.presupuestoid,
+                productid: cartObj.productid,
+                presupuestoproductquantity: cartObj.productquantity,
+                presupuestoproductdiscount: cartObj.productdiscount,
+            });
+
+            cartObj.productselectedaccessories.forEach(function (cartAccObj) {
+                db.mesquita.presupuestoproductaccessories.insert({
+                    presupuestoproductid: presupuestoProductResult.presupuestoproductid,
+                    productid: cartAccObj.productid,
+                    presupuestoproductaccessoryquantity: cartAccObj.productquantity,
+                    presupuestoproductaccessorydiscount: cartAccObj.productdiscount,
+                });
+            });
+        });
+
+
+        next();
     },
 
     addClientAndContactAndClientContact: function (req, res) {
 
-        var clientObj = req.body;
+        let clientObj = req.body;
 
         console.log(clientObj);
 

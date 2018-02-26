@@ -54,10 +54,8 @@ var dbController = require('./controllers/dbController.js');
 var initController = require('./controllers/initController.js');
 
 //INITIALIZE DATABASE
-initController.generateCsvFromOds();
-initController.createTables();
-initController.createUsers();
-initController.importCsvFiles();
+initController.generateCsvFromOds.call(initController);
+initController.createTables.call(initController);
 
 //GET PRE CONFIGURED PASSPORT INSTANCE
 
@@ -117,7 +115,7 @@ app.get('/api/clients', dbController.getClientsAndClientContacts);
 app.get('/api/categoriasfiscales', dbController.getCategoriasFiscales);
 app.get('/api/formasdepago', dbController.getFormasDePago);
 
-app.post('/api/presupuesto', dbController.getUser, templateController.generatePresupuesto);
+app.post('/api/presupuesto', dbController.getUser, dbController.addPresupuesto, templateController.generatePresupuesto);
 app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);
 app.post('/api/clients/delete', dbController.deleteClient);
 app.post('/api/contacts/delete', dbController.deleteContact);
