@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <style>
+        
+        .products-table{
+            height: 730px;
+        }
+
+
+        /* TABLE HEADER STYLING */
+
+        .graybox-header-table {
+        margin: 3px 0 0 0;
+        background-color: #d7d7d7;
+        border: 1px solid black;
+        }
+
+        .presupuesto-cell {
+        text-align: right;
+        }
+
+        .presupuesto-row {
+        height: 20px;
+        }
+
+        .productquantity-cell {
+        width: 5%;
+        }
+
+        .productprice-cell,.productestimate-cell,.productdiscount-cell {
+        width: 10%;
+        }
+
+        .productname-cell {
+        width: 65%;
+        }
+
+
+
+        </style>
+
+    </head>
+    <body>
+        <table class="products-table">
+                <tr class="graybox-header-table presupuesto-row">
+                    <th class="presupuesto-cell productquantity-cell"><p class="presupuesto-cell-content">Cantidad</p></th>
+                    <th class="presupuesto-cell productname-cell"><p class="presupuesto-cell-content">Descripcion</p></th>
+                    <th class="presupuesto-cell productdiscount-cell"><p class="presupuesto-cell-content">Descuento</p></th>
+                    <th class="presupuesto-cell productprice-cell"><p class="presupuesto-cell-content">Precio</p></th>
+                    <th class="presupuesto-cell productestimate-cell"><p class="presupuesto-cell-content">Importe</p></th>
+                </tr>
+                {% for presupuestoproduct in presupuestoproducts %}
+                <tr class="presupuesto-row">
+                    <td class="presupuesto-cell productquantity-cell"><p>{{presupuestoproduct.presupuestoproductquantity}}</p></td>
+                    <td class="presupuesto-cell productname-cell"><p>{{presupuestoproduct.presupuestoproductname}}</p></td>
+                    <td class="presupuesto-cell productdiscount-cell"><p>{{presupuestoproduct.presupuestoproductdiscount + '%'}}</p></td>
+                    <td class="presupuesto-cell productprice-cell"><p>${{presupuestoproduct.presupuestoproductprice}}</p></td>
+                    <td class="presupuesto-cell productestimate-cell"><p>${{(presupuestoproduct.presupuestoproductprice - presupuestoproduct.presupuestoproductdiscountamount) * presupuestoproduct.presupuestoproductquantity | round(2)}}</p></td>
+                </tr>
+                {% for presupuestoproductaccessory in presupuestoproduct.presupuestoproductaccessories %}
+                <tr class="presupuesto-row">
+                    <td class="presupuesto-cell productquantity-cell">{{presupuestoproductaccessory.presupuestoproductaccessoryquantity}}</td>
+                    <td class="presupuesto-cell productname-cell">{{presupuestoproductaccessory.presupuestoproductaccessoryname}}</td>
+                    <td class="presupuesto-cell productdiscount-cell">{{presupuestoproductaccessory.presupuestoproductaccessorydiscount + '%'}}</td>
+                    <td class="presupuesto-cell productprice-cell">${{presupuestoproductaccessory.presupuestoproductaccessoryprice}}</td>
+                    <td class="presupuesto-cell productestimate-cell">${{(presupuestoproductaccessory.presupuestoproductaccessoryprice - presupuestoproductaccessory.presupuestoproductaccessorydiscountamount) * presupuestoproductaccessory.presupuestoproductaccessoryquantity | round (2)}}</td>
+                </tr>            
+                {% endfor %}
+                {% endfor %}
+                <tr class="presupuesto-row">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr id="filler-row">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+    </body>
+</html>

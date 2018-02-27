@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+            .header-row-1 {
+            height: 120px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            }
+    
+            .mesquita-logo {
+            height: inherit;
+            width: auto;
+            }
+    
+            .letter-box {
+            height: 100%;
+            box-sizing: border-box;
+            width: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid black;
+            }
+    
+            .letter {
+            font-size: 20px;
+            }
+    
+            .presupuesto-data-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            height: inherit;
+            border: 3px solid black;
+            padding: 10px;
+            }
+    
+            .header-row-2 {
+            height: 150px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: 3px solid black;
+            }
+    
+            .cross-box {
+            width: 10%;
+            height: inherit;
+            display: flex;
+            flex-wrap: wrap;
+            }
+    
+            .square {
+            box-sizing: border-box;
+            }
+    
+            .square-1 {
+            height: 30%;
+            width: 50%;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            }
+    
+            .square-2 {
+            height: 30%;
+            width: 50%;
+            border-bottom: 1px solid black;
+            border-left: 1px solid black;
+            }
+    
+            .square-3 {
+            height: 70%;
+            width: 50%;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            }
+    
+            .square-4 {
+            height: 70%;
+            width: 50%;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            }
+    
+            .header-row-3 {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            }
+    
+            .graybox-large {
+            display: flex;
+            justify-content: space-between;
+            margin: 3px 0 0 0;
+            width: 100%;
+            background-color: #d7d7d7;
+            border: 1px solid black;
+            }
+    
+            .data-graybox-large {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            }
+    
+            .footer-container {
+            display: flex;
+            justify-content: space-between;
+            }
+    
+            .data-box-container {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 3px solid black;
+            }
+    
+            .data-box {
+            border: 1px solid black;
+            width: 20%;
+            }
+    
+            /* TABLE HEADER STYLING */
+    
+            .graybox-header-table {
+            margin: 3px 0 0 0;
+            background-color: #d7d7d7;
+            border: 1px solid black;
+            }
+       </style>
+    </head>
+    <body>
+        <header id="pageHeader" class="header-flexbox">
+            <div class="header-row-1">
+                <img class="mesquita-logo" src="https://svgshare.com/i/5XN.svg">
+                <div class="letter-box">
+                    <p class="letter">"X"</p>
+                </div>
+                <div class="presupuesto-data-box">
+                    <p>COTIZACI&Oacute;N N&deg;: W - {{presupuestoid}}</p>
+                    <p>Fecha: {{presupuestocreateddate}}</p>
+                </div>
+            </div>
+            <div class="header-row-2">
+                <div class="address-box">
+                    <p>Alsina 2501 - (1090) Capital Federal</p>
+                    <p>Tel: 4954-2224 / 4115-0800</p>
+                    <p>Tel: 4951-9812 - Servicio tecnico 24hs</p>
+                    <p>IVA: Responsable Inscripto</p>
+                </div>
+                <div class="cross-box">
+                    <div class="square square-1"></div>
+                    <div class="square square-2"></div>
+                    <div class="square square-3"></div>
+                    <div class="square square-4"></div>
+                </div>
+                <div class="empresa-data-box">
+                    <p>CUIT N&deg;: 3070987582-1</p>
+                    <p>Ing. Brutos: 901-4224746-5</p>
+                    <p>Inicio Act.: 01/11/2006</p>
+                    <p>Mail: ventas@mesquita.com.ar</p>
+                </div>
+            </div>
+        
+        
+            <table class="account-table">
+                <tr class="graybox-header-table">
+                    <th>Cliente:</th>
+                    <th>Cuenta N&deg;:</th>
+                    <th>Vendedor:</th>
+                </tr>
+                <tr>
+                    <td class="account-cell">{{presupuestoclient.clientname}}</td>
+                    <td class="account-cell">{{presupuestoclient.clientid}}</td>
+                    <td class="account-cell">{{presupuestouser.userfirstname + ' ' + presupuestouser.userlastname}}</td>
+                </tr>
+                <tr class="graybox-header-table">
+                    <th >C. de venta:</th>
+                    <th class="table-header">Ord&eacute;n de compra:</th> 
+                </tr>
+                <tr>
+                    <td>{{formadepagoname}}</td>
+                    <td>{{1}}</td>
+                </tr>
+                <tr class="graybox-header-table">
+                    <th>IVA:</th>
+                    <th>CUIT N&deg;:</th>
+                    <th>Remitos:</th>
+                </tr>
+                <tr>
+                    <td>{{presupuestoclient.categoriafiscal}}</td>
+                    <td>{{presupuestoclient.cuit}}</td>
+                    <td>{{1}}</td>
+                </tr>
+            </table>
+        </header>
+    </body>
+</html>

@@ -98,16 +98,20 @@ var dbController = {
         });
     },
 
-    addPresupuesto: function (req, res) {
+    addPresupuesto: function (req, res, next) {
 
         let cart = presupuestadorService.formatCart(req.body.cart);
         let presupuesto = req.body.presupuesto;
         let client = req.body.client;
 
-        let presupuestoSubtotal = presupuestadorService.calculatePresupuestoPrice(req.body.cart);
-        let presupuestoDiscountAmount = presupuestadorService.calculateTotalDiscount(req.body.cart);
+        console.log(cart);
+
+        let presupuestoSubtotal = presupuestadorService.calculatePresupuestoPrice(cart);
+        let presupuestoDiscountAmount = presupuestadorService.calculateTotalDiscount(cart);
         let presupuestoTotal = presupuestoSubtotal * 1.21;
 
+        console.log(presupuestoSubtotal);
+        console.log(presupuestoDiscountAmount);
 
         let presupuestoResult = db.mesquita.presupuestos.insertSync({
             userid: req.user.userid,
@@ -115,14 +119,16 @@ var dbController = {
             formadepagoid: presupuesto.presupuestopaymethod,
             presupuestodiscountamount: presupuestoDiscountAmount,
             presupuestosubtotal: presupuestoSubtotal,
-            presupuestotal: presupuestoTotal,
-            presupuestototalstring: presupuestadorService.numeroALetras(presupuestoTotal, {
-                plural: 'pesos',
-                singular: 'peso',
-                centPlural: 'centavos',
-                centSingular: 'centavo'
+            presupuestototal: presupuestoTotal,
+            presupuestostringtotal: presupuestadorService.numeroALetras(presupuestoTotal, {
+                plural: 'PESOS',
+                singular: 'PESO',
+                centPlural: 'CENTAVOS',
+                centSingular: 'CENTAVO'
             })
         });
+
+
 
         cart.forEach(function (cartObj) {
 
@@ -132,6 +138,8 @@ var dbController = {
                 presupuestoproductquantity: cartObj.productquantity,
                 presupuestoproductdiscount: cartObj.productdiscount,
             });
+
+            console.log(presupuestoProductResult);
 
             cartObj.productselectedaccessories.forEach(function (cartAccObj) {
                 db.mesquita.presupuestoproductaccessories.insert({
@@ -143,8 +151,25 @@ var dbController = {
             });
         });
 
+        req.result = { presupuestoid: presupuestoResult.presupuestoid };
 
         next();
+    },
+
+    getPresupuestoById(req, res, next) {
+
+        var presupuestoid = req.result.presupuestoid;
+
+        db.getPresupuestoById([presupuestoid], function (error, result) {
+            if (error) {
+                console.log(error);
+                res.status(500).send(error);
+            } else {
+                console.log(result);
+                req.result = { presupuesto: result[0] };
+                next();
+            }
+        });
     },
 
     addClientAndContactAndClientContact: function (req, res) {

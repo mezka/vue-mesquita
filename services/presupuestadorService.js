@@ -172,7 +172,7 @@ var cartFormatter = {
 };
 
 var amountCalculator = {
-    calculatePresupuestoPrice: function calculatePresupuestoPrice(cartArr, impuesto) {
+    calculatePresupuestoPrice: function calculatePresupuestoPrice(cartArr) {
 
         let sum = 0;
 
@@ -186,7 +186,7 @@ var amountCalculator = {
 
             let productdiscount = cartArr[i].productdiscount / 100;
 
-            sum += (price - price * productdiscount) * impuesto;
+            sum += (price - price * productdiscount);
 
             if (cartArr[i].productselectedaccessories) {
 
@@ -199,7 +199,7 @@ var amountCalculator = {
                     let price = cartArr[i].productselectedaccessories[j].productprice * cartArr[i].productselectedaccessories[j].productquantity;
                     let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount / 100;
 
-                    sum += (price - price * productdiscount) * impuesto;
+                    sum += price - price * productdiscount;
                 }
             }
         }

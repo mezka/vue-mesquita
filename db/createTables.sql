@@ -80,13 +80,14 @@ CREATE TABLE Mesquita.ClientContacts(
 
 CREATE TABLE Mesquita.Presupuestos(
   presupuestoId SERIAL PRIMARY KEY,
+  presupuestoCreatedDate timestamptz NOT NULL DEFAULT now(),
   userId INTEGER REFERENCES Mesquita.Users(userId),
   clientId INTEGER REFERENCES Mesquita.Clients(clientId),
   formaDePagoId INTEGER REFERENCES Mesquita.FormasDePago(formaDePagoId),
   presupuestoDiscountAmount DOUBLE PRECISION,
   presupuestoSubTotal DOUBLE PRECISION,
-  presupuestoTotal VARCHAR (200),
-  presupuestoTotalString VARCHAR (200),
+  presupuestoTotal DOUBLE PRECISION,
+  presupuestoStringTotal VARCHAR (200),
   presupuestoAddress VARCHAR(50),
   presupuestoObra VARCHAR(50),
   presupuestoOc VARCHAR (50)
