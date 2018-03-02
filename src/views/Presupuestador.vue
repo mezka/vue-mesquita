@@ -6,6 +6,8 @@
 
         {{cart}}
 
+        <presupuesto-summary :presupuestadorProductsArr="cart" :impuesto="21"></presupuesto-summary>
+
         <h2>Presupuesto</h2>
 
             <div class="cart-box">
@@ -27,7 +29,7 @@
                     <p>{{!cartItem? '' : !isEmptyObject(cartItem)? 'Subtotal por todas las unidades: $' + Number(calculateBundlePrice(cartItem) - calculateBundleDiscount(cartItem)).toFixed(2): ''}}</p>
                 </div>
                 
-                <div class="total-container-wrapper">
+                <div>
                     <div class="total-container">
                         <p>Subtotal parcial: ${{Number(calculateCartPrice(cart)).toFixed(2)}}</p>
                         <p>Descuento total: - ${{Number(calculateCartDiscount(cart).toFixed(2))}}</p>
@@ -101,6 +103,7 @@ import QuantityInput from "@/components/QuantityInput";
 import DiscountInput from "@/components/DiscountInput";
 import ClientManager from '@/components/ClientManager';
 import PresupuestadorForm from '@/components/PresupuestadorForm';
+import PresupuestoSummary from '@/components/PresupuestoSummary';
 import { SweetModal } from 'sweet-modal-vue';
 
 
@@ -337,6 +340,7 @@ export default {
     ClientManager,
     SweetModal,
     PresupuestadorForm,
+    PresupuestoSummary,
   }
 };
 

@@ -42,5 +42,7 @@ module.exports = {
     "padded-blocks": 0,
     "no-console": 0,
     "comma-dangle": "warn",
+    "no-mixed-operators": 0,
+    "max-len": 0,
   }
 }

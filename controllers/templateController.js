@@ -6,22 +6,28 @@ var fs = require('fs');
 
 
 var templateController = {
-    generatePresupuesto: function generatePresupuesto(req, res) {
+    generatePresupuesto(req, res) {
 
-        res.render('template.html', req.result.presupuesto,
+        res.render('template.html', req.result.presupuesto, (error, result) => {
 
-            function cb(error, result) {
+            if (error) {
+                console.log(error);
+            }
 
-                if (error) {
-                    console.log(error);
+            fs.writeFile("templateOut.html", result, (err) => {
+                if (err) {
+                    return console.log(err);
                 }
 
-                wkhtmltopdf(result, { pageSize: 'A4' })
-                    .pipe(fs.createWriteStream('out.pdf'));
-
-
-                res.status(200).send(result);
+                console.log("The file was saved!");
             });
+
+            wkhtmltopdf(result, { pageSize: 'A4' })
+                .pipe(fs.createWriteStream('out.pdf'));
+
+
+            res.status(200).send(result);
+        });
     }
 }
 

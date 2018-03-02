@@ -200,8 +200,8 @@
                 <p class="letter">"X"</p>
             </div>
             <div class="presupuesto-data-box">
-                <p>COTIZACI&Oacute;N N&deg;: W - {{presupuestoid}}</p>
-                <p>Fecha: {{presupuestocreateddate}}</p>
+                <p>COTIZACI&Oacute;N N&deg;: W - </p>
+                <p>Fecha: </p>
             </div>
         </div>
         <div class="header-row-2">
@@ -233,17 +233,17 @@
                 <th>Vendedor:</th>
             </tr>
             <tr>
-                <td class="account-cell">{{presupuestoclient.clientname}}</td>
-                <td class="account-cell">{{presupuestoclient.clientid}}</td>
-                <td class="account-cell">{{presupuestouser.userfirstname + ' ' + presupuestouser.userlastname}}</td>
+                <td class="account-cell"></td>
+                <td class="account-cell"></td>
+                <td class="account-cell"></td>
             </tr>
             <tr class="graybox-header-table">
                 <th >C. de venta:</th>
                 <th class="table-header">Ord&eacute;n de compra:</th> 
             </tr>
             <tr>
-                <td>{{formadepagoname}}</td>
-                <td>{{1}}</td>
+                <td></td>
+                <td></td>
             </tr>
             <tr class="graybox-header-table">
                 <th>IVA:</th>
@@ -251,9 +251,9 @@
                 <th>Remitos:</th>
             </tr>
             <tr>
-                <td>{{presupuestoclient.clientcategoriafiscal}}</td>
-                <td>{{presupuestoclient.clientcuit}}</td>
-                <td>{{1}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </header>
@@ -267,27 +267,7 @@
             <th class="presupuesto-cell productprice-cell"><p class="presupuesto-cell-content">Precio</p></th>
             <th class="presupuesto-cell productestimate-cell"><p class="presupuesto-cell-content">Importe</p></th>
         </tr>
-        {% for presupuestoproduct in presupuestoproducts %}
-        <tr class="presupuesto-row">
-            <td class="presupuesto-cell productquantity-cell"><p>{{presupuestoproduct.presupuestoproductquantity}}</p></td>
-            <td class="presupuesto-cell productname-cell"><p>{{presupuestoproduct.presupuestoproductname}}</p></td>
-            <td class="presupuesto-cell productdiscount-cell"><p>{{presupuestoproduct.presupuestoproductdiscount + '%'}}</p></td>
-            <td class="presupuesto-cell productprice-cell"><p>${{presupuestoproduct.presupuestoproductprice}}</p></td>
-            <td class="presupuesto-cell productestimate-cell"><p>${{(presupuestoproduct.presupuestoproductprice - presupuestoproduct.presupuestoproductdiscountamount) * presupuestoproduct.presupuestoproductquantity | round(2)}}</p></td>
-        </tr>
-        {% for presupuestoproductaccessory in presupuestoproduct.presupuestoproductaccessories %}
-
-        {% if presupuestoproductaccessory %}
-        <tr class="presupuesto-row">
-            <td class="presupuesto-cell productquantity-cell">{{presupuestoproductaccessory.presupuestoproductaccessoryquantity}}</td>
-            <td class="presupuesto-cell productname-cell">{{presupuestoproductaccessory.presupuestoproductaccessoryname}}</td>
-            <td class="presupuesto-cell productdiscount-cell">{{presupuestoproductaccessory.presupuestoproductaccessorydiscount + '%'}}</td>
-            <td class="presupuesto-cell productprice-cell">${{presupuestoproductaccessory.presupuestoproductaccessoryprice}}</td>
-            <td class="presupuesto-cell productestimate-cell">${{(presupuestoproductaccessory.presupuestoproductaccessoryprice - presupuestoproductaccessory.presupuestoproductaccessorydiscountamount) * presupuestoproductaccessory.presupuestoproductaccessoryquantity | round (2)}}</td>
-        </tr>
-        {% endif %} 
-        {% endfor %}
-        {% endfor %}
+        
         <tr class="presupuesto-row">
             <td></td>
             <td></td>
@@ -305,7 +285,7 @@
     </table>
     
     <div class="data-graybox-large">
-        <p>Son pesos: {{presupuestostringtotal}}</p>
+        <p>Son pesos: </p>
     </div>
 
     <table class="amount-table">
@@ -318,12 +298,12 @@
             <th>TOTAL</th>
         </tr>
         <tr>
-            <td class="amount-cell">{{presupuestosubtotal}}</td>
-            <td class="amount-cell">{{presupuestodiscountamount}}</td>
-            <td class="amount-cell">{{presupuestoclient.clientcategoriafiscalimpuesto}}</td>
-            <td class="amount-cell">{{presupuestosubtotal * presupuestoclient.clientcategoriafiscalimpuesto}}</td>
-            <td class="amount-cell">{{presupuestosubtotal * presupuestoclient.clientcategoriafiscalimpuesto}}</td>
-            <td class="amount-cell">{{presupuestototal}}</td>
+            <td class="amount-cell"></td>
+            <td class="amount-cell"></td>
+            <td class="amount-cell"></td>
+            <td class="amount-cell"></td>
+            <td class="amount-cell"></td>
+            <td class="amount-cell"></td>
         </tr>
     </table>
 
@@ -339,7 +319,7 @@
                 de serie.</p>
             <p>Para entregar la mercader&iacute;a la misma deber&aacute; encontrarse acreditada. Las puertas no incluyen instalaci&oacute;n.
                 Validez de la oferta: 10 d&iacute;as.</p>
-            <p>Tiempo de entrega: {{presupuesto.tiempoentrega}} a part&iacute;r de acreditaci&oacute;n del acopio</p>
+            <p>Tiempo de entrega:  a part&iacute;r de acreditaci&oacute;n del acopio</p>
         </div>
     </footer>
 
