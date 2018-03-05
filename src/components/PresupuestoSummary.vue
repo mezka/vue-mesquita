@@ -1,7 +1,6 @@
 <template>
   
   <div class="presupuesto-summary-container">
-
       <div v-if="!isEmptyObject(presupuestadorProduct)" v-for="presupuestadorProduct in presupuestadorProducts">
             <div >
                 <strong>{{ presupuestadorProduct.productname }}</strong>
@@ -32,8 +31,6 @@
                 <p><strong>Total: ${{Number(presupuestoTotal).toFixed(2)}}</strong></p>
             </div>
         </div>
-
-
   </div>
 
 
@@ -159,6 +156,12 @@ ul.selected-cart {
   border: 1px solid grey;
   padding: 5px;
   margin: 0px 0px 10px 0px;
+}
+
+.presupuesto-summary-container {
+  border: 1px solid grey;
+  margin: 20px 10px 0px 20px;
+  padding: 10px;
 }
 </style>
 

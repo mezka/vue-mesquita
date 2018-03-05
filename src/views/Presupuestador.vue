@@ -6,42 +6,10 @@
 
         {{cart}}
 
-        <presupuesto-summary :presupuestadorProductsArr="cart" :impuesto="21"></presupuesto-summary>
-
         <h2>Presupuesto</h2>
 
-            <div class="cart-box">
-                <div v-if="!isEmptyObject(cartItem)" v-for="cartItem in cart">
-                    <div >
-                        <strong>{{ cartItem.productname }}</strong>
-                    </div>
-                    <div>
-                        Cantidad: {{cartItem.productquantity}} - ${{ Number(cartItem.productprice).toFixed(2) }} c/u
-                    </div>
-
-                    <ul class="selected-cart">
-                        <li class="li-a" v-for="cartAcc in cartItem.productselectedaccessories" v-if="!isEmptyObject(cartAcc)">
-                            {{ cartAcc.productname }} - ${{ Number(cartAcc.productprice).toFixed(2) }}
-                        </li>
-                    </ul>
-                    <p>{{!cartItem? '' : !isEmptyObject(cartItem)? 'Precio unitario c/ accesorios: $' + Number(calculateBundlePrice(cartItem) / cartItem.productquantity).toFixed(2) : ''}}</p>
-                    <p>{{!cartItem? '' : !isEmptyObject(cartItem)? 'Descuento por unidad: $' + Number(calculateBundleDiscount(cartItem) / cartItem.productquantity).toFixed(2) : ''}}</p>
-                    <p>{{!cartItem? '' : !isEmptyObject(cartItem)? 'Subtotal por todas las unidades: $' + Number(calculateBundlePrice(cartItem) - calculateBundleDiscount(cartItem)).toFixed(2): ''}}</p>
-                </div>
-                
-                <div>
-                    <div class="total-container">
-                        <p>Subtotal parcial: ${{Number(calculateCartPrice(cart)).toFixed(2)}}</p>
-                        <p>Descuento total: - ${{Number(calculateCartDiscount(cart).toFixed(2))}}</p>
-                        <p>Subtotal final: ${{Number(calculateCartPrice(cart, calculateCartDiscount(cart))).toFixed(2)}}</p>
-                        <p>I.V.A: ${{Number(calculateCartPrice(cart) * 0.21).toFixed(2)}}</p>
-                        <p><strong>Total: ${{Number(calculatePresupuestoPrice(cart, 1.21)).toFixed(2)}}</strong></p>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary" @click="submitPresupuesto">Guardar presupuesto</button>
-            </div>
-        
+            <presupuesto-summary :presupuestadorProductsArr="cart" :impuesto="21"></presupuesto-summary>
+            <button class="btn btn-primary" @click="submitPresupuesto">Guardar presupuesto</button>
         
             <div class="product-box" v-for="(cartItem, cartIdx) in cart" :key="cartIdx">
             
@@ -180,109 +148,6 @@ export default {
       );
     },
 
-    calculateBundlePrice(cartItem) {
-    let bundlePrice = cartItem.productquantity * cartItem.productprice;
-
-        if (cartItem.productselectedaccessories) {
-            for (let i = 0; i < cartItem.productselectedaccessories.length; i += 1) {
-                if (!this.isEmptyObject(cartItem.productselectedaccessories[i])) {
-                    bundlePrice += cartItem.productselectedaccessories[i].productprice * cartItem.productselectedaccessories[i].productquantity;
-                }
-            }
-        }
-
-    return bundlePrice;
-    },
-
-    calculateBundleDiscount(cartItem) {
-
-      let productDiscountMultiplier = cartItem.productdiscount / 100;
-
-      let discountAmount = cartItem.productquantity * cartItem.productprice * productDiscountMultiplier;
-
-      if (cartItem.productselectedaccessories) {
-        for (let i = 0; i < cartItem.productselectedaccessories.length; i++) {
-
-          let currentAccessory = cartItem.productselectedaccessories[i];
-
-          if (!this.isEmptyObject(currentAccessory) && currentAccessory.productdiscount !== 0) {
-
-            let accessoryDiscountMultiplier = currentAccessory.productdiscount / 100;
-
-            discountAmount += currentAccessory.productprice * currentAccessory.productquantity * accessoryDiscountMultiplier;
-          }
-        }
-      }
-
-      return discountAmount;
-    },
-
-    calculateCartDiscount(cart){
-        let cartDiscount = 0;
-
-        for(let i = 0; i < cart.length; i += 1){
-            if(!this.isEmptyObject(cart[i])){
-                cartDiscount = this.calculateBundleDiscount(cart[i]);
-            }
-        }
-
-        return cartDiscount;
-    },
-
-    calculateCartPrice(cart, discountAmount) {
-      let cartPrice = 0;
-
-      if(!discountAmount){
-          var discountAmount = 0;
-      }
-
-      for (let i = 0; i < cart.length; i += 1) {
-        if (!this.isEmptyObject(cart[i])) {
-          cartPrice += this.calculateBundlePrice(cart[i]);
-        }
-      }
-
-      return cartPrice - discountAmount;
-    },
-
-    calculatePresupuestoPrice: function calculatePresupuestoPrice(cartArr, impuesto) {
-
-        // INENTENDIBLE
-        // OBRA MAESTRA DEL TERROR
-
-        let sum = 0;
-
-        for (let i = 0; i < cartArr.length && !this.isEmptyObject(cartArr[i]); i++) {
-
-            let price = cartArr[i].productprice * cartArr[i].productquantity;
-
-            if (!cartArr[i].productdiscount) {
-                cartArr[i].productdiscount = 0;
-            }
-
-            let productdiscount = cartArr[i].productdiscount / 100;
-
-            sum += (price - price * productdiscount) * impuesto;
-
-            if (cartArr[i].productselectedaccessories) {
-
-                for (let j = 0; j < cartArr[i].productselectedaccessories.length && !this.isEmptyObject(cartArr[i].productselectedaccessories[j]); j += 1) {
-
-                    if (!cartArr[i].productselectedaccessories[j].productdiscount) {
-                        cartArr[i].productselectedaccessories[j].productdiscount = 0;
-                    }
-
-                    let price = cartArr[i].productselectedaccessories[j].productprice * cartArr[i].productselectedaccessories[j].productquantity;
-                    let productdiscount = cartArr[i].productselectedaccessories[j].productdiscount;
-
-                    sum += (price - price * productdiscount) * impuesto;
-                }
-            }
-        }
-
-        return sum;
-    },
-
     changePresupuesto(presupuestoObj){
       this.presupuesto = presupuestoObj;
     },
@@ -294,7 +159,7 @@ export default {
       }
 
       axios
-        .post("/api/presupuesto", 
+        .post("/api/presupuesto/add", 
         { cart: this.cart,
           client: this.selectedClient,
           presupuesto: this.presupuesto,
@@ -358,12 +223,6 @@ input {
   border: 1px solid grey;
   padding: 5px;
   margin: 0px 0px 10px 0px;
-}
-
-.cart-box {
-  border: 1px solid grey;
-  margin: 20px 10px 0px 20px;
-  padding: 10px;
 }
 
 .product-box {

@@ -114,8 +114,10 @@ app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
 app.get('/api/clients', dbController.getClientsAndClientContacts);
 app.get('/api/categoriasfiscales', dbController.getCategoriasFiscales);
 app.get('/api/formasdepago', dbController.getFormasDePago);
+app.get('/api/presupuesto/get/:presupuestoid', dbController.getPresupuestoByIdParam);
 
-app.post('/api/presupuesto', dbController.getUser, dbController.addPresupuesto, dbController.getPresupuestoById, templateController.generatePresupuesto);
+app.post('/api/presupuesto/add', dbController.getUser, dbController.addPresupuesto, dbController.getPresupuestoById, templateController.generatePresupuesto);
+
 app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);
 app.post('/api/clients/delete', dbController.deleteClient);
 app.post('/api/contacts/delete', dbController.deleteContact);

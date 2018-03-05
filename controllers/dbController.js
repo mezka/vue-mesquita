@@ -172,6 +172,20 @@ var dbController = {
         });
     },
 
+    getPresupuestoByIdParam(req, res, next) {
+
+        db.getPresupuestoById([req.params.presupuestoid], function (error, result) {
+            if (error) {
+                console.log(error);
+                res.status(500).send(error);
+            } else {
+                console.log(result);
+                res.status(200).send(result);
+            }
+        })
+
+    },
+
     addClientAndContactAndClientContact: function (req, res) {
 
         let clientObj = req.body;
