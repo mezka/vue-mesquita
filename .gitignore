@@ -7,7 +7,7 @@ yarn-error.log*
 keys.js
 out.pdf
 out.html
-
+templateOut.html
 # Editor directories and files
 .idea
 *.suo

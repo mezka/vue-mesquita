@@ -110,11 +110,12 @@ app.get(
     dbController.getUserNameAndLastName
 );
 
-app.get('/api/products/:categoryId', dbController.getProductsByCategoryId);
+app.get('/api/products/categoryid/:categoryId', dbController.getProductsByCategoryId);
 app.get('/api/clients', dbController.getClientsAndClientContacts);
 app.get('/api/categoriasfiscales', dbController.getCategoriasFiscales);
 app.get('/api/formasdepago', dbController.getFormasDePago);
-app.get('/api/presupuesto/get/:presupuestoid', dbController.getPresupuestoByIdParam);
+app.get('/api/presupuesto/get/presupuestoid/:presupuestoId', dbController.getPresupuestoByIdParam);
+app.get('/api/presupuestos/get/clientid/:clientId', dbController.getPresupuestosByClientId);
 
 app.post('/api/presupuesto/add', dbController.getUser, dbController.addPresupuesto, dbController.getPresupuestoById, templateController.generatePresupuesto);
 

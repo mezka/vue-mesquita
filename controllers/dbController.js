@@ -186,6 +186,18 @@ var dbController = {
 
     },
 
+    getPresupuestosByClientId(req, res) {
+        db.getPresupuestosByUserIdAndClientId([req.session.passport.user, req.params.clientId], (error, result) => {
+            if (error) {
+                console.log(error);
+                res.status(500).send(error);
+            } else {
+                console.log(result);
+                res.status(200).send(result);
+            }
+        });
+    },
+
     addClientAndContactAndClientContact: function (req, res) {
 
         let clientObj = req.body;

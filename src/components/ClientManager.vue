@@ -17,7 +17,7 @@
                 <button class="btn btn-rectangle btn-success" v-on:click="openContactModal">Nuevo Contacto</button>
             </div>
         </div>
-
+        
         <sweet-modal ref="clientModal">
             <client-contact-form v-on:addedClient="changeSelectedClientAndContact"></client-contact-form>
         </sweet-modal>
@@ -54,6 +54,7 @@ export default {
         return {
             selectedClient:{},
             clients: [],
+            presupuestos: [],
         };
     },
     components: {
@@ -84,7 +85,13 @@ export default {
         },
 
         clientChange(clientIndex){
-            this.$set(this, 'selectedClient', Object.assign({}, this.clients[clientIndex]));
+
+            if(clientIndex !== -1){
+                this.$set(this, 'selectedClient', Object.assign({}, this.clients[clientIndex]));
+            } else {
+                this.$set(this, 'selectedClient', {});
+            }
+
             this.$emit('selectedClientChanged', this.selectedClient);
         },
         contactChange(contactIndex){

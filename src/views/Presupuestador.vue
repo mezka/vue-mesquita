@@ -3,6 +3,7 @@
 
         <client-manager v-on:selectedClientChanged="changeSelectedClient"></client-manager>
         <presupuestador-form v-on:presupuestoChanged="changePresupuesto"></presupuestador-form>
+        <presupuesto-select :presupuestos="presupuestos" v-on:presupuestoChange="presupuestoChange"></presupuesto-select>
 
         {{cart}}
 
@@ -72,6 +73,7 @@ import DiscountInput from "@/components/DiscountInput";
 import ClientManager from '@/components/ClientManager';
 import PresupuestadorForm from '@/components/PresupuestadorForm';
 import PresupuestoSummary from '@/components/PresupuestoSummary';
+import PresupuestoSelect from '@/components/PresupuestoSelect';
 import { SweetModal } from 'sweet-modal-vue';
 
 
@@ -83,7 +85,7 @@ export default {
     let products = null;
 
     axios
-      .get("/api/products/1")
+      .get("/api/products/categoryId/1")
       .then(response => {
         products = response.data;
 
@@ -100,6 +102,7 @@ export default {
 
   data() {
     return {
+      presupuestos: [],
       selectedClient: {},
       cart: [],
       products: [],
@@ -176,6 +179,11 @@ export default {
 
     changeSelectedClient(selectedClientObj){
       this.$set(this, 'selectedClient', Object.assign({}, selectedClientObj));
+      this.getClientPresupuestos(selectedClientObj.clientid);
+    },
+
+    presupuestoChange(presupuestoObj){
+      console.log('changed');
     },
 
     isInputValid(){
@@ -195,6 +203,16 @@ export default {
 
       return true;
     },
+
+    getClientPresupuestos(clientId){
+      axios.get('/api/presupuestos/get/clientid/' + clientId)
+      .then((response) => {
+          this.$set(this, 'presupuestos', response.data);
+      })
+      .catch((error) =>{
+          console.log(error.data);
+      });
+    },
   },
 
   components: {
@@ -206,6 +224,7 @@ export default {
     SweetModal,
     PresupuestadorForm,
     PresupuestoSummary,
+    PresupuestoSelect,
   }
 };
 
@@ -213,18 +232,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-select,
-input {
-  height: 22px;
-}
-
-.total-container {
-  display: inline-block;
-  border: 1px solid grey;
-  padding: 5px;
-  margin: 0px 0px 10px 0px;
-}
-
 .product-box {
   display: flex;
   flex-direction: column;
@@ -263,10 +270,6 @@ input {
   .item-box {
     max-width: 768px;
   }
-}
-
-ul.selected-cart {
-  font-size: 10px;
 }
 
 button.btn-square {
