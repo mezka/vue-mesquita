@@ -16,20 +16,24 @@ const store = Vuex.store({
 
     mutations: {
 
-        ADD_PRESUPUESTO_PRODUCT() {
-            this.presupuestoProducts.push({});
+        ADD_PRESUPUESTO_PRODUCT(state) {
+            state.presupuestoProducts.push({});
         },
 
-        REMOVE_PRESUPUESTO_PRODUCT(idx) {
-            this.state.presupuestoProducts.splice(idx, 1);
+        REMOVE_PRESUPUESTO_PRODUCT(state, idx) {
+            state.presupuestoProducts.splice(idx, 1);
         },
 
-        ADD_PRESUPUESTO_PRODUCT_ACCESSORY(idx) {
+        ADD_PRESUPUESTO_PRODUCT_ACCESSORY(state, idx) {
 
             // push into presupuestoSelectedAccessories and then splice it replacing the element with itself to trigger a render update
 
-            this.state.presupuestoProducts[idx].presupuestoSelectedAccessories.push({});
-            this.state.presupuestoProducts.splice(idx, 1, this.state.presupuestoProducts[idx]);
+            state.presupuestoProducts[idx].presupuestoSelectedAccessories.push({});
+            state.presupuestoProducts.splice(idx, 1, this.state.presupuestoProducts[idx]);
+        },
+
+        SET_STATE_PROPERTY(state, key, value) {
+            Vue.set(state, key, value);
         },
     },
 
@@ -37,14 +41,14 @@ const store = Vuex.store({
         getPresupuestadorProducts() {
             axios.get(`/api/products/${productCategoryId.puertasCortafuego}`)
                 .then((response) => {
-                    store.commit('setStateProperty', 'presupuestadorProducts', response.data);
+                    store.commit('SET_STATE_PROPERTY', 'presupuestadorProducts', response.data);
                 });
         },
 
         getClients() {
             axios.get('/api/clients')
                 .then((response) => {
-                    store.commit('setStateProperty', 'clients', response.data);
+                    store.commit('SET_STATE_PROPERTY', 'clients', response.data);
                 });
         },
 
