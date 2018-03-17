@@ -2,43 +2,43 @@
     <div class="container">
 
         <client-manager v-on:selectedClientChanged="changeSelectedClient"></client-manager>
-        <presupuestador-form v-on:presupuestoChanged="changePresupuesto"></presupuestador-form>
+        <presupuestador-form></presupuestador-form>
 
-        {{cart}}
+        {{presupuestoProducts}}
 
         <h2>Presupuesto</h2>
 
-            <presupuesto-summary :presupuestadorProductsArr="cart" :impuesto="21"></presupuesto-summary>
+            <presupuesto-summary></presupuesto-summary>
             <button class="btn btn-primary" @click="submitPresupuesto">Guardar presupuesto</button>
         
-            <div class="product-box" v-for="(cartItem, cartIdx) in cart" :key="cartIdx">
+            <div class="product-box" v-for="(presupuestoProduct, presupuestoProductIdx) in presupuestoProducts" :key="presupuestoProductIdx">
             
                
                     <div class="item-box">
-                        <product-select v-on:removeProduct="removeProduct" :products="products" :cart="cart" :cartIndex="cartIdx"></product-select>
+                        <product-select :presupuestoProductIdx="presupuestoProductIdx"></product-select>
 
 
                         <div class="quantity-box">
-                            <span v-if="!isEmptyObject(cartItem)"><label>Descuento: </label><discount-input class="discount-input" v-model="cartItem.productdiscount"/></span>
-                            <span v-if="!isEmptyObject(cartItem)"><label>Cantidad: </label><quantity-input class="quantity-input" v-model="cartItem.productquantity"/></span>
-                            <button type="button" class="btn btn-square btn-danger" @click="removeProduct(cartIdx)">
+                            <span v-if="!isEmptyObject(presupuestoProduct)"><label>Descuento: </label><discount-input class="discount-input" v-model="presupuestoProduct.productdiscount"/></span>
+                            <span v-if="!isEmptyObject(presupuestoProduct)"><label>Cantidad: </label><quantity-input class="quantity-input" v-model="presupuestoProduct.productquantity"/></span>
+                            <button type="button" class="btn btn-square btn-danger" @click="removePresupuestoProduct(presupuestoProductIdx)">
                                 -
                             </button>
                         </div>
                     </div>
 
 
-                    <button v-if="!isEmptyObject(cartItem)" type="button" class="btn btn-rectangle btn-success" @click="addAccessory(cartIdx)"> A&ntilde;adir accesorio:</button>
+                    <button v-if="!isEmptyObject(presupuestoProduct)" type="button" class="btn btn-rectangle btn-success" @click="addPresupuestoProductAccessory(presupuestoProductIdx)"> A&ntilde;adir accesorio:</button>
                     
 
-                    <div v-if="!isEmptyObject(cartItem)">
-                        <div class="item-box" v-for="(cartAccessoryItem, cartAccessoryIndex) in cart[cartIdx].productselectedaccessories">
-                            <accessory-select v-on:removeAccessory="removeAccessory" :cart="cart" :cartIndex="cartIdx" :cartAccessoryIndex="cartAccessoryIndex"/>
+                    <div v-if="!isEmptyObject(presupuestoProduct)">
+                        <div class="item-box" v-for="(presupuestoProductAcc, presupuestoProductAccIdx) in presupuestoProducts[presupuestoProductIdx].productselectedaccessories">
+                            <accessory-select :presupuestoProductIdx="presupuestoProductIdx" :presupuestoProductAccIdx="presupuestoProductAccIdx"/>
 
                             <div class="quantity-box">
-                                <span v-if="!isEmptyObject(cartAccessoryItem)"><label>Descuento: </label><discount-input class="discount-input" v-model="cartAccessoryItem.productdiscount"/></span>
-                                <div v-if="!isEmptyObject(cartAccessoryItem)"><label>Cantidad: </label><quantity-input class="quantity-input" v-model="cartAccessoryItem.productquantity"/></div>
-                                <button type="button" class="btn btn-square btn-danger" @click="removeAccessory(cartIdx, cartAccessoryIndex)">
+                                <span v-if="!isEmptyObject(presupuestoProductAcc)"><label>Descuento: </label><discount-input class="discount-input" v-model="presupuestoProductAcc.productdiscount"/></span>
+                                <div v-if="!isEmptyObject(presupuestoProductAcc)"><label>Cantidad: </label><quantity-input class="quantity-input" v-model="presupuestoProductAcc.productquantity"/></div>
+                                <button type="button" class="btn btn-square btn-danger" @click="removeAccessory({ presupuestoProductIdx, presupuestoProductAccessoryIdx: presupuestoProductAccIdx })">
                                     -
                                 </button>
                             </div>
@@ -49,7 +49,7 @@
 
             </div>
             <div class="end-box">
-              <button type="button" class="btn btn-rectangle btn-success" @click="addProduct">A&ntilde;adir producto:</button>
+              <button type="button" class="btn btn-rectangle btn-success" @click="addPresupuestoProduct">A&ntilde;adir producto:</button>
             </div>
             
         
@@ -73,6 +73,8 @@ import ClientManager from '@/components/ClientManager';
 import PresupuestadorForm from '@/components/PresupuestadorForm';
 import PresupuestoSummary from '@/components/PresupuestoSummary';
 import { SweetModal } from 'sweet-modal-vue';
+import { mapMutations, mapGetters } from 'vuex';
+import store from '@/store/store';
 
 
 export default {
@@ -80,29 +82,21 @@ export default {
 
   beforeRouteEnter(to, from, next) {
 
-    let products = null;
-
-    axios
-      .get("/api/products/1")
-      .then(response => {
-        products = response.data;
-
-        next(vm => {
-            vm.setData({
-              products: products,
-            });
-          });
-      })
-      .catch(error => {
-        console.log('products-error: ', error);
-      });   
+    store.dispatch('GET_PRESUPUESTADOR_PRODUCTS')
+    .then((response) => {
+      store.dispatch('GET_CLIENTS');
+    })
+    .then((response) =>{
+      next();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   },
 
   data() {
     return {
       selectedClient: {},
-      cart: [],
-      products: [],
       index: 0,
       out: "",
       modalMessage: '',
@@ -110,47 +104,22 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters([
+      'products',
+      'presupuestoProducts',
+    ])
+  },
+
   methods: {
-    setData(dataObj) {
-      console.log(dataObj);
-      this.$set(this, 'products', dataObj.products);
-    },
-    addProduct() {
-      if (
-        this.index !== 0 &&
-        Object.keys(this.cart[this.index - 1]).length === 0
-      ) {
-        return;
-      }
 
-      this.$set(this.cart, this.index, {});
-      this.index += 1;
-    },
-    removeProduct(cartIdx) {
-      this.$delete(this.cart, cartIdx);
-      this.index -= 1;
-    },
-    addAccessory(cartIdx) {
-      if (this.cart[cartIdx].productselectedaccessories.length !== 0 && this.isEmptyObject(this.cart[cartIdx].productselectedaccessories[this.cart[cartIdx].productselectedaccessories.length - 1])){
-        return;
-      }
-
-      this.$set(
-        this.cart[cartIdx].productselectedaccessories,
-        this.cart[cartIdx].productselectedaccessories.length,
-        {} //eslint-disable-line
-      );
-    },
-
-    removeAccessory(cartIdx, cartAccessoryIndex) {
-      this.cart[cartIdx].productselectedaccessories.splice(
-        cartAccessoryIndex, 1
-      );
-    },
-
-    changePresupuesto(presupuestoObj){
-      this.presupuesto = presupuestoObj;
-    },
+    ...mapMutations({
+      addPresupuestoProduct: 'ADD_PRESUPUESTO_PRODUCT',
+      removePresupuestoProduct: 'REMOVE_PRESUPUESTO_PRODUCT',
+      changePresupuestoProduct: 'CHANGE_PRESUPUESTO_PRODUCT',
+      addPresupuestoProductAccessory: 'ADD_PRESUPUESTO_PRODUCT_ACCESSORY',
+      removePresupuestoProductAccessory: 'REMOVE_PRESUPUESTO_PRODUCT_ACCESSORY',
+    }),
 
     submitPresupuesto() {
 

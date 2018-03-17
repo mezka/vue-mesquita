@@ -1,7 +1,7 @@
 <template>
   <select @change="productChange($event.target.value)">
       <option :value="-1"></option>
-      <option v-for="(product, productIndex) in products" :value="productIndex">
+      <option v-for="(product, productIdx) in products" :value="productIdx">
           {{product.productname}} - ${{product.productprice}}
       </option>
   </select>
@@ -9,59 +9,37 @@
 
 
 <script>
+
+import { mapMutations, mapGetters } from 'vuex';
+
 export default {
   name: "product-select",
-  props: ["products", "cart", "cartIndex"],
+  props: ["presupuestoProductIdx"],
+
+  computed: {
+    ...mapGetters([
+      'products',
+      'presupuestoProducts',
+    ])
+  },
 
   methods: {
-    productChange(productIndex) {
-      if (productIndex === "-1") {
-        console.log("true");
-        this.$emit("removeProduct", this.cartIndex);
-        return;
-      }
 
-      if (Object.keys(this.cart[this.cartIndex]).length !== 0) {
-        this.$set(
-          this.cart,
-          this.cartIndex,
-          Object.assign(
-            {
-              productquantity: this.cart[this.cartIndex].productquantity
-            },
-            this.products[productIndex] // eslint-disable-line
-          ) // eslint-disable-line
-        );
+    ...mapMutations({
+      removePresupuestoProduct: 'REMOVE_PRESUPUESTO_PRODUCT',
+      changePresupuestoProduct: 'CHANGE_PRESUPUESTO_PRODUCT',
+    }),
 
-        this.$set(
-          this.cart[this.cartIndex],
-          "productselectedaccessories",
-          [] // eslint-disable-line
-        );
+    productChange(productIdx) {
+      if (productIdx === "-1") {
+        this.removePresupuestoProduct(this.presupuestoProductIdx);
       } else {
-        this.$set(
-          this.cart,
-          this.cartIndex,
-          Object.assign(
-            {
-              productquantity: 1
-            },
-            this.products[productIndex] // eslint-disable-line
-          ) // eslint-disable-line
-        );
-
-        this.$set(
-          this.cart[this.cartIndex],
-          "productselectedaccessories",
-          [] // eslint-disable-line
-        );
-
-        this.$set(this.cart[this.cartIndex], "productdiscount", 0);
+        this.changePresupuestoProduct({presupuestoProductIdx: this.presupuestoProductIdx, presupuestoProduct: this.products[productIdx]});
       }
 
-      this.$emit("input", productIndex);
+      return;
     }
-  }
+  },
 };
 </script>
 

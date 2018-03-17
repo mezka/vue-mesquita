@@ -1,90 +1,44 @@
 <template>
-
-<div>
-  <select @input="accessoryChange($event.target.value)">
-      <option :value="-1"></option>
-      <option v-for="(productAccessory, productAccessoryIndex) in cartItem.productaccessories" :value="productAccessoryIndex">
-          {{productAccessory.productname}} - ${{productAccessory.productprice}}
-      </option>
-  </select>
-</div>
+    <div>
+        <select @input="accessoryChange($event.target.value)">
+            <option :value="-1"></option>
+            <option v-for="(productAccessory, productAccessoryIdx) in presupuestoProducts[presupuestoProductIdx].productaccessories" :value="productAccessoryIdx">
+                {{productAccessory.productname}} - ${{productAccessory.productprice}}
+            </option>
+        </select>
+    </div>
 </template>
 
 
 <script>
+
+import { mapMutations, mapGetters } from 'vuex';
+
 export default {
     name: 'accessory-select',
-    props: ['cart', 'cartIndex', 'cartAccessoryIndex'],
+    props: ['presupuestoProductIdx', 'presupuestoProductAccIdx'],
 
-    data() {
-        return {
-            cartItem: this.cart[this.cartIndex],
-        };
+    computed: {
+        ...mapGetters([
+        'presupuestoProducts',
+        ])
     },
 
     methods: {
-        accessoryChange(productAccessoryIndex) {
-            if (productAccessoryIndex === '-1') {
-                console.log('true');
-                this.$emit(
-                    'removeAccessory',
-                    this.cartIndex,
-                    this.cartAccessoryIndex
-                );
-                return;
-            }
 
-            if (
-                Object.keys(
-                    this.cartItem.productselectedaccessories[
-                        this.cartAccessoryIndex
-                    ]
-                ).length === 0 // eslint-disable-line
-            ) {
-                this.$set(
-                    this.cartItem.productselectedaccessories,
-                    this.cartAccessoryIndex,
-                    Object.assign(
-                        {},
-                        this.cartItem.productaccessories[productAccessoryIndex]
-                    ) // eslint-disable-line
-                );
+        ...mapMutations({
+            removePresupuestoProductAccessory: 'REMOVE_PRESUPUESTO_PRODUCT_ACCESSORY',
+            changePresupuestoProductAccessory: 'CHANGE_PRESUPUESTO_PRODUCT_ACCESSORY',
+        }),
 
-                this.$set(
-                    this.cartItem.productselectedaccessories[
-                        this.cartAccessoryIndex
-                    ],
-                    'productquantity',
-                    1 // eslint-disable-line
-                );
+        accessoryChange(productAccessoryIdx) {
+
+            if (productAccessoryIdx === '-1') {
+                this.removePresupuestoProductAccessory({ presupuestoProductIdx: this.presupuestoProductIdx, presupuestoProductAccessory: this.presupuestoProductAccIdx });
             } else {
-                this.$set(
-                    this.cartItem.productselectedaccessories,
-                    this.cartAccessoryIndex,
-                    Object.assign(
-                        {},
-                        this.cartItem.productaccessories[productAccessoryIndex]
-                    ) // eslint-disable-line
-                );
-
-                this.$set(
-                    this.cartItem.productselectedaccessories[
-                        this.cartAccessoryIndex // eslint-disable-line
-                    ],
-                    'productquantity',
-                    this.cartItem.productselectedaccessories[
-                        this.cartAccessoryIndex // eslint-disable-line
-                    ].productquantity // eslint-disable-line
-                );
+                this.changePresupuestoProductAccessory({ presupuestoProductIdx: this.presupuestoProductIdx, presupuestoProductAccessoryIdx: this.presupuestoProductAccIdx, presupuestoProductAccessory: this.presupuestoProducts[this.presupuestoProductIdx].productaccessories[productAccessoryIdx] });
             }
 
-            this.$set(
-                this.cartItem.productselectedaccessories[
-                    this.cartAccessoryIndex
-                ],
-                'productdiscount',
-                0 // eslint-disable-line
-            );
         },
     },
 };

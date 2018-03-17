@@ -24,11 +24,11 @@
                 
         <div>
             <div class="total-container">
-                <p>Subtotal parcial: ${{Number(presupuestoSubtotalNoDiscount).toFixed(2)}}</p>
-                <p>Descuento total: - ${{Number(presupuestoDiscount).toFixed(2)}}</p>
-                <p>Subtotal final: ${{Number(presupuestoSubtotal).toFixed(2)}}</p>
-                <p>I.V.A: ${{Number(presupuestoIVA).toFixed(2)}}</p>
-                <p><strong>Total: ${{Number(presupuestoTotal).toFixed(2)}}</strong></p>
+                <p>Subtotal parcial: ${{Number(presupuestoProductsSubtotalNoDiscount).toFixed(2)}}</p>
+                <p>Descuento total: - ${{Number(presupuestoProductsTotalDiscount).toFixed(2)}}</p>
+                <p>Subtotal final: ${{Number(presupuestoProductsSubtotal).toFixed(2)}}</p>
+                <p>I.V.A: ${{Number(presupuestoProductsIVA).toFixed(2)}}</p>
+                <p><strong>Total: ${{Number(presupuestoProductsTotal).toFixed(2)}}</strong></p>
             </div>
         </div>
   </div>
@@ -39,6 +39,8 @@
 <script>
 
 import { clone } from 'underscore';
+import { mapGetters } from 'vuex';
+import { isEmptyObject } from '../helpers';
 
 
 export default {
@@ -49,55 +51,29 @@ export default {
           presupuestadorProducts: [],
       };
   },
-  
-  watch: {
-
-    presupuestadorProductsArr: {
-        handler: function(changedArray){
-            this.presupuestadorProducts = new Array(Object.assign({}, ...changedArray));
-        },
-        deep: true
-    },
-  },
 
   computed: {
 
-
-    presupuestoSubtotal() {
-        return this.presupuestadorProducts.reduce((acum, presupuestadorProduct) => {
-
-            return acum + !this.isEmptyObject(presupuestadorProduct) ? this.calculateTotalBundlePrice(presupuestadorProduct) : 0;
-
-        }, 0);
-    },
-
-    presupuestoSubtotalNoDiscount() {
-        return this.presupuestoSubtotal - this.presupuestoDiscount;
-    },
-
-    presupuestoDiscount() {
-        return this.presupuestadorProducts.reduce((acum, presupuestadorProduct) => {
-            return acum + !this.isEmptyObject(presupuestadorProduct) ? this.calculateTotalBundleDiscount(presupuestadorProduct) : 0;
-        }, 0);
-    },
-
-    presupuestoIVA() {
-        return this.presupuestoSubtotal * (this.impuesto / 100);
-    },
-
-    presupuestoTotal() {
-        return this.presupuestoSubtotal * (1 + (this.impuesto / 100));
-    },
+    ...mapGetters([
+      'presupuestoProducts',
+      'presupuestoProductsSubtotal',
+      'presupuestoProductsSubtotalNoDiscount',
+      'presupuestoProductsTotalDiscount',
+      'presupuestoProductsIVA',
+      'presupuestoProductsTotal',
+    ]),
   },
 
   methods: {
+
+    isEmptyObject: isEmptyObject,
     
- calculateTotalBundlePrice(product) {
+    calculateTotalBundlePrice(product) {
         //  para todas las unidades
 
         return product.productprice * product.productquantity * (1 - product.productdiscount / 100) + product.productselectedaccessories.reduce((acum, productAccessory) => {
 
-            return acum + !this.isEmptyObject(productAccessory) ? productAccessory.productprice * (1 - productAccessory.productdiscount / 100) * product.productquantity : 0;
+            return acum + isEmptyObject(productAccessory) ? productAccessory.productprice * (1 - productAccessory.productdiscount / 100) * product.productquantity : 0;
         }, 0);
     },
 
@@ -106,7 +82,7 @@ export default {
         return product.productprice * product.productquantity * product.productdiscount +
             product.productselectedaccessories.reduce((acum, productAccessory) => {
 
-                return acum + !this.isEmptyObject(productAccessory) ? productAccessory.productprice *  productAccessory.productdiscount / 100 * product.productquantity : 0;
+                return acum + isEmptyObject(productAccessory) ? productAccessory.productprice *  productAccessory.productdiscount / 100 * product.productquantity : 0;
             }, 0);
     },
 
@@ -114,7 +90,7 @@ export default {
 
         return product.productprice * product.productdiscount + product.productselectedaccessories.reduce((acum, productAccessory) => {
 
-            return acum + !this.isEmptyObject(productAccessory) ? productAccessory.productprice * (1 - productAccessory.productdiscount / 100) : 0;
+            return acum + isEmptyObject(productAccessory) ? productAccessory.productprice * (1 - productAccessory.productdiscount / 100) : 0;
         }, 0);
     },
 
@@ -133,16 +109,7 @@ export default {
     calculateProductDiscount(product) {
         return product.productprice * ((product.productdiscount / 100));
     },
-    isEmptyObject(obj) {
-        return Object.keys(obj).length === 0;
-    },
   },
-  props: {
-      presupuestadorProductsArr: {
-          type: Array,
-      },
-      impuesto: Number,
-  }
 }
 </script>
 

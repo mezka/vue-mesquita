@@ -1,8 +1,7 @@
 <template>
     <div class="client-manager">
-        {{selectedClient}}
         <div class="select-box">
-            <client-select  class="select" v-on:clientChange="clientChange" :clients="clients"></client-select>
+            <client-select  class="select"></client-select>
 
             <div class="btn-wrapper">
                 <button class="btn btn-square btn-danger" v-on:click="openClientDeleteModal">X</button>
@@ -11,7 +10,7 @@
             
         </div>
         <div class="select-box">
-            <contact-select class="select" v-on:contactChange="contactChange" :clientcontacts="selectedClient.clientcontacts"></contact-select>
+            <contact-select class="select"></contact-select>
             <div class="btn-wrapper">
                 <button class="btn btn-square btn-danger" v-on:click="openContactDeleteModal">X</button>
                 <button class="btn btn-rectangle btn-success" v-on:click="openContactModal">Nuevo Contacto</button>
@@ -22,7 +21,7 @@
             <client-contact-form v-on:addedClient="changeSelectedClientAndContact"></client-contact-form>
         </sweet-modal>
         <sweet-modal ref="contactModal">
-            <contact-form v-on:addedContact="changeSelectedContact" :clientid="getSelectedClientId"></contact-form>
+            <contact-form v-on:addedContact="changeSelectedContact"></contact-form>
         </sweet-modal>
 
 
@@ -46,16 +45,13 @@ import ClientSelect from '@/components/ClientSelect';
 import ContactSelect from '@/components/ContactSelect';
 import ContactForm from '@/components/ContactForm';
 import ClientContactForm from '@/components/ClientContactForm';
+import { mapGetters } from 'vuex';
 import { SweetModal } from 'sweet-modal-vue';
+import { isEmptyObject } from '../helpers';
 
 export default {
     name: 'client-manager',
-    data(){
-        return {
-            selectedClient:{},
-            clients: [],
-        };
-    },
+
     components: {
         ClientSelect,
         ContactSelect,
@@ -63,39 +59,36 @@ export default {
         ClientContactForm,
         ContactForm,
     },
-    methods:{
 
-        getClients(){
-            axios.get('/api/clients').then(response => {
-                this.$set(this, 'clients', response.data);
-            }).catch(error => {
-                console.log(error);
-            });
-        },
+    computed: {
+        ...mapGetters([
+            'presupuestoClient',
+        ]),
+    },
+
+    methods:{
         
         changeSelectedContact(clientid, contactid){
-            this.getClients();
             this.$refs.contactModal.close();
         },
 
         changeSelectedClientAndContact(clientid, contactid){
-            this.getClients();
             this.$refs.clientModal.close();
         },
 
         clientChange(clientIndex){
             this.$set(this, 'selectedClient', Object.assign({}, this.clients[clientIndex]));
-            this.$emit('selectedClientChanged', this.selectedClient);
+            this.$emit('selectedClientChanged', this.presupuestoClient);
         },
         contactChange(contactIndex){
-            this.$set(this.selectedClient, 'selectedContact', Object.assign({}, this.selectedClient.clientcontacts[contactIndex]));
-            this.$emit('selectedClientChanged', this.selectedClient);
+            this.$set(this.presupuestoClient, 'selectedContact', Object.assign({}, this.presupuestoClient.clientcontacts[contactIndex]));
+            this.$emit('selectedClientChanged', this.presupuestoClient);
         },
         openClientModal(){
             this.$refs.clientModal.open();
         },
         openClientDeleteModal(){
-            if(!this.isEmptyObject(this.selectedClient)){
+            if(!isEmptyObject(this.presupuestoClient)){
                 this.$refs.clientDeleteModal.open();
             }else{
                 this.$refs.noneSelectedAlert.open();
@@ -107,7 +100,7 @@ export default {
         },
 
         openContactDeleteModal(){
-            if(!this.isEmptyObject(this.selectedClient) && !this.isEmptyObject(this.selectedClient.selectedContact)){
+            if(!isEmptyObject(this.presupuestoClient) && !isEmptyObject(this.presupuestoClient.selectedContact)){
                 this.$refs.contactDeleteModal.open();
             }else{
                 this.$refs.noneSelectedAlert.open();
@@ -115,12 +108,11 @@ export default {
         },
 
         deleteClient(){
-            axios.post('/api/clients/delete', {clientid: this.selectedClient.clientid})
+            axios.post('/api/clients/delete', {clientid: this.presupuestoClient.clientid})
             .then(result => {
                 console.log(result.data);
                 this.$set(this, 'selectedClient', {});
                 this.$refs.clientDeleteModal.close();
-                this.getClients();
             })
             .catch(error => {
                 console.log(error);
@@ -128,11 +120,10 @@ export default {
         },
 
         deleteContact(){
-            axios.post('/api/contacts/delete', {contactid: this.selectedClient.selectedContact.contactid})
+            axios.post('/api/contacts/delete', {contactid: this.presupuestoClient.selectedContact.contactid})
             .then(result => {
-                this.$set(this.selectedClient, 'selectedContact', {});
+                this.$set(this.presupuestoClient, 'selectedContact', {});
                 this.$refs.contactDeleteModal.close();
-                this.getClients();
             }).catch(error => {
                 console.log(error);
             });
@@ -142,16 +133,6 @@ export default {
             return Object.keys(obj).length === 0;
         },
     },
-
-    computed: {
-        getSelectedClientId(){
-            return !this.isEmptyObject(this.selectedClient)?Number(this.selectedClient.clientid):null;
-        }
-    },
-
-    beforeMount(){
-        this.getClients();
-    }
 }
 </script>
 

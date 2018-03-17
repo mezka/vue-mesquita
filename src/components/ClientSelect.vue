@@ -10,19 +10,30 @@
 <script>
 
 import axios from 'axios';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'client-select',
-  data(){
-      return {
-      };
+  
+  computed: {
+    ...mapGetters([
+        'clients',
+    ]),
   },
-  props: ['clients'],
 
   methods: {
-      clientChange(clientIndex){
-        this.$emit('clientChange', clientIndex);
-      }
+
+    ...mapMutations({
+        changePresupuestoClient: 'CHANGE_PRESUPUESTO_CLIENT',
+    }),
+
+    clientChange(clientIndex){
+        if(clientIndex !== '-1'){
+            this.changePresupuestoClient(this.clients[clientIndex]);
+        } else {
+            this.changePresupuestoClient({});
+        }
+    }
   }
 }
 </script>
