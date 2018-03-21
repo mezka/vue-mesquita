@@ -192,7 +192,7 @@ var dbController = {
 
         console.log(clientObj);
 
-        db.addClientAndClientContact([clientObj.clientcontactname, clientObj.clientcontactemail, clientObj.clientcontactphone, clientObj.clientname, clientObj.clientaddress, clientObj.clientphone, clientObj.clientcuit, clientObj.clientcategoriafiscalid, clientObj.clientfiscaladdress], function (error, result) {
+        db.addClientAndContactAndClientContact([clientObj.clientcontactname, clientObj.clientcontactemail, clientObj.clientcontactphone, clientObj.clientname, clientObj.clientaddress, clientObj.clientphone, clientObj.clientcuit, clientObj.clientcategoriafiscalid, clientObj.clientfiscaladdress], function (error, result) {
             if (error) {
                 console.log(error);
                 res.status(500).send(error);
@@ -202,7 +202,19 @@ var dbController = {
         });
     },
 
-    deleteClient: function (req, res) {
+    addContactAndClientContact(req, res) {
+        db.addContactAndClientContact([req.body.contactname, req.body.contactemail, req.body.contactphone, req.body.contacttimetocontact, req.body.contacttext],
+            (req, result) => {
+                if (error) {
+                    console.log(error);
+                    res.status(500).send(error);
+                } else {
+                    res.status(200).send(result);
+                }
+            });
+    },
+
+    deleteClient(req, res) {
 
         console.log(req.body);
 
@@ -217,11 +229,15 @@ var dbController = {
     },
 
     deleteContact: function (req, res) {
+
+        console.log(req.body);
+
         db.deleteContact([req.body.contactid], function (error, result) {
             if (error) {
                 console.log(error);
                 res.status(500).send(error);
             } else {
+                console.log(result);
                 res.status(200).send(result);
             }
         });

@@ -120,6 +120,7 @@ app.post('/api/presupuesto/add', dbController.getUser, dbController.addPresupues
 
 app.post('/api/clients/add', dbController.addClientAndContactAndClientContact);
 app.post('/api/clients/delete', dbController.deleteClient);
+app.post('/api/contacts/add', dbController.addContactAndClientContact);
 app.post('/api/contacts/delete', dbController.deleteContact);
 
 

@@ -23,7 +23,7 @@ export default {
     methods: {
 
         ...mapMutations({
-            changePresupuestoClientContact: 'CHANGE_PRESUPUESTO_CLIENT_CONTACT',
+            changePresupuestoClientContact: 'CHANGE_PRESUPUESTO_CLIENT_SELECTED_CONTACT',
         }),
 
 

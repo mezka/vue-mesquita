@@ -13,6 +13,8 @@ const store = new Vuex.Store({
         presupuestoProducts: [],
         clients: [],
         presupuestoClient: {},
+        presupuestoClientSelectedContact: {},
+        categoriasFiscales: [],
     },
 
     getters: {
@@ -28,8 +30,16 @@ const store = new Vuex.Store({
             return state.presupuestoClient;
         },
 
+        presupuestoClientSelectedContact(state) {
+            return state.presupuestoClientSelectedContact;
+        },
+
         presupuestoClientContacts(state) {
             return state.presupuestoClient.clientcontacts;
+        },
+
+        categoriasFiscales(state) {
+            return state.categoriasFiscales;
         },
 
         presupuestoProductsIVA(state) {
@@ -115,8 +125,8 @@ const store = new Vuex.Store({
             Vue.set(state, 'presupuestoClient', presupuestoClient);
         },
 
-        CHANGE_PRESUPUESTO_CLIENT_CONTACT(state, presupuestoClientContact) {
-            Vue.set(state, 'presupuestoClientContact', presupuestoClientContact);
+        CHANGE_PRESUPUESTO_CLIENT_SELECTED_CONTACT(state, presupuestoClientContact) {
+            Vue.set(state, 'presupuestoClientSelectedContact', presupuestoClientContact);
         },
 
         SET_STATE_PROPERTY(state, { key, value }) {
@@ -125,7 +135,7 @@ const store = new Vuex.Store({
     },
 
     actions: {
-        GET_PRESUPUESTADOR_PRODUCTS({ commit }) {
+        FETCH_PRESUPUESTADOR_PRODUCTS({ commit }) {
 
             return axios.get(`/api/products/${productCategoryId.puertasCortafuego}`)
                 .then((response) => {
@@ -138,10 +148,53 @@ const store = new Vuex.Store({
                 });
         },
 
-        GET_CLIENTS({ commit }) {
+        FETCH_CLIENTS({ commit }) {
             return axios.get('/api/clients')
                 .then((response) => {
                     commit('SET_STATE_PROPERTY', { key: 'clients', value: response.data });
+                });
+        },
+
+        FETCH_CATEGORIAS_FISCALES({ commit }) {
+            return axios.get('/api/categoriasfiscales')
+                .then((response) => {
+                    commit('SET_STATE_PROPERTY', { key: 'categoriasFiscales', value: response.data });
+                });
+        },
+
+        ADD_CLIENT({ dispatch }, clientObj) {
+            axios.post('/api/clients/add', clientObj)
+                .then(() => {
+                    return dispatch('FETCH_CLIENTS');
+                })
+                .catch(error => console.log(error));
+        },
+
+        ADD_CLIENT_CONTACT({ dispatch }, contactObj) {
+            axios.post('/api/contacts/add', contactObj)
+                .then(() => {
+                    return dispatch('FETCH_CLIENTS');
+                })
+                .catch(error => console.log(error));
+        },
+
+        DELETE_CLIENT({ commit, dispatch, getters }) {
+            return axios.post('/api/clients/delete', { clientid: getters.presupuestoClient.clientid })
+                .then(() => {
+                    commit('SET_STATE_PROPERTY', { key: 'presupuestoClient', value: {} });
+                    dispatch('FETCH_CLIENTS');
+                }).catch((error) => {
+                    console.log(error);
+                });
+        },
+
+        DELETE_CONTACT({ commit, dispatch, getters }) {
+            return axios.post('/api/contacts/delete', { contactid: getters.presupuestoClientSelectedContact.contactid })
+                .then(() => {
+                    commit('SET_STATE_PROPERTY', { key: 'presupuestoClientSelectedContact', value: {} });
+                    dispatch('FETCH_CLIENTS');
+                }).catch((error) => {
+                    console.log(error);
                 });
         },
 

@@ -82,9 +82,12 @@ export default {
 
   beforeRouteEnter(to, from, next) {
 
-    store.dispatch('GET_PRESUPUESTADOR_PRODUCTS')
+    store.dispatch('FETCH_PRESUPUESTADOR_PRODUCTS')
     .then((response) => {
-      store.dispatch('GET_CLIENTS');
+      store.dispatch('FETCH_CLIENTS');
+    })
+    .then((response) => {
+      store.dispatch('FETCH_CATEGORIAS_FISCALES');
     })
     .then((response) =>{
       next();

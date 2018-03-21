@@ -9,25 +9,25 @@
         <p>
             <label for="name">
                 <span class="asterisk">*</span> Nombre Completo:</label>
-            <input v-model="name" class="inputText" type="text" id="name" name="name" required>
+            <input v-model="contactname" class="inputText" type="text" id="name" name="name" required>
         </p>
         <p>
             <label for="phone">
                 <span class="asterisk">*</span> Telefono:</label>
-            <input v-model="phone" class="inputText" type="phone" id="phone" name="phone" required>
+            <input v-model="contactphone" class="inputText" type="phone" id="phone" name="phone" required>
         </p>
         <p>
             <label for="email">
                 <span class="asterisk">*</span> E-mail:</label>
-            <input v-model="email" class="inputText" type="email" id="email" name="email" required>
+            <input v-model="contactemail" class="inputText" type="email" id="email" name="email" required>
         </p>
         <p>
             <label for="timetocontact">Horario para contactarlo:</label>
-            <input v-model="timetocontact" class="inputText" type="text" id="time" name="timetocontact">
+            <input v-model="contacttimetocontact" class="inputText" type="text" id="time" name="timetocontact">
         </p>
         <p>
             <label for="text">Comentarios opcionales:</label>
-            <textarea v-model="text" class="inputTextarea" cols="88" rows="6" id="text" name="text"></textarea>
+            <textarea v-model="contacttext" class="inputTextarea" cols="88" rows="6" id="text" name="text"></textarea>
         </p>
 
         <input class="button" type="submit" name="submit">
@@ -44,11 +44,11 @@ export default {
     name: 'contact-form',
     data() {
         return {
-            name: '',
-            phone: '',
-            email: '',
-            timetocontact: '',
-            text: '',
+            contactname: '',
+            contactphone: '',
+            contactemail: '',
+            contacttimetocontact: '',
+            contacttext: '',
         };
     },
     methods: {
@@ -63,11 +63,11 @@ export default {
             axios
                 .post('/api/contact', {
                     clientid: this.clientid,
-                    name: this.name,
-                    text: this.text,
-                    email: this.email,
-                    phone: this.phone,
-                    timetocontact: this.timetocontact,
+                    contactname: this.name,
+                    contacttext: this.text,
+                    contactemail: this.email,
+                    contactphone: this.phone,
+                    contacttimetocontact: this.timetocontact,
                 })
                 .then(response => {
                     console.log(response.data);

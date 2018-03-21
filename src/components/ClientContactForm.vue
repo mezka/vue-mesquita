@@ -27,7 +27,7 @@
                     </label>
 
                     <select v-model="clientObj.clientcategoriafiscalid">
-                        <option v-for="(categoriafiscal, index) in categoriasfiscales" :value="categoriafiscal.categoriafiscalid">
+                        <option v-for="(categoriafiscal, index) in categoriasFiscales" :value="categoriafiscal.categoriafiscalid">
                             {{categoriafiscal.categoriafiscalname}}
                         </option>
                     </select>
@@ -76,18 +76,11 @@
 <script>
 
 import axios from 'axios';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'client-contact-form',
 
-  beforeMount(){
-        axios.get('/api/categoriasfiscales').then(response => {
-            console.log(response.data);
-            this.categoriasfiscales = response.data;
-        }).catch(error => {
-            console.log(error);
-        });
-    },
   data(){
       return {
             clientObj: {
@@ -102,19 +95,25 @@ export default {
                 clientcontactemail: '',
                 clientcontactphone: '',
             },
-            categoriasfiscales: [],
             result: '',
       }
   },
 
+  computed: {
+      ...mapGetters([
+          'categoriasFiscales',
+      ]),
+  },
+
   methods: {
+
+      ...mapActions({
+          addClient: 'ADD_CLIENT',
+      }),
+
       submitForm(){
-          axios.post('/api/clients/add', this.clientObj)
-          .then(response => {
-                console.log('respond');
-                this.$emit('addedClient', response.data[0].result);
-              })
-          .catch(error => console.log(error));
+          this.addClient(this.clientObj);
+          this.$emit('closeClientModal');
       }
   },
 }
