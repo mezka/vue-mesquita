@@ -182,7 +182,7 @@ const store = new Vuex.Store({
             return axios.post('/api/clients/delete', { clientid: getters.presupuestoClient.clientid })
                 .then(() => {
                     commit('SET_STATE_PROPERTY', { key: 'presupuestoClient', value: {} });
-                    dispatch('FETCH_CLIENTS');
+                    return dispatch('FETCH_CLIENTS');
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -192,7 +192,7 @@ const store = new Vuex.Store({
             return axios.post('/api/contacts/delete', { contactid: getters.presupuestoClientSelectedContact.contactid })
                 .then(() => {
                     commit('SET_STATE_PROPERTY', { key: 'presupuestoClientSelectedContact', value: {} });
-                    dispatch('FETCH_CLIENTS');
+                    return dispatch('FETCH_CLIENTS');
                 }).catch((error) => {
                     console.log(error);
                 });
