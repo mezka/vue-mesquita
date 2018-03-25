@@ -10,13 +10,13 @@
 <script>
 
 import axios from 'axios';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'client-select',
   
   computed: {
-    ...mapGetters([
+    ...mapState([
         'clients',
     ]),
   },

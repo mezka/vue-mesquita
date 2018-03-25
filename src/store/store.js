@@ -14,44 +14,22 @@ const store = new Vuex.Store({
         clients: [],
         presupuestoClient: {},
         presupuestoClientSelectedContact: {},
+        presupuestoOptions: {
+            presupuestooc: '',
+            presupuestopaymethod: '',
+        },
         categoriasFiscales: [],
+        formasDePago: [],
     },
 
     getters: {
-        products(state) {
-            return state.products;
-        },
-
-        clients(state) {
-            return state.clients;
-        },
-
-        presupuestoClient(state) {
-            return state.presupuestoClient;
-        },
-
-        presupuestoClientSelectedContact(state) {
-            return state.presupuestoClientSelectedContact;
-        },
-
-        presupuestoClientContacts(state) {
-            return state.presupuestoClient.clientcontacts;
-        },
-
-        categoriasFiscales(state) {
-            return state.categoriasFiscales;
-        },
 
         presupuestoProductsIVA(state) {
             return state.presupuestoClient.categoriafiscalimpuesto;
         },
 
         presupuestoProductsTotal(state, getters) {
-            return getters.presupuestoProductsSubtotal * (1 + getters.presupuestoProductsIVA);
-        },
-
-        presupuestoProducts(state) {
-            return state.presupuestoProducts;
+            return state.presupuestoProductsSubtotal * (1 + getters.presupuestoProductsIVA);
         },
 
         presupuestoProductAccessories(state, idx) {
@@ -159,6 +137,13 @@ const store = new Vuex.Store({
             return axios.get('/api/categoriasfiscales')
                 .then((response) => {
                     commit('SET_STATE_PROPERTY', { key: 'categoriasFiscales', value: response.data });
+                });
+        },
+
+        FETCH_FORMAS_DE_PAGO({ commit }) {
+            return axios.get('/api/formasdepago')
+                .then((response) => {
+                    commit('SET_STATE_PROPERTY', { key: 'formasDePago', value: response.data });
                 });
         },
 

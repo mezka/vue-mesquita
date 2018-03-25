@@ -73,29 +73,13 @@ import ClientManager from '@/components/ClientManager';
 import PresupuestadorForm from '@/components/PresupuestadorForm';
 import PresupuestoSummary from '@/components/PresupuestoSummary';
 import { SweetModal } from 'sweet-modal-vue';
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
+import { isEmptyObject } from '../helpers';
 import store from '@/store/store';
 
 
 export default {
   name: "presupuestador",
-
-  beforeRouteEnter(to, from, next) {
-
-    store.dispatch('FETCH_PRESUPUESTADOR_PRODUCTS')
-    .then((response) => {
-      store.dispatch('FETCH_CLIENTS');
-    })
-    .then((response) => {
-      store.dispatch('FETCH_CATEGORIAS_FISCALES');
-    })
-    .then((response) =>{
-      next();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  },
 
   data() {
     return {
@@ -108,7 +92,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
+    ...mapState([
       'products',
       'presupuestoProducts',
     ])
@@ -142,9 +126,7 @@ export default {
         .catch(error => console.log(error));
     },
 
-    isEmptyObject(obj) {
-      return Object.keys(obj).length === 0;
-    },
+    isEmptyObject,
 
     changeSelectedClient(selectedClientObj){
       this.$set(this, 'selectedClient', Object.assign({}, selectedClientObj));
@@ -169,6 +151,26 @@ export default {
     },
   },
 
+
+  beforeRouteEnter(to, from, next) {
+
+    store.dispatch('FETCH_PRESUPUESTADOR_PRODUCTS')
+    .then((response) => {
+      store.dispatch('FETCH_CLIENTS');
+    })
+    .then((response) => {
+      store.dispatch('FETCH_CATEGORIAS_FISCALES');
+    })
+    .then((response) => {
+      store.dispatch('FETCH_FORMAS_DE_PAGO');
+    })
+    .then((response) =>{
+      next();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },
   components: {
     ProductSelect,
     QuantityInput,

@@ -45,7 +45,7 @@ import ClientSelect from '@/components/ClientSelect';
 import ContactSelect from '@/components/ContactSelect';
 import ContactForm from '@/components/ContactForm';
 import ClientContactForm from '@/components/ClientContactForm';
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { SweetModal } from 'sweet-modal-vue';
 import { isEmptyObject } from '../helpers';
 
@@ -61,7 +61,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters([
+        ...mapState([
             'presupuestoClient',
             'presupuestoClientSelectedContact',
         ]),

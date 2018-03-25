@@ -10,14 +10,14 @@
 
 <script>
 
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: "product-select",
   props: ["presupuestoProductIdx"],
 
   computed: {
-    ...mapGetters([
+    ...mapState([
       'products',
       'presupuestoProducts',
     ])

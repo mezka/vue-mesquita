@@ -1,24 +1,24 @@
 <template>
   
   <div class="presupuesto-summary-container">
-      <div v-if="!isEmptyObject(presupuestadorProduct)" v-for="presupuestadorProduct in presupuestadorProducts">
+      <div v-if="!isEmptyObject(presupuestoProduct)" v-for="presupuestoProduct in presupuestoProducts">
             <div >
-                <strong>{{ presupuestadorProduct.productname }}</strong>
+                <strong>{{ presupuestoProduct.productname }}</strong>
             </div>
             <div>
-                Cantidad: {{presupuestadorProduct.productquantity}} - ${{ Number(presupuestadorProduct.productprice).toFixed(2) }} c/u
+                Cantidad: {{presupuestoProduct.productquantity}} - ${{ Number(presupuestoProduct.productprice).toFixed(2) }} c/u
             </div>
 
             <ul class="selected-cart">
-                <li class="li-a" v-for="productAccessory in presupuestadorProduct.productselectedaccessories" v-if="!isEmptyObject(productAccessory)">
+                <li class="li-a" v-for="productAccessory in presupuestoProduct.productselectedaccessories" v-if="!isEmptyObject(productAccessory)">
                     {{ productAccessory.productname }} - ${{ Number(productAccessory.productprice).toFixed(2) }}
                 </li>
             </ul>
 
-            <div v-if="presupuestadorProduct && !isEmptyObject(presupuestadorProduct)">
-                <p>{{presupuestadorProduct && !isEmptyObject(presupuestadorProduct)? 'Precio unitario c/ accesorios: $' + Number(calculateBundlePrice(presupuestadorProduct)).toFixed(2) : ''}}</p>
-                <p>{{presupuestadorProduct && !isEmptyObject(presupuestadorProduct)? 'Descuento por unidad: $' + Number(calculateBundleDiscount(presupuestadorProduct)).toFixed(2) : ''}}</p>
-                <p>{{presupuestadorProduct && !isEmptyObject(presupuestadorProduct)? 'Subtotal por todas las unidades: $' + Number(calculateTotalBundleDiscount(presupuestadorProduct)).toFixed(2) : ''}}</p>
+            <div v-if="presupuestoProduct && !isEmptyObject(presupuestoProduct)">
+                <p>{{presupuestoProduct && !isEmptyObject(presupuestoProduct)? 'Precio unitario c/ accesorios: $' + Number(calculateBundlePrice(presupuestoProduct)).toFixed(2) : ''}}</p>
+                <p>{{presupuestoProduct && !isEmptyObject(presupuestoProduct)? 'Descuento por unidad: $' + Number(calculateBundleDiscount(presupuestoProduct)).toFixed(2) : ''}}</p>
+                <p>{{presupuestoProduct && !isEmptyObject(presupuestoProduct)? 'Subtotal por todas las unidades: $' + Number(calculateTotalBundleDiscount(presupuestoProduct)).toFixed(2) : ''}}</p>
             </div>
         </div>
                 
@@ -39,23 +39,20 @@
 <script>
 
 import { clone } from 'underscore';
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { isEmptyObject } from '../helpers';
 
 
 export default {
   name: 'presupuesto-summary',
 
-  data(){
-      return {
-          presupuestadorProducts: [],
-      };
-  },
-
   computed: {
 
+    ...mapState([
+        'presupuestoProducts',
+    ]),
+    
     ...mapGetters([
-      'presupuestoProducts',
       'presupuestoProductsSubtotal',
       'presupuestoProductsSubtotalNoDiscount',
       'presupuestoProductsTotalDiscount',

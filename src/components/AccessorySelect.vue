@@ -12,14 +12,14 @@
 
 <script>
 
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
     name: 'accessory-select',
     props: ['presupuestoProductIdx', 'presupuestoProductAccIdx'],
 
     computed: {
-        ...mapGetters([
+        ...mapState([
         'presupuestoProducts',
         ])
     },
