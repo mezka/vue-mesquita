@@ -83,7 +83,6 @@ export default {
 
   data() {
     return {
-      selectedClient: {},
       index: 0,
       out: "",
       modalMessage: '',
@@ -95,6 +94,8 @@ export default {
     ...mapState([
       'products',
       'presupuestoProducts',
+      'presupuestoClient',
+      'presupuestoClientContact',
     ])
   },
 

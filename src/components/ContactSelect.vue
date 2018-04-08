@@ -9,29 +9,12 @@
 
 <script>
 
-import { mapState, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
     name: 'contact-select',
-
-
-    // created(){
-    //     this.$store.watch(
-    //         (state)=>{
-    //             return this.$store.getters.presupuestoClientContacts;
-    //         },
-    //         (val) =>{
-    //         //something changed do something
-    //             console.log('changed');
-    //         },
-    //         {
-    //             deep:true
-    //         }
-    //     );
-    // },
-
     computed: {
-        ...mapState([
+        ...mapGetters([
             'presupuestoClientContacts',
         ]),
     },
@@ -39,7 +22,7 @@ export default {
     methods: {
 
         ...mapMutations({
-            changePresupuestoClientContact: 'CHANGE_PRESUPUESTO_CLIENT_SELECTED_CONTACT',
+            changePresupuestoClientContact: 'CHANGE_PRESUPUESTO_CLIENT_CONTACT',
         }),
 
 

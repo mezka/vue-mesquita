@@ -13,7 +13,7 @@ const store = new Vuex.Store({
         presupuestoProducts: [],
         clients: [],
         presupuestoClient: {},
-        presupuestoClientSelectedContact: {},
+        presupuestoClientContact: {},
         presupuestoOptions: {
             presupuestooc: '',
             presupuestopaymethod: '',
@@ -23,6 +23,10 @@ const store = new Vuex.Store({
     },
 
     getters: {
+
+        presupuestoClientContacts(state) {
+            return isEmptyObject(state.presupuestoClient) ? {} : state.presupuestoClient.clientcontacts;
+        },
 
         presupuestoProductsIVA(state) {
             return state.presupuestoClient.categoriafiscalimpuesto;
@@ -103,8 +107,8 @@ const store = new Vuex.Store({
             Vue.set(state, 'presupuestoClient', presupuestoClient);
         },
 
-        CHANGE_PRESUPUESTO_CLIENT_SELECTED_CONTACT(state, presupuestoClientContact) {
-            Vue.set(state, 'presupuestoClientSelectedContact', presupuestoClientContact);
+        CHANGE_PRESUPUESTO_CLIENT_CONTACT(state, presupuestoClientContact) {
+            Vue.set(state, 'presupuestoClientContact', presupuestoClientContact);
         },
 
         SET_STATE_PROPERTY(state, { key, value }) {
@@ -173,10 +177,18 @@ const store = new Vuex.Store({
                 });
         },
 
-        DELETE_CONTACT({ commit, dispatch, getters }) {
-            return axios.post('/api/contacts/delete', { contactid: getters.presupuestoClientSelectedContact.contactid })
+        DELETE_CONTACT({ commit, dispatch, state }) {
+
+            const filteredContactsArr = state.presupuestoClient.clientcontacts.filter((contactObj) => {
+                return contactObj.contactid !== state.presupuestoClientContact.contactid;
+            });
+
+            const updatedPresupuestoClient = Object.assign({}, state.presupuestoClient, { clientcontacts: filteredContactsArr });
+
+            commit('SET_STATE_PROPERTY', { key: 'presupuestoClient', value: updatedPresupuestoClient });
+
+            return axios.post('/api/contacts/delete', { contactid: state.presupuestoClientContact.contactid })
                 .then(() => {
-                    commit('SET_STATE_PROPERTY', { key: 'presupuestoClientSelectedContact', value: {} });
                     return dispatch('FETCH_CLIENTS');
                 }).catch((error) => {
                     console.log(error);

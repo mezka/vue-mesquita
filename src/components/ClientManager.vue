@@ -63,9 +63,11 @@ export default {
     computed: {
         ...mapState([
             'presupuestoClient',
-            'presupuestoClientSelectedContact',
+            'presupuestoClientContact',
         ]),
     },
+
+
 
     methods:{
 
@@ -87,7 +89,7 @@ export default {
         openClientDeleteModal(){
             if(!isEmptyObject(this.presupuestoClient)){
                 this.$refs.clientDeleteModal.open();
-            }else{
+            } else {
                 this.$refs.noneSelectedAlert.open();
             }
         },
@@ -97,7 +99,7 @@ export default {
         },
 
         openContactDeleteModal(){
-            if(!isEmptyObject(this.presupuestoClient) && !isEmptyObject(this.presupuestoClientSelectedContact)){
+            if(!isEmptyObject(this.presupuestoClient) && !isEmptyObject(this.presupuestoClientContact)){
                 this.$refs.contactDeleteModal.open();
             }else{
                 this.$refs.noneSelectedAlert.open();
